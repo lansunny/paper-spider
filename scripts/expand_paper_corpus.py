@@ -36,7 +36,7 @@ TOPICS = {
 WEIGHTS = {'rag': 7, 'retrieval': 4, 'evaluation': 3, 'long_context': 2, 'scientific_qa': 2}
 HTTP = httpx.Client(timeout=60, follow_redirects=True,
                     limits=httpx.Limits(max_connections=6, max_keepalive_connections=6),
-                    headers={'User-Agent': 'PaperRAG-learning-corpus/1.0'})
+                    headers={'User-Agent': 'Paper-spider-corpus/1.0'})
 
 
 def normalized_title(title):

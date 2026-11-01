@@ -1,24 +1,26 @@
 <!doctype html>
 <html lang="zh-CN">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#f4f4f0">
-<meta name="description" content="PaperRAG 论文研究工作台：检索文献、核对证据、阅读原文与公式。">
-<title>PaperRAG · 论文研究</title><link rel="icon" type="image/svg+xml" href="/static/assets/favicon.svg">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#f0f1f4">
+<meta name="description" content="Paper spider 论文研究工作台：检索文献、核对证据、阅读原文与公式。">
+<title>Paper spider · 论文研究</title><link rel="icon" type="image/svg+xml" href="/static/assets/favicon.svg">
 <link rel="preload" href="/static/assets/fonts/ibm-plex-sans-variable.ttf" as="font" type="font/ttf" crossorigin>
-<link rel="stylesheet" href="/static/style.css"><script src="/static/app.js" defer></script>
+<link rel="stylesheet" href="/static/style.css"><link rel="stylesheet" href="/static/liquid-glass.css"><link rel="stylesheet" href="/static/workspace.css"><link rel="stylesheet" href="/static/ambient-spider.css">
+<script src="/static/app.js" defer></script><script src="/static/liquid-glass.js" defer></script><script src="/static/glass-interactions.js" defer></script>
+<script src="/static/assets/spider/figure.js" defer></script><script src="/static/ambient-spider.js" defer></script>
 </head>
-<body>
+<body class="paper-workbench">
 <a class="skip-link" href="#question">跳到研究问题</a>
 <header class="app-header">
   <div class="brand-area"><button id="open-library" class="icon-button mobile-menu" type="button" aria-label="打开论文库"><svg class="icon " aria-hidden="true"><use href="/static/assets/icons.svg#menu"/></svg></button>
-  <a class="brand" href="/" aria-label="PaperRAG 研究工作台"><svg class="brand-mark" viewBox="0 0 30 30" aria-hidden="true"><path d="M5 5h12l7 7v14H5Z"/><path d="M17 5v7h7M10 15h9m-9 5h6"/><path class="mark-accent" d="M2 2v21"/></svg><span>PaperRAG<span class="brand-period">.</span></span></a></div>
+  <a class="brand" href="/" aria-label="Paper spider 研究工作台"><img class="brand-mark" src="/static/assets/favicon.svg" alt="" width="30" height="30"><span>Paper spider<span class="brand-period">.</span></span></a></div>
   <div class="workspace-header"><span class="workspace-name">个人研究空间<span class="breadcrumb-separator">/</span><span id="workspace-location">论文研究</span></span>
-  <div class="header-actions"><span id="connection" class="connection" role="status"><span class="status-dot"></span><span id="connection-text">正在连接</span></span><button id="new-research" class="quiet-button" type="button"><svg class="icon " aria-hidden="true"><use href="/static/assets/icons.svg#plus"/></svg><span>新研究</span></button></div></div>
+  <div class="header-actions"><span id="connection" class="connection" role="status"><span class="status-dot"></span><span id="connection-text">正在连接</span></span><div class="header-tools lg"><button id="toggle-motion" class="quiet-button" type="button" aria-pressed="false" aria-label="减少界面动态效果"><svg class="icon" viewBox="0 0 20 20" aria-hidden="true"><path d="M2 7c3-5 5 5 8 0s5 5 8 0M2 13c3-5 5 5 8 0s5 5 8 0"/></svg><span id="motion-label">动态开</span></button><button id="new-research" class="quiet-button" type="button"><svg class="icon " aria-hidden="true"><use href="/static/assets/icons.svg#plus"/></svg><span>新研究</span></button></div></div></div>
 </header>
 <div class="app-shell">
   <div id="sidebar-slot"><aside id="library-panel" class="library" aria-label="论文库与检索范围">
     <div class="sidebar-top"><span>研究文献</span><button id="close-library" class="icon-button mobile-menu" type="button" aria-label="关闭论文库"><svg class="icon " aria-hidden="true"><use href="/static/assets/icons.svg#close"/></svg></button></div>
-    <nav class="workspace-nav" aria-label="工作空间"><button id="nav-research" class="nav-item is-active" type="button" aria-current="page"><svg class="icon " aria-hidden="true"><use href="/static/assets/icons.svg#search"/></svg>论文研究</button><button id="nav-library" class="nav-item" type="button"><svg class="icon " aria-hidden="true"><use href="/static/assets/icons.svg#book"/></svg>全部文献<span id="nav-paper-count" class="nav-count">—</span></button></nav>
+    <nav class="workspace-nav lg" aria-label="工作空间"><button id="nav-research" class="nav-item is-active" type="button" aria-current="page"><svg class="icon " aria-hidden="true"><use href="/static/assets/icons.svg#search"/></svg>论文研究</button><button id="nav-library" class="nav-item" type="button"><svg class="icon " aria-hidden="true"><use href="/static/assets/icons.svg#book"/></svg>全部文献<span id="nav-paper-count" class="nav-count">—</span></button></nav>
     <div class="library-heading"><h2>论文库</h2><button id="refresh" class="icon-button" type="button" aria-label="刷新论文库"><svg class="icon " aria-hidden="true"><use href="/static/assets/icons.svg#refresh"/></svg></button></div>
     <div class="search-field"><svg class="icon " aria-hidden="true"><use href="/static/assets/icons.svg#search"/></svg><label class="sr-only" for="filter">搜索论文标题或年份</label><input id="filter" type="search" placeholder="搜索标题或年份"><kbd>Ctrl K</kbd></div>
     <div class="scope-row"><span id="scope">全部已索引论文</span><button id="clear-selection" class="text-button" type="button" hidden>清除</button></div>
@@ -28,16 +30,20 @@
     <div class="library-footer"><button id="upload-trigger" class="upload-button" type="button"><svg class="icon " aria-hidden="true"><use href="/static/assets/icons.svg#plus"/></svg>导入论文 PDF<span>≤ 30 MB</span></button><input id="upload" type="file" accept="application/pdf,.pdf" hidden><p id="upload-message" class="inline-message" role="status" hidden></p>
     <details class="index-disclosure"><summary>文献索引管理<svg class="icon " aria-hidden="true"><use href="/static/assets/icons.svg#chevron"/></svg></summary><div class="index-content"><p id="pipeline-status">正在读取索引状态…</p><button id="build-index" class="secondary-button" type="button">建立 / 更新索引</button><p id="index-progress" role="status" hidden></p></div></details></div>
   </aside></div>
-  <!-- 1440px = 256px library + 1176px sheet + 8px inset. Sheet = 835px research + 340px reader + 1px rule. -->
+  <!-- At 1440px: 264px library + 1160px sheet + 16px outer inset; sheet = 820px research + 340px reader. -->
   <div class="work-sheet">
     <main id="main-content" class="research-pane">
       <div id="research-view">
-        <div class="page-heading"><div><h1>论文研究</h1><p>从文献中寻找答案，回到原文核对。</p></div><span class="workspace-edition">研究工作台</span></div>
-        <form id="question-form" class="question-composer">
+        <div class="page-heading research-heading"><div><h1>研究，从证据开始。</h1><p>读懂方法，比较论文，把答案放回原文。</p></div><span class="workspace-edition" aria-hidden="true">[S1]</span></div>
+        <div class="composer-stage">
+        <span class="composer-source-mark" aria-hidden="true">[ ]</span>
+        <form id="question-form" class="question-composer lg">
           <div class="composer-heading"><label for="question">研究问题</label><span id="question-scope">在全部已索引论文中检索</span></div>
-          <textarea id="question" rows="3" maxlength="2000" placeholder="你想了解哪种方法、比较哪些论文，或查找哪个公式？" required></textarea>
+          <textarea id="question" rows="3" maxlength="2000" placeholder="从一个好问题开始。&#10;你想比较哪些方法，或找到哪个公式？" required></textarea>
           <div class="composer-bottom"><button id="open-settings" class="quiet-button" type="button"><svg class="icon " aria-hidden="true"><use href="/static/assets/icons.svg#sliders"/></svg><span id="mode-label">混合检索</span></button><span id="question-length" class="question-length" hidden></span><span class="keyboard-hint">Enter 提问<span> / </span>Shift + Enter 换行</span><button id="submit" class="primary-button" type="submit"><span>检索文献</span><svg class="icon " aria-hidden="true"><use href="/static/assets/icons.svg#arrow"/></svg></button></div>
         </form>
+        <div class="composer-caption"><span>文献 → 证据 → 答案</span><span>每一次追问，都有出处 ↗</span></div>
+        </div>
         <p id="error" class="error-message" role="alert" hidden></p>
         <div id="loading-state" class="loading-state" role="status" hidden><span class="loading-indicator"></span><div><strong>正在查找相关证据</strong><span id="loading-elapsed">正在连接检索服务…</span></div></div>
         <section id="starter" class="starter-section">
@@ -58,10 +64,10 @@
         </section>
       </div>
       <section id="library-view" class="library-view" hidden><div class="page-heading"><div><h1>全部文献</h1><p id="library-summary">正在读取论文库…</p></div><button id="library-import" class="secondary-button" type="button"><svg class="icon " aria-hidden="true"><use href="/static/assets/icons.svg#plus"/></svg>导入 PDF</button></div><div class="library-toolbar"><div class="search-field"><svg class="icon " aria-hidden="true"><use href="/static/assets/icons.svg#search"/></svg><label class="sr-only" for="library-search">搜索全部文献</label><input id="library-search" type="search" placeholder="搜索论文标题、年份或标识"></div><label class="library-sort">排序<select id="library-sort"><option value="default">原始顺序</option><option value="year">最新发表</option><option value="title">标题 A–Z</option></select></label></div><div class="catalog-header"><span>论文标题</span><span>年份 / 状态</span><span class="sr-only">操作</span></div><div id="catalog-list"></div><button id="load-more-catalog" class="load-more" type="button" hidden>加载更多</button></section>
-      <footer class="workspace-footer"><span>PaperRAG<span class="footer-dot">·</span>文献与证据，在同一处。</span><button id="keyboard-help" class="text-button" type="button">快捷键 <kbd>?</kbd></button></footer>
+      <footer class="workspace-footer"><span>Paper spider<span class="footer-dot">·</span>文献与证据，在同一处。</span><button id="keyboard-help" class="text-button" type="button">快捷键 <kbd>?</kbd></button></footer>
     </main>
     <aside id="reader-pane" class="reader-pane" aria-label="原文阅读台">
-      <div class="reader-heading"><h2>阅读台</h2><div><button id="expand-reader" class="icon-button" type="button" aria-label="放大阅读原文" disabled><svg class="icon " aria-hidden="true"><use href="/static/assets/icons.svg#expand"/></svg></button><button id="close-reader" class="icon-button reader-mobile-close" type="button" aria-label="返回研究结果"><svg class="icon " aria-hidden="true"><use href="/static/assets/icons.svg#close"/></svg></button></div></div>
+      <div class="reader-heading lg"><h2>原文现场<span class="reader-live-mark" aria-hidden="true">↗</span></h2><div><button id="expand-reader" class="icon-button" type="button" aria-label="放大阅读原文" disabled><svg class="icon " aria-hidden="true"><use href="/static/assets/icons.svg#expand"/></svg></button><button id="close-reader" class="icon-button reader-mobile-close" type="button" aria-label="返回研究结果"><svg class="icon " aria-hidden="true"><use href="/static/assets/icons.svg#close"/></svg></button></div></div>
       <div class="reader-context"><span id="reader-kind" class="reader-kind">原始文献</span><h3 id="reader-title">选择一篇论文</h3><p id="reader-subtitle">打开文献或点击回答中的引用。</p></div>
       <div id="reader-image-area" class="reader-image-area"><div id="reader-placeholder" class="reader-placeholder"><svg class="icon " aria-hidden="true"><use href="/static/assets/icons.svg#file"/></svg><p>原文会出现在这里</p><span>PDF 页码与公式原图随证据一起保留</span></div><img id="reader-image" alt="论文原文页" hidden><p id="reader-error" class="reader-error" role="status" hidden></p></div>
       <div id="reader-pagination" class="reader-pagination" hidden><button id="reader-prev" class="icon-button" type="button" aria-label="上一页"><svg class="icon reverse" aria-hidden="true"><use href="/static/assets/icons.svg#chevron"/></svg></button><span id="reader-page-status" aria-live="polite"></span><button id="reader-next" class="icon-button" type="button" aria-label="下一页"><svg class="icon " aria-hidden="true"><use href="/static/assets/icons.svg#chevron"/></svg></button></div>
@@ -72,9 +78,10 @@
   </div>
 </div>
 <dialog id="library-dialog" class="library-dialog" aria-label="论文库"><div id="mobile-library-slot"></div></dialog>
-<dialog id="settings-dialog" class="settings-dialog" aria-labelledby="settings-title"><div class="dialog-heading"><h2 id="settings-title">检索设置</h2><button id="close-settings" class="icon-button" type="button" aria-label="关闭设置"><svg class="icon " aria-hidden="true"><use href="/static/assets/icons.svg#close"/></svg></button></div><p class="dialog-description">为当前问题选择检索方式与回答模式。</p><label class="setting-field" for="retrieval-mode">检索方式<select id="retrieval-mode"><option value="hybrid">混合检索 · 关键词 + 语义</option><option value="dense">语义检索</option><option value="bm25">关键词检索 · BM25</option></select></label><label class="setting-row" for="rerank"><span><strong>相关性重排</strong><small>进一步比较问题与候选证据的相关性</small></span><input id="rerank" type="checkbox" checked></label><label class="setting-row" for="generate"><span><strong>生成带引用的回答</strong><small id="generate-hint">根据检索证据组织回答</small></span><input id="generate" type="checkbox" checked></label><label class="setting-field" for="top-k">排序观察数量<select id="top-k"><option value="3">前 3 条</option><option value="5" selected>前 5 条</option><option value="10">前 10 条</option></select><small>用于检索阶段；最终证据数量还受上下文预算影响。</small></label><button id="save-settings" class="primary-button" type="button">应用设置<svg class="icon " aria-hidden="true"><use href="/static/assets/icons.svg#check"/></svg></button></dialog>
+<dialog id="settings-dialog" class="settings-dialog lg" aria-labelledby="settings-title"><div class="dialog-heading"><h2 id="settings-title">检索设置</h2><button id="close-settings" class="icon-button" type="button" aria-label="关闭设置"><svg class="icon " aria-hidden="true"><use href="/static/assets/icons.svg#close"/></svg></button></div><p class="dialog-description">为当前问题选择检索方式与回答模式。</p><label class="setting-field" for="retrieval-mode">检索方式<select id="retrieval-mode"><option value="hybrid">混合检索 · 关键词 + 语义</option><option value="dense">语义检索</option><option value="bm25">关键词检索 · BM25</option></select></label><label class="setting-row" for="rerank"><span><strong>相关性重排</strong><small>进一步比较问题与候选证据的相关性</small></span><input id="rerank" type="checkbox" checked></label><label class="setting-row" for="generate"><span><strong>生成带引用的回答</strong><small id="generate-hint">根据检索证据组织回答</small></span><input id="generate" type="checkbox" checked></label><label class="setting-field" for="top-k">排序观察数量<select id="top-k"><option value="3">前 3 条</option><option value="5" selected>前 5 条</option><option value="10">前 10 条</option></select><small>用于检索阶段；最终证据数量还受上下文预算影响。</small></label><button id="save-settings" class="primary-button" type="button">应用设置<svg class="icon " aria-hidden="true"><use href="/static/assets/icons.svg#check"/></svg></button></dialog>
 <dialog id="pdf-dialog" class="pdf-dialog" aria-labelledby="pdf-title"><div class="dialog-heading"><strong id="pdf-title">原文阅读</strong><button id="close-pdf" class="icon-button" type="button" aria-label="关闭原文预览"><svg class="icon " aria-hidden="true"><use href="/static/assets/icons.svg#close"/></svg></button></div><div class="pdf-sheet"><img id="pdf-image" alt="原文放大预览"></div><div class="pdf-controls"><button id="pdf-prev" class="secondary-button" type="button">上一页</button><span id="pdf-page-status"></span><button id="pdf-next" class="secondary-button" type="button">下一页</button><a id="pdf-external" target="_blank" rel="noopener">打开 PDF ↗</a></div></dialog>
 <dialog id="shortcuts-dialog" class="shortcuts-dialog" aria-labelledby="shortcuts-title"><div class="dialog-heading"><h2 id="shortcuts-title">快捷键</h2><button id="close-shortcuts" class="icon-button" type="button" aria-label="关闭快捷键说明"><svg class="icon " aria-hidden="true"><use href="/static/assets/icons.svg#close"/></svg></button></div><dl class="shortcuts-list"><div><dt>定位研究问题</dt><dd><kbd>/</kbd></dd></div><div><dt>搜索论文库</dt><dd><kbd>Ctrl / ⌘</kbd> <kbd>K</kbd></dd></div><div><dt>提交问题</dt><dd><kbd>Enter</kbd></dd></div><div><dt>换行</dt><dd><kbd>Shift</kbd> <kbd>Enter</kbd></dd></div><div><dt>关闭弹窗</dt><dd><kbd>Esc</kbd></dd></div></dl></dialog>
 <div id="toast" class="toast" role="status" hidden></div>
+<div id="desktop-spider" class="desktop-spider" aria-hidden="true"><canvas id="desktop-spider-canvas"></canvas></div>
 <noscript><p class="noscript-note">请启用 JavaScript，以使用文献检索、证据引用与原文阅读。</p></noscript>
 </body></html>

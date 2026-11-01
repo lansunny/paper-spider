@@ -1,46 +1,30 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="488" viewBox="0 0 1440 488" role="img" aria-labelledby="title desc">
-  <title id="title">PaperRAG — 让论文回答，有原文可循。</title>
-  <desc id="desc">论文研究工作台。研究问题通过 BM25 与 BGE-M3 双路召回、RRF 融合和 Cross-Encoder 重排，连接到原文证据与公式原图。</desc>
-  <defs>
-    <clipPath id="frame"><rect width="1440" height="488" rx="28"/></clipPath>
-    <marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="m1 1 5 3-5 3" fill="none" stroke="#51677a" stroke-width="1.5"/></marker>
-    <style>
-      :root{--paper:#f7f6f1;--ink:#202722;--secondary:#5b665e;--annotation:#3e607e;--field:#dce8ef;--node:#f8fafb;--connector:#51677a}
-      text{font-family:"IBM Plex Sans",Arial,"Microsoft YaHei","PingFang SC",sans-serif;fill:var(--ink)}
-      .body{fill:var(--secondary)}.node{fill:var(--node)}.connector{fill:none;stroke:var(--connector);stroke-width:1.8;marker-end:url(#arrow)}
-    </style>
-  </defs>
-  <g clip-path="url(#frame)">
-    <rect width="1440" height="488" fill="var(--paper)"/>
-    <rect x="880" width="560" height="488" fill="var(--field)"/>
-    <text x="64" y="69" font-size="15" font-weight="600" letter-spacing="2.2">Paper research / Evidence-centric RAG</text>
-    <text x="56" y="220" font-size="126" font-weight="700" letter-spacing="-7">PaperRAG<tspan fill="var(--annotation)">.</tspan></text>
-    <text x="64" y="291" font-size="35" font-weight="600" letter-spacing="-.7">让论文回答，有原文可循。</text>
-    <text x="64" y="337" font-size="19" class="body">Hybrid retrieval · Cross-paper comparison · Formula provenance</text>
-    <rect x="64" y="383" width="752" height="52" rx="26" fill="var(--ink)"/>
-    <text x="89" y="415" font-size="16.5" font-weight="600" style="fill:#e1ebf2">QUESTION → HYBRID SEARCH → RERANK → SOURCE EVIDENCE</text>
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="580" viewBox="0 0 1440 580" role="img" aria-labelledby="title desc">
+<title id="title">Paper spider — 沿着证据，读懂论文。</title><desc id="desc">Scientific paper retrieval, cross-paper evidence, and original formula images. A blue spider on a silver workspace.</desc>
+<style>text{font-family:Arial,"Microsoft YaHei","PingFang SC",sans-serif;fill:#1d1d1f}.muted{fill:#545c68}.blue{fill:#1267ec}</style>
 
-    <rect x="1010" y="53" width="300" height="58" rx="12" fill="var(--ink)"/>
-    <text x="1160" y="90" text-anchor="middle" font-size="22" font-weight="600" style="fill:#fff">研究问题</text>
-    <path d="M1160 111v27H1024v31" class="connector"/>
-    <path d="M1160 138h136v31" class="connector"/>
-    <rect x="932" y="177" width="184" height="66" rx="12" class="node"/>
-    <text x="1024" y="205" text-anchor="middle" font-size="20" font-weight="600">BM25</text>
-    <text x="1024" y="226" text-anchor="middle" font-size="14" class="body">词法召回</text>
-    <rect x="1204" y="177" width="184" height="66" rx="12" class="node"/>
-    <text x="1296" y="205" text-anchor="middle" font-size="20" font-weight="600">BGE-M3</text>
-    <text x="1296" y="226" text-anchor="middle" font-size="14" class="body">语义召回</text>
-    <path d="M1024 243v20h136v12 M1296 243v20h-136" fill="none" stroke="var(--connector)" stroke-width="1.8"/>
-    <path d="M1160 263v12" class="connector"/>
-    <rect x="948" y="283" width="424" height="66" rx="12" class="node"/>
-    <text x="1160" y="311" text-anchor="middle" font-size="19" font-weight="600">RRF 融合 · Cross-Encoder 重排</text>
-    <text x="1160" y="333" text-anchor="middle" font-size="14" class="body">标题 + 正文 · 论文子问题</text>
-    <path d="M1160 349v15h-118v16" class="connector"/>
-    <path d="M1160 364h118v16" class="connector"/>
-    <rect x="948" y="388" width="188" height="54" rx="12" fill="var(--ink)"/>
-    <rect x="1184" y="388" width="188" height="54" rx="12" fill="var(--annotation)"/>
-    <text x="1042" y="422" text-anchor="middle" font-size="19" font-weight="600" style="fill:#fff">原文证据</text>
-    <text x="1278" y="422" text-anchor="middle" font-size="19" font-weight="600" style="fill:#fff">公式原图</text>
-    <text x="1160" y="470" text-anchor="middle" font-size="14" class="body">共享来源坐标 · 原始 PDF 裁剪</text>
-  </g>
+<rect width="1440" height="580" rx="28" fill="#f3f5f8"/>
+<path d="M926 0h486a28 28 0 0 1 28 28v524a28 28 0 0 1-28 28H926Z" fill="#e9edf3"/>
+<text x="64" y="155" font-size="100" font-weight="700" letter-spacing="-6">Paper spider<tspan class="blue">.</tspan></text>
+<text x="70" y="227" font-size="34" font-weight="600">沿着证据，读懂论文。</text>
+<text x="70" y="274" font-size="20" class="muted">A source-first research workspace.</text>
+<text x="70" y="356" font-size="21">混合检索 · 跨论文问答 · 公式原图溯源</text>
+<text x="70" y="394" font-size="18" class="muted">从一个问题，回到可以核对的原文。</text>
+<text x="70" y="508" font-size="26" font-weight="600">500<tspan font-size="17" font-weight="400" class="muted"> 篇论文</tspan></text>
+<text x="277" y="508" font-size="26" font-weight="600">31,037<tspan font-size="17" font-weight="400" class="muted"> 个文本块</tspan></text>
+<text x="560" y="508" font-size="26" font-weight="600">4,473<tspan font-size="17" font-weight="400" class="muted"> 个公式候选</tspan></text>
+<path d="M1172 0v137" stroke="#a9b9d4" stroke-width="2"/>
+<g transform="translate(1172 292) scale(1.18)"><g fill="none" stroke="#1267ec" stroke-width="6" stroke-linecap="round" stroke-linejoin="round">
+<path d="M-17-16-50-52-91-78-119-130M-24-4-69-24-108-13-140-45M-25 14-73 22-113 55-151 65M-19 28-58 59-76 110-114 131"/>
+<path d="M17-16 50-52 91-78 119-130M24-4 69-24 108-13 140-45M25 14 73 22 113 55 151 65M19 28 58 59 76 110 114 131"/>
+</g><g fill="#f5f8ff" stroke="#1267ec" stroke-width="4">
+<circle cx="-50" cy="-52" r="5"/><circle cx="50" cy="-52" r="5"/>
+<circle cx="-69" cy="-24" r="5"/><circle cx="69" cy="-24" r="5"/>
+<circle cx="-73" cy="22" r="5"/><circle cx="73" cy="22" r="5"/>
+<circle cx="-58" cy="59" r="5"/><circle cx="58" cy="59" r="5"/>
+</g><ellipse cy="-17" rx="30" ry="44" fill="#1267ec"/>
+<path d="M-14-43Q0-55 14-43L11-15Q0-7-11-15Z" fill="#74a9ff"/>
+<ellipse cy="30" rx="22" ry="25" fill="#e94f83"/>
+<circle cx="-7" cy="36" r="4" fill="#fff"/><circle cx="7" cy="36" r="4" fill="#fff"/>
+<path d="M-9 54-14 64M9 54 14 64" stroke="#1d1d1f" stroke-width="4" stroke-linecap="round"/></g>
+<text x="1172" y="509" text-anchor="middle" font-size="17" class="muted">Follow the evidence.</text>
 </svg>

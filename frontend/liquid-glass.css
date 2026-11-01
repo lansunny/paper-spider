@@ -1,0 +1,12 @@
+/* ashi-liquid-glass material. MIT; see assets/licenses/ashi-liquid-glass.LICENSE.txt. */
+/* =================== MATERIAL (do not rename) ===================
+   .lg = any glass surface. The engine adds <i class="lg-layer"> inside it.
+   Per-component knobs: --lg-tint (colour)  --lg-shadow
+                        --lg-zoom (lens magnification)  --lg-bezel (rim width)
+   RULE: never put opacity / filter / mask on a .lg or on its ancestors
+         (it kills the refraction). */
+.lg{position:relative;isolation:isolate;--lg-zoom:1.1} /* 10% zoom default; override per component */
+.lg-layer{position:absolute;inset:0;z-index:-1;border-radius:inherit;pointer-events:none;
+  background:var(--hl,none) center/100% 100% no-repeat,linear-gradient(var(--lg-tint,transparent),var(--lg-tint,transparent)),linear-gradient(rgba(255,255,255,var(--lg-white,0)),rgba(255,255,255,var(--lg-white,0))),linear-gradient(180deg,rgba(255,255,255,.2),rgba(255,255,255,.04));
+  backdrop-filter:blur(1.5px) saturate(1.6) brightness(1.1);-webkit-backdrop-filter:blur(1.5px) saturate(1.6) brightness(1.1);
+  box-shadow:var(--lg-shadow,0 14px 30px -10px rgba(4,50,28,.4),0 3px 10px rgba(4,50,28,.15))}

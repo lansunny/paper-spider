@@ -1,6 +1,6 @@
 """Join formulas to an existing text retrieval trace, without models or API calls.
 
-PyCharm: --paper-id 2024.eacl-demo.16 --question "公式 (1)"
+Example: --paper-id 2024.eacl-demo.16 --question "公式 (1)"
 Actual chunks: --trace runtime/traces/<trace>.json --question "your question"
 """
 import argparse

@@ -1,1 +1,16 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><rect width="32" height="32" rx="6" fill="#f4f4f0"/><g fill="none" stroke="#272b28" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"><path d="M7 5h11l7 7v15H7Z"/><path d="M18 5v7h7M12 16h8m-8 5h6"/></g><path d="M3 3v21" stroke="#365f9c" stroke-width="2" stroke-linecap="round"/></svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" role="img" aria-labelledby="title desc">
+<title id="title">Paper spider</title><desc id="desc">Blue spider mark.</desc>
+<style>text{font-family:Arial,"Microsoft YaHei","PingFang SC",sans-serif;fill:#1d1d1f}.muted{fill:#545c68}.blue{fill:#1267ec}</style>
+<rect width="64" height="64" rx="15" fill="#f3f5f8"/><g transform="translate(32 31) scale(.19)"><g fill="none" stroke="#1267ec" stroke-width="6" stroke-linecap="round" stroke-linejoin="round">
+<path d="M-17-16-50-52-91-78-119-130M-24-4-69-24-108-13-140-45M-25 14-73 22-113 55-151 65M-19 28-58 59-76 110-114 131"/>
+<path d="M17-16 50-52 91-78 119-130M24-4 69-24 108-13 140-45M25 14 73 22 113 55 151 65M19 28 58 59 76 110 114 131"/>
+</g><g fill="#f5f8ff" stroke="#1267ec" stroke-width="4">
+<circle cx="-50" cy="-52" r="5"/><circle cx="50" cy="-52" r="5"/>
+<circle cx="-69" cy="-24" r="5"/><circle cx="69" cy="-24" r="5"/>
+<circle cx="-73" cy="22" r="5"/><circle cx="73" cy="22" r="5"/>
+<circle cx="-58" cy="59" r="5"/><circle cx="58" cy="59" r="5"/>
+</g><ellipse cy="-17" rx="30" ry="44" fill="#1267ec"/>
+<path d="M-14-43Q0-55 14-43L11-15Q0-7-11-15Z" fill="#74a9ff"/>
+<ellipse cy="30" rx="22" ry="25" fill="#e94f83"/>
+<circle cx="-7" cy="36" r="4" fill="#fff"/><circle cx="7" cy="36" r="4" fill="#fff"/>
+<path d="M-9 54-14 64M9 54 14 64" stroke="#1d1d1f" stroke-width="4" stroke-linecap="round"/></g></svg>

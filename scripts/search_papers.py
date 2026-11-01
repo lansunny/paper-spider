@@ -38,7 +38,7 @@ class PaperRetriever:
         if self.index is None:
             raise ValueError('尚无可检索片段，请先运行 PDF 解析。')
         if not tokens(query):
-            raise ValueError('当前 BM25 基线需要英文关键词；中文语义检索将在 RAG 学习阶段接入。')
+            raise ValueError('此命令检索英文论文文本，请使用英文关键词；中文全文检索请使用工作台或 main.py --task ask。')
         scores = self.index.get_scores(tokens(query))
         allowed = set(paper_ids or [])
         candidates = [i for i, p in enumerate(self.passages) if not allowed or p['paper_id'] in allowed]

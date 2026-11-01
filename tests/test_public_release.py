@@ -8,7 +8,7 @@ from scripts.prepare_github_release import prepare_release,public_files
 
 class PublicReleaseTests(unittest.TestCase):
     def fixture(self,root):
-        files={'README.md':'# PaperRAG\n','main.py':'print("PaperRAG")\n',
+        files={'README.md':'# Paper spider\n','main.py':'print("Paper spider")\n',
                '.env.example':'DEEPSEEK_API_KEY=\n','rag/pipeline.py':'value = 1\n',
                '.env':'private configuration','runtime/models/weights.bin':'private weights',
                'resume/private.md':'private notes','docs/学习导航.md':'private learning notes',
@@ -26,7 +26,7 @@ class PublicReleaseTests(unittest.TestCase):
             self.assertFalse((target/'data/pdfs').exists())
             self.assertEqual((root/'.env').read_text(),'private configuration')
             with zipfile.ZipFile(archive) as z:
-                self.assertEqual(set(z.namelist()),{'PaperRAG/README.md','PaperRAG/main.py','PaperRAG/.env.example','PaperRAG/rag/pipeline.py'})
+                self.assertEqual(set(z.namelist()),{'paper-spider/README.md','paper-spider/main.py','paper-spider/.env.example','paper-spider/rag/pipeline.py'})
             self.assertTrue(manifest.is_file())
 
     def test_credential_like_content_stops_export_before_writing_output(self):

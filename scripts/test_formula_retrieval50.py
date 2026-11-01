@@ -81,7 +81,7 @@ def main():
             try:
                 with socket.create_connection((endpoint.hostname,port),timeout=2):pass
             except OSError:
-                parser.exit(1,'本地 Qdrant 未启动。请先启动已有的 PaperRAG Qdrant 服务，再运行混合检索测试。\n'
+                parser.exit(1,'本地 Qdrant 未启动。请先启动已有的 Paper spider Qdrant 服务，再运行混合检索测试。\n'
                               '也可用 --mode bm25 --no-rerank 验证离线 BM25 路径。\n')
 
     def show(number,total,q,row,action):

@@ -13,9 +13,9 @@ ROOT_FILES = ('README.md','LICENSE','NOTICE','THIRD_PARTY_NOTICES.md','.env.exam
               '.gitignore','.gitattributes','main.py','compose.yaml','framework.json',
               'requirements.txt','requirements-base.txt')
 PATTERNS = ('rag/**/*.py','backend/**/*.py','frontend/**/*.html','frontend/**/*.css',
-            'frontend/**/*.js','frontend/**/*.svg','frontend/**/*.ttf','frontend/**/OFL.txt',
+            'frontend/**/*.js','frontend/**/*.svg','frontend/**/*.ttf','frontend/**/OFL.txt','frontend/assets/licenses/*.txt',
             'scripts/**/*.py','tests/**/*.py','configs/*.json','.github/workflows/*.yml',
-            'docs/assets/**/*.svg','docs/assets/**/*.jpg','docs/benchmarks/*.json',
+            'docs/assets/**/*.svg','docs/assets/**/*.jpg','docs/assets/**/*.gif','docs/assets/**/*.png','docs/benchmarks/*.json',
             'data/evaluation/paper_benchmark/*.jsonl')
 DOCS = ('getting-started.md','architecture.md','evaluation.md','data.md')
 DATA = ('data/paper_catalog.json','data/paper_manifest.json',
@@ -42,7 +42,7 @@ def public_files(root):
             raise ValueError('Private or generated directory selected: '+rel.as_posix())
         if path.stat().st_size>MAX_FILE_BYTES:
             raise ValueError('Unexpectedly large public file: '+rel.as_posix())
-        if path.suffix.lower() not in {'.jpg','.ttf'}:
+        if path.suffix.lower() not in {'.jpg','.jpeg','.png','.gif','.ttf'}:
             text=path.read_text(encoding='utf-8')
             if TOKEN.search(text):
                 raise ValueError('Credential-like content found; export stopped: '+rel.as_posix())
@@ -63,7 +63,7 @@ def prepare_release(root, target):
         raise ValueError('Output already exists; choose a new output name instead of overwriting')
     files=public_files(root)
     if not (root/'README.md').is_file() or not (root/'main.py').is_file():
-        raise ValueError('Expected a PaperRAG source directory')
+        raise ValueError('Expected a Paper spider source directory')
     target.mkdir(parents=True)
     records=[]
     for source in files:
@@ -74,11 +74,11 @@ def prepare_release(root, target):
                         'sha256':hashlib.sha256(output.read_bytes()).hexdigest()})
     with zipfile.ZipFile(archive,'w',compression=zipfile.ZIP_DEFLATED,compresslevel=6) as z:
         for row in records:
-            z.write(target/row['path'],'PaperRAG/'+row['path'])
-    report={'status':'local_review_only','files':len(records),'uncompressed_bytes':sum(r['bytes'] for r in records),
+            z.write(target/row['path'],'paper-spider/'+row['path'])
+    report={'status':'source_snapshot','files':len(records),'uncompressed_bytes':sum(r['bytes'] for r in records),
             'archive_bytes':archive.stat().st_size,'contents':records,
             'excluded':['credentials and local environment','PDF corpus and formula crops','model weights and indexes',
-                        'runtime traces and uploaded files','resume and learning notes','reference vendor source'],
+                        'runtime traces and uploaded files','personal notes and documents','reference vendor source'],
             'github_actions_performed':False}
     manifest=Path(str(target)+'.manifest.json')
     manifest.write_text(json.dumps(report,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
@@ -87,7 +87,7 @@ def prepare_release(root, target):
 
 def main(argv=None):
     parser=argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--output',type=Path,default=ROOT/'runtime/github-preview/PaperRAG-review')
+    parser.add_argument('--output',type=Path,default=ROOT/'runtime/github-preview/paper-spider')
     parser.add_argument('--list-only',action='store_true')
     args=parser.parse_args(argv)
     if args.list_only:

@@ -1,39 +1,27 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="680" height="736" viewBox="0 0 680 736" role="img" aria-labelledby="title desc">
-  <title id="title">PaperRAG — 让论文回答，有原文可循。</title>
-  <desc id="desc">移动版项目封面。BM25 与 BGE-M3 双路召回，经 RRF 融合和 Cross-Encoder 重排，连接原文与公式。</desc>
-  <defs>
-    <clipPath id="frame"><rect width="680" height="736" rx="24"/></clipPath>
-    <marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="m1 1 5 3-5 3" fill="none" stroke="#51677a" stroke-width="1.6"/></marker>
-    <style>
-      :root{--paper:#f7f6f1;--ink:#202722;--secondary:#5b665e;--annotation:#3e607e;--field:#dce8ef;--node:#f8fafb;--connector:#51677a}
-      text{font-family:"IBM Plex Sans",Arial,"Microsoft YaHei","PingFang SC",sans-serif;fill:var(--ink)}
-      .connector{fill:none;stroke:var(--connector);stroke-width:2;marker-end:url(#arrow)}
-    </style>
-  </defs>
-  <g clip-path="url(#frame)">
-    <rect width="680" height="736" fill="var(--paper)"/>
-    <text x="48" y="54" font-size="18" font-weight="600" letter-spacing="1">Paper research / Evidence-centric RAG</text>
-    <text x="40" y="168" font-size="118" font-weight="700" letter-spacing="-6">PaperRAG<tspan fill="var(--annotation)">.</tspan></text>
-    <text x="48" y="227" font-size="34" font-weight="600">让论文回答，有原文可循。</text>
-    <text x="48" y="268" font-size="22" fill="var(--secondary)">Hybrid retrieval · Formula provenance</text>
-    <rect y="304" width="680" height="432" fill="var(--field)"/>
-    <rect x="190" y="336" width="300" height="56" rx="12" fill="var(--ink)"/>
-    <text x="340" y="373" text-anchor="middle" font-size="28" font-weight="600" style="fill:#fff">研究问题</text>
-    <path d="M340 392v18H174v17" class="connector"/>
-    <path d="M340 410h166v17" class="connector"/>
-    <rect x="48" y="435" width="252" height="66" rx="12" fill="var(--node)"/>
-    <rect x="380" y="435" width="252" height="66" rx="12" fill="var(--node)"/>
-    <text x="174" y="478" text-anchor="middle" font-size="28" font-weight="600">BM25</text>
-    <text x="506" y="478" text-anchor="middle" font-size="28" font-weight="600">BGE-M3</text>
-    <path d="M174 501v18h166v16 M506 501v18H340" fill="none" stroke="var(--connector)" stroke-width="2"/>
-    <path d="M340 519v16" class="connector"/>
-    <rect x="98" y="543" width="484" height="66" rx="12" fill="var(--node)"/>
-    <text x="340" y="585" text-anchor="middle" font-size="26" font-weight="600">RRF 融合 · Cross-Encoder 重排</text>
-    <path d="M340 609v16H174v17" class="connector"/>
-    <path d="M340 625h166v17" class="connector"/>
-    <rect x="48" y="650" width="252" height="54" rx="12" fill="var(--ink)"/>
-    <rect x="380" y="650" width="252" height="54" rx="12" fill="var(--annotation)"/>
-    <text x="174" y="686" text-anchor="middle" font-size="27" font-weight="600" style="fill:#fff">原文证据</text>
-    <text x="506" y="686" text-anchor="middle" font-size="27" font-weight="600" style="fill:#fff">公式原图</text>
-  </g>
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="760" viewBox="0 0 720 760" role="img" aria-labelledby="title desc">
+<title id="title">Paper spider — 论文研究工作台</title><desc id="desc">Hybrid retrieval and source-linked formulas across 500 research papers.</desc>
+<style>text{font-family:Arial,"Microsoft YaHei","PingFang SC",sans-serif;fill:#1d1d1f}.muted{fill:#545c68}.blue{fill:#1267ec}</style>
+
+<rect width="720" height="760" rx="24" fill="#f3f5f8"/>
+<text x="44" y="114" font-size="74" font-weight="700" letter-spacing="-4">Paper spider<tspan class="blue">.</tspan></text>
+<text x="48" y="178" font-size="33" font-weight="600">沿着证据，读懂论文。</text>
+<text x="48" y="220" font-size="21" class="muted">A source-first research workspace.</text>
+<path d="M480 263v32" stroke="#a9b9d4" stroke-width="2"/>
+<g transform="translate(480 451) scale(1.12)"><g fill="none" stroke="#1267ec" stroke-width="6" stroke-linecap="round" stroke-linejoin="round">
+<path d="M-17-16-50-52-91-78-119-130M-24-4-69-24-108-13-140-45M-25 14-73 22-113 55-151 65M-19 28-58 59-76 110-114 131"/>
+<path d="M17-16 50-52 91-78 119-130M24-4 69-24 108-13 140-45M25 14 73 22 113 55 151 65M19 28 58 59 76 110 114 131"/>
+</g><g fill="#f5f8ff" stroke="#1267ec" stroke-width="4">
+<circle cx="-50" cy="-52" r="5"/><circle cx="50" cy="-52" r="5"/>
+<circle cx="-69" cy="-24" r="5"/><circle cx="69" cy="-24" r="5"/>
+<circle cx="-73" cy="22" r="5"/><circle cx="73" cy="22" r="5"/>
+<circle cx="-58" cy="59" r="5"/><circle cx="58" cy="59" r="5"/>
+</g><ellipse cy="-17" rx="30" ry="44" fill="#1267ec"/>
+<path d="M-14-43Q0-55 14-43L11-15Q0-7-11-15Z" fill="#74a9ff"/>
+<ellipse cy="30" rx="22" ry="25" fill="#e94f83"/>
+<circle cx="-7" cy="36" r="4" fill="#fff"/><circle cx="7" cy="36" r="4" fill="#fff"/>
+<path d="M-9 54-14 64M9 54 14 64" stroke="#1d1d1f" stroke-width="4" stroke-linecap="round"/></g>
+<text x="48" y="353" font-size="37" font-weight="600">500</text><text x="48" y="386" font-size="21" class="muted">篇论文</text>
+<text x="48" y="468" font-size="37" font-weight="600">31,037</text><text x="48" y="501" font-size="21" class="muted">个文本块</text>
+<text x="48" y="583" font-size="37" font-weight="600">4,473</text><text x="48" y="616" font-size="21" class="muted">个公式候选</text>
+<text x="48" y="701" font-size="23">混合检索 · 跨论文问答 · 公式溯源</text>
 </svg>

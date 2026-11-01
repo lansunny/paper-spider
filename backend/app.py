@@ -21,7 +21,7 @@ UPLOAD_MANIFEST = UPLOADS / 'manifest.json'
 UPLOAD_LOCK = Lock()
 MAX_FILE_BYTES = 30 * 1024 * 1024
 
-app = FastAPI(title='PaperRAG', version='0.1.0')
+app = FastAPI(title='Paper spider', version='0.1.0')
 
 
 def read_uploaded():

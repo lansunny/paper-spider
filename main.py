@@ -1,4 +1,4 @@
-"""PyCharm 入口：直接运行启动本地页面，也可选择离线学习脚本。"""
+"""Paper spider：启动本地研究工作台或运行检索与索引命令。"""
 import argparse
 import subprocess
 import sys
@@ -22,7 +22,7 @@ def main():
         parser.error('unrecognized arguments: ' + ' '.join(remaining))
     if args.task == 'web':
         import uvicorn
-        print(f'PaperRAG: http://127.0.0.1:{args.port}', flush=True)
+        print(f'Paper spider: http://127.0.0.1:{args.port}', flush=True)
         uvicorn.run('backend.app:app', host='127.0.0.1', port=args.port)
         return 0
     script = {'search': 'search_papers.py', 'baseline': 'qasper_baseline.py', 'parse': 'parse_papers.py'}[args.task]

@@ -1,4 +1,4 @@
-/* PaperRAG research desk. Native controls and source-first reading, no client dependencies. */
+/* Paper spider research desk. Native controls and source-first reading, no client dependencies. */
 'use strict';
 const $ = id => document.getElementById(id);
 const icons = '/static/assets/icons.svg#';
@@ -142,7 +142,14 @@ function renderFeatured() {
   const target = $('featured-papers'); target.replaceChildren();
   for (const {paper, label} of entries) {
     const article = node('article', null, 'featured-paper');
-    article.append(node('span', label, 'featured-paper-label'), button(paper.title, '', () => openPaper(paper)),
+    const cover = button(null, 'featured-cover', () => openPaper(paper));
+    cover.setAttribute('aria-label', '阅读 ' + paper.title);
+    const preview = node('img'); preview.loading = 'lazy'; preview.decoding = 'async';
+    preview.alt = paper.title + '，原文首页';
+    preview.src = paperPdf(paper).replace(/\/pdf$/, '/pages/1');
+    preview.addEventListener('error', () => { cover.hidden = true; }, {once: true});
+    cover.append(preview);
+    article.append(cover, node('span', label, 'featured-paper-label'), button(paper.title, '', () => openPaper(paper)),
       node('span', paper.year || '上传', 'featured-paper-meta'));
     target.append(article);
   }

@@ -12,7 +12,7 @@ from rag.frozen_baseline import freeze_baseline
 from rag.generation import GenerationSettings
 from rag.pipeline import Pipeline
 from rag.routing import PaperRouter
-from scripts import accept_heldout, learn_generation
+from scripts import accept_heldout, generate_from_context
 
 
 class FrozenPipelineTests(unittest.TestCase):
@@ -128,14 +128,14 @@ class FrozenPipelineTests(unittest.TestCase):
             source = root/'source'
             source.mkdir()
             (source/'q_single_query.json').write_text(json.dumps(row), encoding='utf-8')
-            with patch.object(learn_generation, 'ROOT', root), \
-                 patch.object(learn_generation, 'latest_development_cache', return_value=(source, {'status': 'completed', 'question_ids': ['q']})), \
-                 patch.object(learn_generation, 'load_questions', return_value=[q]), \
-                 patch.object(learn_generation, 'generation_settings', return_value=GenerationSettings(api_key='fixture-key')), \
-                 patch.object(learn_generation, 'generate', return_value=answer) as generate, \
-                 patch('sys.argv', ['learn_generation', '--generate']), redirect_stdout(io.StringIO()):
-                learn_generation.main()
-                learn_generation.main()
+            with patch.object(generate_from_context, 'ROOT', root), \
+                 patch.object(generate_from_context, 'latest_development_cache', return_value=(source, {'status': 'completed', 'question_ids': ['q']})), \
+                 patch.object(generate_from_context, 'load_questions', return_value=[q]), \
+                 patch.object(generate_from_context, 'generation_settings', return_value=GenerationSettings(api_key='fixture-key')), \
+                 patch.object(generate_from_context, 'generate', return_value=answer) as generate, \
+                 patch('sys.argv', ['generate_from_context', '--generate']), redirect_stdout(io.StringIO()):
+                generate_from_context.main()
+                generate_from_context.main()
             generate.assert_called_once()
             self.assertEqual(generate.call_args.args[:2], (q['question'], context))
             preview, = (root/'runtime/generation_learning').glob('*/prompt_preview.json')

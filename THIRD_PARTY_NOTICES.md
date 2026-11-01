@@ -1,6 +1,6 @@
 # Third-party notices
 
-PaperRAG 的运行主体位于 `rag/`、`backend/` 与 `frontend/`。依赖、模型、论文与字体分别适用其原始许可。
+Paper spider 的运行主体位于 `rag/`、`backend/` 与 `frontend/`。依赖、模型、论文与字体分别适用其原始许可。
 
 | 组件 | 用途 | 来源与许可说明 |
 | --- | --- | --- |
@@ -12,6 +12,8 @@ PaperRAG 的运行主体位于 `rag/`、`backend/` 与 `frontend/`。依赖、�
 | IBM Plex Sans | 前端字体 | [IBM Plex](https://github.com/IBM/plex)；SIL Open Font License 1.1，字体许可见 [OFL.txt](frontend/assets/fonts/OFL.txt) |
 | kotaemon | 早期工程参考 | [kotaemon](https://github.com/Cinnamon/kotaemon)，参考提交 `9ad3e4e49aa35b8acddd235918a5d9753c1cfdf9`；该参考源码不随发布包分发 |
 | taste-skill / interface-design | 界面设计参考 | [taste-skill](https://github.com/Leonxlnx/taste-skill)、[interface-design](https://github.com/Dammyjay93/interface-design)；不随发布包分发其工具源码 |
+| ashi-liquid-glass | 原生 Canvas / SVG 玻璃折射、RGB 边缘色散与双侧高光 | [ashi-liquid-glass](https://github.com/the-Ashkanian/ashi-liquid-glass)；MIT，原始许可见 [LICENSE](frontend/assets/licenses/ashi-liquid-glass.LICENSE.txt) |
+| Prompt Spider UI | 桌面悬浮蜘蛛的机械步态、线框身体与伸爪绘制；配色及页面文字联接已适配 | [Prompt Spider UI](https://github.com/Kirito14IT/prompt-spider-ui)；MIT，原始许可见 [LICENSE](frontend/assets/licenses/prompt-spider-ui.LICENSE.txt) |
 
 ## 文献与展示图片
 

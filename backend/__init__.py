@@ -1,1 +1,1 @@
-"""Minimal local web shell for the PaperRAG learning project."""
+"""HTTP services for the Paper spider research workspace."""

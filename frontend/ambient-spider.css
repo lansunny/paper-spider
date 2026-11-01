@@ -1,0 +1,23 @@
+/* A transparent, click-through desktop layer; never a panel or a layout item. */
+.desktop-spider {
+  position: fixed;
+  inset: 0;
+  z-index: 45;
+  pointer-events: none;
+  overflow: hidden;
+  contain: strict;
+}
+.desktop-spider,
+.desktop-spider * { pointer-events: none !important; user-select: none; }
+#desktop-spider-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: block;
+  background: transparent;
+  transform-origin: top left;
+}
+.paper-list.is-spider-scanning {
+  scroll-behavior: auto !important;
+  scrollbar-color: rgba(55,108,224,.5) transparent;
+}

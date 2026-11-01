@@ -1,14 +1,14 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1280" height="698" viewBox="0 0 1280 698" role="img" aria-labelledby="title desc">
-  <title id="title">PaperRAG architecture</title>
+  <title id="title">Paper spider architecture</title>
   <desc id="desc">Offline source-aligned indexing; online hybrid retrieval and reranking; formula attachment through shared source coordinates, without a formula vector index.</desc>
   <defs>
-    <marker id="arrow" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="m0 0 7 3.5L0 7" fill="none" stroke="#89988a" stroke-width="1.2"/></marker>
-    <marker id="blue" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="m0 0 7 3.5L0 7" fill="none" stroke="#567b9e" stroke-width="1.2"/></marker>
-    <style>text{font-family:Arial,sans-serif}.label{font-size:11px;letter-spacing:1.8px;fill:#738176}.title{font-size:18px;fill:#27372c;font-weight:600}.sub{font-size:13px;fill:#627367}.box{fill:#fff;stroke:#d3dccf}.flow{fill:none;stroke:#89988a;stroke-width:1.5;marker-end:url(#arrow)}</style>
+    <marker id="arrow" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="m0 0 7 3.5L0 7" fill="none" stroke="#8c9aaf" stroke-width="1.2"/></marker>
+    <marker id="blue" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="m0 0 7 3.5L0 7" fill="none" stroke="#1267ec" stroke-width="1.2"/></marker>
+    <style>text{font-family:Arial,sans-serif}.label{font-size:11px;letter-spacing:1.8px;fill:#626b79}.title{font-size:18px;fill:#1d1d1f;font-weight:600}.sub{font-size:13px;fill:#525b68}.box{fill:#fff;stroke:#d3dbe7}.flow{fill:none;stroke:#8c9aaf;stroke-width:1.5;marker-end:url(#arrow)}</style>
   </defs>
-  <rect width="1280" height="698" rx="16" fill="#f6f7f1"/>
+  <rect width="1280" height="698" rx="16" fill="#f3f5f8"/>
   <text x="34" y="42" class="title" font-size="23">One source. Two coordinates. Traceable evidence.</text>
-  <text x="34" y="77" class="label">01 / OFFLINE INDEXING</text>
+  <text x="34" y="77" class="label">Offline indexing</text>
   <g transform="translate(34 96)">
     <rect class="box" width="239" height="87" rx="6"/><text x="19" y="33" class="title">Original PDFs</text><text x="19" y="59" class="sub">Paper ID + document SHA-256</text>
     <path d="M239 43h35" class="flow"/>
@@ -18,8 +18,8 @@
     <path d="M864 43h35" class="flow"/>
     <rect x="904" class="box" width="310" height="87" rx="6"/><text x="923" y="33" class="title">BM25 + Qdrant</text><text x="923" y="59" class="sub">Lexical index / 1024-d vectors</text>
   </g>
-  <path d="M34 215h1212" stroke="#dce2d7"/>
-  <text x="34" y="246" class="label">02 / ONLINE RETRIEVAL</text>
+  <path d="M34 215h1212" stroke="#d8dee8"/>
+  <text x="34" y="246" class="label">Online retrieval</text>
   <g transform="translate(34 264)">
     <rect class="box" width="177" height="101" rx="6"/><text x="17" y="33" class="title">Question</text><text x="17" y="61" class="sub">Chinese or English</text><text x="17" y="80" class="sub">Paper / open query</text>
     <path d="M177 50h24" class="flow"/>
@@ -31,16 +31,16 @@
     <path d="M813 50h24" class="flow"/>
     <rect x="843" class="box" width="172" height="101" rx="6"/><text x="860" y="33" class="title">Rerank</text><text x="860" y="61" class="sub">Title + body</text><text x="860" y="80" class="sub">Facet-aware scoring</text>
     <path d="M1015 50h24" class="flow"/>
-    <rect x="1045" width="169" height="101" rx="6" fill="#eaf0e8" stroke="#bdcdb8"/><text x="1062" y="33" class="title">Context</text><text x="1062" y="61" class="sub">16,000 chars</text><text x="1062" y="80" class="sub">Cited answer / LLM</text>
+    <rect x="1045" width="169" height="101" rx="6" fill="#e8effa" stroke="#b8cbed"/><text x="1062" y="33" class="title">Context</text><text x="1062" y="61" class="sub">16,000 chars</text><text x="1062" y="80" class="sub">Cited answer / LLM</text>
   </g>
   <text x="34" y="403" class="sub">Candidate quotas bound distinct passages; multi-query and formula scoring can add local compute.</text>
-  <path d="M34 427h1212" stroke="#dce2d7"/>
-  <text x="34" y="458" class="label">03 / FORMULA PROVENANCE</text>
+  <path d="M34 427h1212" stroke="#d8dee8"/>
+  <text x="34" y="458" class="label">Formula provenance</text>
   <g transform="translate(34 477)">
     <rect class="box" width="283" height="109" rx="6"/><text x="19" y="32" class="title">PDF layout detection</text><text x="19" y="59" class="sub">Canonical per-paper registry</text><text x="19" y="80" class="sub">Original crop + unverified text proxy</text>
-    <path d="M283 54h39" fill="none" stroke="#567b9e" stroke-width="1.5" marker-end="url(#blue)"/>
+    <path d="M283 54h39" fill="none" stroke="#1267ec" stroke-width="1.5" marker-end="url(#blue)"/>
     <rect x="329" width="411" height="109" rx="6" fill="#edf2f6" stroke="#c5d2dd"/><text x="348" y="32" class="title">Shared source-coordinate join</text><text x="348" y="59" class="sub">Retrieved passage ↔ formula source text</text><text x="348" y="80" class="sub">Paper ID + PDF hash + page + source offsets</text>
-    <path d="M740 54h39" fill="none" stroke="#567b9e" stroke-width="1.5" marker-end="url(#blue)"/>
+    <path d="M740 54h39" fill="none" stroke="#1267ec" stroke-width="1.5" marker-end="url(#blue)"/>
     <rect x="786" class="box" width="428" height="109" rx="6"/><text x="805" y="32" class="title">Rank + display the original formula</text><text x="805" y="59" class="sub">Exact-number / literal-symbol lookup supplements</text><text x="805" y="80" class="sub">Native image shown beside the source passage</text>
   </g>
   <text x="34" y="627" font-size="14" fill="#3f6181">No separate formula vector index. Images stay native; the answer model receives text evidence.</text>
