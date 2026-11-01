@@ -1,0 +1,15 @@
+# Install the appropriate PyTorch build before these shared dependencies.
+PyMuPDF==1.26.5
+rank-bm25==0.2.2
+fastapi==0.122.0
+uvicorn==0.54.0
+python-multipart==0.0.32
+httpx==0.28.1
+qdrant-client==1.17.1
+python-dotenv==1.2.1
+pydantic==2.12.4
+numpy==2.4.3
+portalocker==3.2.0
+sentence-transformers==3.0.1
+transformers==4.57.6
+sentencepiece==0.2.1

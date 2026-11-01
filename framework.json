@@ -1,0 +1,21 @@
+{
+  "application": "PaperRAG",
+  "license": "Apache-2.0",
+  "python": "3.12",
+  "runtime_source": [
+    "rag/",
+    "backend/",
+    "frontend/"
+  ],
+  "default_retrieval_config": "configs/retrieval_v2.json",
+  "pdf_parser": "PyMuPDF native text and page geometry",
+  "vector_database": "Qdrant 1.17.1 via Docker Compose",
+  "lexical_retrieval": "BM25 with Chinese bigrams and scientific term expansion",
+  "embedding": "BAAI/bge-m3; 1024-dimensional dense representation",
+  "reranker": "BAAI/bge-reranker-v2-m3; title and passage joint scoring",
+  "generation": "DeepSeek-compatible API; model ID configurable in local environment",
+  "formula_retrieval": "Source-coordinate join, scoped equation-number lookup and literal-symbol matching",
+  "reference_repository": "https://github.com/Cinnamon/kotaemon",
+  "reference_commit": "9ad3e4e49aa35b8acddd235918a5d9753c1cfdf9",
+  "reference_role": "Engineering reference; not a runtime dependency or bundled source"
+}

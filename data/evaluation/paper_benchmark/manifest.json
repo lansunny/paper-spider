@@ -1,0 +1,88 @@
+{
+  "schema_version": "1.0",
+  "benchmark_version": "paper-grounded-v1",
+  "annotation_method": "agent_source_grounded",
+  "human_verified": false,
+  "corpus_target": "500-paper global retrieval; do not filter by gold_paper_ids",
+  "scope": "All eight existing cross-paper seeds plus single-paper, unnamed-source and scoped unsupported questions; not exhaustive labeling of 31,037 chunks.",
+  "gold_basis": "PDF hash + normalized_blocks page text + exact character spans; chunk IDs are not gold.",
+  "source_normalization": "rag.chunking.normalized_blocks: per-block whitespace normalization, original block order, double newline between blocks. Offsets refer to these canonical page texts.",
+  "evidence_policy": "Source-checked sufficient evidence anchors, not an exhaustive enumeration of every valid passage or paraphrase; coverage is not universal relevance or answer accuracy.",
+  "query_translation": "Fixed agent-authored English equivalent for controlled cross-language experiments; keep constant across variants.",
+  "split_policy": "Disjoint gold paper groups including cross-paper links; RAGAs debugging samples kept in dev.",
+  "heldout_status": "Annotated from source, no retrieval/tuning performed on this split during preparation. Small diagnostic set, not an official or independently human-validated benchmark.",
+  "open_question_policy": "Anchored evidence not exhaustive across corpus; do not interpret unmatched alternative evidence as false.",
+  "unsupported_policy": "No positive retrieval gold; evaluate grounded insufficiency separately from evidence recall.",
+  "counts": {
+    "total": 44,
+    "splits": {
+      "dev": 21,
+      "heldout": 23
+    },
+    "categories": {
+      "single_paper": 32,
+      "cross_paper": 8,
+      "unsupported": 4
+    },
+    "answerable": 40,
+    "source_papers": 14
+  },
+  "source_documents": {
+    "2024.eacl-demo.16": {
+      "title": "RAGAs: Automated Evaluation of Retrieval Augmented Generation",
+      "sha256": "e2038b8cff7574bf5302e1ceb6bfbac6d2471c352073b27f21460910936febce"
+    },
+    "2024.naacl-long.20": {
+      "title": "ARES: An Automated Evaluation Framework for Retrieval-Augmented Generation Systems",
+      "sha256": "5a585d88f7b63c06439a4ecb8fd3165615d637e2061f242bff3f6ec3a209bd34"
+    },
+    "2023.emnlp-main.495": {
+      "title": "Active Retrieval Augmented Generation",
+      "sha256": "5536c9136a510c9430a02a3424963ef7e3c2338e8e421ff51c98e7db3480d34c"
+    },
+    "2023.acl-long.557": {
+      "title": "Interleaving Retrieval with Chain-of-Thought Reasoning for Knowledge-Intensive Multi-Step Questions",
+      "sha256": "d307211b02415e5a590e4a13165a2006ea53548d11566d33fd781ee1db80e3b6"
+    },
+    "2023.emnlp-main.322": {
+      "title": "Query Rewriting in Retrieval-Augmented Large Language Models",
+      "sha256": "47f985749bc248b330dd5b965a2c072413017972523f052c5702ae22f3bd75e3"
+    },
+    "2024.findings-emnlp.49": {
+      "title": "RaFe: Ranking Feedback Improves Query Rewriting for RAG",
+      "sha256": "6e1dc716dff43378444739b43bc5fac174f2fa9e4a9333c0190a79793b88dddd"
+    },
+    "2020.emnlp-main.550": {
+      "title": "Dense Passage Retrieval for Open-Domain Question Answering",
+      "sha256": "2abfc7991519be2b8ce30215905516fdb593218b7bf59e50ece0d8a088a7c4d5"
+    },
+    "2021.emnlp-main.224": {
+      "title": "RocketQAv2: A Joint Training Method for Dense Passage Retrieval and Passage Re-ranking",
+      "sha256": "12a28cf6d606fe9050303411ae0f167fd141174e1fc03063595f3c518e77d300"
+    },
+    "2021.naacl-main.365": {
+      "title": "A Dataset of Information-Seeking Questions and Answers Anchored in Research Papers",
+      "sha256": "b15b4378988ed4e553dd312eaf334411abcf1fb28c53b846d360435eb55cd193"
+    },
+    "2024.emnlp-main.1163": {
+      "title": "SciDQA: A Deep Reading Comprehension Dataset over Scientific Papers",
+      "sha256": "e098264a70fdb6a1e9d05daade8015141ed54018eeb196abc1478bfe344b5a20"
+    },
+    "2025.findings-emnlp.568": {
+      "title": "LightRAG: Simple and Fast Retrieval-Augmented Generation",
+      "sha256": "cdd04718353c5b59c94c0ff810af25c16e7b6c2af390532d8172cb2901f584a7"
+    },
+    "2025.findings-naacl.232": {
+      "title": "GRAG: Graph Retrieval-Augmented Generation",
+      "sha256": "47b56c7fe5bb2a80987163dd8ebf2d2b0f18ddba4acd40ee7f45e9cfd9cf7348"
+    },
+    "2024.emnlp-main.1259": {
+      "title": "LongRAG: A Dual-Perspective Retrieval-Augmented Generation Paradigm for Long-Context Question Answering",
+      "sha256": "0a5f3581f839ff96407a649f98fd32fac56e774f4f11342a83ec6a1e087e441e"
+    },
+    "2025.findings-acl.199": {
+      "title": "SCITAT: A Question Answering Benchmark for Scientific Tables and Text Covering Diverse Reasoning Types",
+      "sha256": "8609be38bbcc0a9224429578c3fcf49143635865d5ed317135681c39f87a4001"
+    }
+  }
+}

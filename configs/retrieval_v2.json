@@ -1,0 +1,23 @@
+{
+  "qdrant_url": "http://127.0.0.1:6333",
+  "collection": "paperrag_bge_m3_v1",
+  "vector_name": "dense",
+  "vector_size": 1024,
+  "embedding_model": "BAAI/bge-m3",
+  "embedding_revision": "5617a9f61b028005a4858fdac845db406aefb181",
+  "schema_version": 1,
+  "hnsw_m": 16,
+  "hnsw_ef_construct": 100,
+  "indexing_threshold_kb": 1000,
+  "timeout_seconds": 15,
+  "chunk_size": 384,
+  "chunk_overlap": 64,
+  "embedding_max_length": 512,
+  "device": "auto",
+  "batch_size": 8,
+  "reranker_batch_size": 4,
+  "candidate_k": 100,
+  "rerank_k": 20,
+  "rrf_k": 60,
+  "context_char_budget": 16000
+}

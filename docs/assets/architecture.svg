@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="698" viewBox="0 0 1280 698" role="img" aria-labelledby="title desc">
+  <title id="title">PaperRAG architecture</title>
+  <desc id="desc">Offline source-aligned indexing; online hybrid retrieval and reranking; formula attachment through shared source coordinates, without a formula vector index.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="m0 0 7 3.5L0 7" fill="none" stroke="#89988a" stroke-width="1.2"/></marker>
+    <marker id="blue" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="m0 0 7 3.5L0 7" fill="none" stroke="#567b9e" stroke-width="1.2"/></marker>
+    <style>text{font-family:Arial,sans-serif}.label{font-size:11px;letter-spacing:1.8px;fill:#738176}.title{font-size:18px;fill:#27372c;font-weight:600}.sub{font-size:13px;fill:#627367}.box{fill:#fff;stroke:#d3dccf}.flow{fill:none;stroke:#89988a;stroke-width:1.5;marker-end:url(#arrow)}</style>
+  </defs>
+  <rect width="1280" height="698" rx="16" fill="#f6f7f1"/>
+  <text x="34" y="42" class="title" font-size="23">One source. Two coordinates. Traceable evidence.</text>
+  <text x="34" y="77" class="label">01 / OFFLINE INDEXING</text>
+  <g transform="translate(34 96)">
+    <rect class="box" width="239" height="87" rx="6"/><text x="19" y="33" class="title">Original PDFs</text><text x="19" y="59" class="sub">Paper ID + document SHA-256</text>
+    <path d="M239 43h35" class="flow"/>
+    <rect x="279" class="box" width="255" height="87" rx="6"/><text x="298" y="33" class="title">Parse + source spans</text><text x="298" y="59" class="sub">Page / text offsets / geometry</text>
+    <path d="M534 43h35" class="flow"/>
+    <rect x="574" class="box" width="290" height="87" rx="6"/><text x="593" y="33" class="title">Chunk + embed</text><text x="593" y="59" class="sub">384 / 64 tokens · BGE-M3 dense</text>
+    <path d="M864 43h35" class="flow"/>
+    <rect x="904" class="box" width="310" height="87" rx="6"/><text x="923" y="33" class="title">BM25 + Qdrant</text><text x="923" y="59" class="sub">Lexical index / 1024-d vectors</text>
+  </g>
+  <path d="M34 215h1212" stroke="#dce2d7"/>
+  <text x="34" y="246" class="label">02 / ONLINE RETRIEVAL</text>
+  <g transform="translate(34 264)">
+    <rect class="box" width="177" height="101" rx="6"/><text x="17" y="33" class="title">Question</text><text x="17" y="61" class="sub">Chinese or English</text><text x="17" y="80" class="sub">Paper / open query</text>
+    <path d="M177 50h24" class="flow"/>
+    <rect x="207" class="box" width="193" height="101" rx="6"/><text x="224" y="33" class="title">Route + split</text><text x="224" y="61" class="sub">Explicit paper facets</text><text x="224" y="80" class="sub">Original query retained</text>
+    <path d="M400 50h24" class="flow"/>
+    <rect x="430" class="box" width="193" height="101" rx="6"/><text x="447" y="33" class="title">Hybrid recall</text><text x="447" y="61" class="sub">BM25 + dense</text><text x="447" y="80" class="sub">100 slots per branch</text>
+    <path d="M623 50h24" class="flow"/>
+    <rect x="653" class="box" width="160" height="101" rx="6"/><text x="670" y="33" class="title">RRF + quotas</text><text x="670" y="61" class="sub">k = 60</text><text x="670" y="80" class="sub">20 text candidates</text>
+    <path d="M813 50h24" class="flow"/>
+    <rect x="843" class="box" width="172" height="101" rx="6"/><text x="860" y="33" class="title">Rerank</text><text x="860" y="61" class="sub">Title + body</text><text x="860" y="80" class="sub">Facet-aware scoring</text>
+    <path d="M1015 50h24" class="flow"/>
+    <rect x="1045" width="169" height="101" rx="6" fill="#eaf0e8" stroke="#bdcdb8"/><text x="1062" y="33" class="title">Context</text><text x="1062" y="61" class="sub">16,000 chars</text><text x="1062" y="80" class="sub">Cited answer / LLM</text>
+  </g>
+  <text x="34" y="403" class="sub">Candidate quotas bound distinct passages; multi-query and formula scoring can add local compute.</text>
+  <path d="M34 427h1212" stroke="#dce2d7"/>
+  <text x="34" y="458" class="label">03 / FORMULA PROVENANCE</text>
+  <g transform="translate(34 477)">
+    <rect class="box" width="283" height="109" rx="6"/><text x="19" y="32" class="title">PDF layout detection</text><text x="19" y="59" class="sub">Canonical per-paper registry</text><text x="19" y="80" class="sub">Original crop + unverified text proxy</text>
+    <path d="M283 54h39" fill="none" stroke="#567b9e" stroke-width="1.5" marker-end="url(#blue)"/>
+    <rect x="329" width="411" height="109" rx="6" fill="#edf2f6" stroke="#c5d2dd"/><text x="348" y="32" class="title">Shared source-coordinate join</text><text x="348" y="59" class="sub">Retrieved passage ↔ formula source text</text><text x="348" y="80" class="sub">Paper ID + PDF hash + page + source offsets</text>
+    <path d="M740 54h39" fill="none" stroke="#567b9e" stroke-width="1.5" marker-end="url(#blue)"/>
+    <rect x="786" class="box" width="428" height="109" rx="6"/><text x="805" y="32" class="title">Rank + display the original formula</text><text x="805" y="59" class="sub">Exact-number / literal-symbol lookup supplements</text><text x="805" y="80" class="sub">Native image shown beside the source passage</text>
+  </g>
+  <text x="34" y="627" font-size="14" fill="#3f6181">No separate formula vector index. Images stay native; the answer model receives text evidence.</text>
+  <text x="34" y="664" class="label">MEASURE EACH STAGE / CANDIDATE POOL → RERANK INPUT → TOP5 → BUDGETED CONTEXT</text>
+</svg>

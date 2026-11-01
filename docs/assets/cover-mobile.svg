@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="680" height="736" viewBox="0 0 680 736" role="img" aria-labelledby="title desc">
+  <title id="title">PaperRAG — 让论文回答，有原文可循。</title>
+  <desc id="desc">移动版项目封面。BM25 与 BGE-M3 双路召回，经 RRF 融合和 Cross-Encoder 重排，连接原文与公式。</desc>
+  <defs>
+    <clipPath id="frame"><rect width="680" height="736" rx="24"/></clipPath>
+    <marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="m1 1 5 3-5 3" fill="none" stroke="#51677a" stroke-width="1.6"/></marker>
+    <style>
+      :root{--paper:#f7f6f1;--ink:#202722;--secondary:#5b665e;--annotation:#3e607e;--field:#dce8ef;--node:#f8fafb;--connector:#51677a}
+      text{font-family:"IBM Plex Sans",Arial,"Microsoft YaHei","PingFang SC",sans-serif;fill:var(--ink)}
+      .connector{fill:none;stroke:var(--connector);stroke-width:2;marker-end:url(#arrow)}
+    </style>
+  </defs>
+  <g clip-path="url(#frame)">
+    <rect width="680" height="736" fill="var(--paper)"/>
+    <text x="48" y="54" font-size="18" font-weight="600" letter-spacing="1">Paper research / Evidence-centric RAG</text>
+    <text x="40" y="168" font-size="118" font-weight="700" letter-spacing="-6">PaperRAG<tspan fill="var(--annotation)">.</tspan></text>
+    <text x="48" y="227" font-size="34" font-weight="600">让论文回答，有原文可循。</text>
+    <text x="48" y="268" font-size="22" fill="var(--secondary)">Hybrid retrieval · Formula provenance</text>
+    <rect y="304" width="680" height="432" fill="var(--field)"/>
+    <rect x="190" y="336" width="300" height="56" rx="12" fill="var(--ink)"/>
+    <text x="340" y="373" text-anchor="middle" font-size="28" font-weight="600" style="fill:#fff">研究问题</text>
+    <path d="M340 392v18H174v17" class="connector"/>
+    <path d="M340 410h166v17" class="connector"/>
+    <rect x="48" y="435" width="252" height="66" rx="12" fill="var(--node)"/>
+    <rect x="380" y="435" width="252" height="66" rx="12" fill="var(--node)"/>
+    <text x="174" y="478" text-anchor="middle" font-size="28" font-weight="600">BM25</text>
+    <text x="506" y="478" text-anchor="middle" font-size="28" font-weight="600">BGE-M3</text>
+    <path d="M174 501v18h166v16 M506 501v18H340" fill="none" stroke="var(--connector)" stroke-width="2"/>
+    <path d="M340 519v16" class="connector"/>
+    <rect x="98" y="543" width="484" height="66" rx="12" fill="var(--node)"/>
+    <text x="340" y="585" text-anchor="middle" font-size="26" font-weight="600">RRF 融合 · Cross-Encoder 重排</text>
+    <path d="M340 609v16H174v17" class="connector"/>
+    <path d="M340 625h166v17" class="connector"/>
+    <rect x="48" y="650" width="252" height="54" rx="12" fill="var(--ink)"/>
+    <rect x="380" y="650" width="252" height="54" rx="12" fill="var(--annotation)"/>
+    <text x="174" y="686" text-anchor="middle" font-size="27" font-weight="600" style="fill:#fff">原文证据</text>
+    <text x="506" y="686" text-anchor="middle" font-size="27" font-weight="600" style="fill:#fff">公式原图</text>
+  </g>
+</svg>

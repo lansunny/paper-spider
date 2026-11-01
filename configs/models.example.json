@@ -1,0 +1,18 @@
+{
+  "generation": {
+    "display_name": "DeepSeek V4 Pro",
+    "status": "adapter_ready_key_required",
+    "base_url": "https://api.deepseek.com",
+    "api_model_id": "deepseek-v4-pro",
+    "api_key_env": "DEEPSEEK_API_KEY",
+    "note": "Official API model ID verified from https://api-docs.deepseek.com/quick_start/pricing. Credentials are read from .env or environment."
+  },
+  "embedding": {
+    "model": "BAAI/bge-m3",
+    "status": "downloaded_hash_verified_local_inference_verified"
+  },
+  "reranker": {
+    "model": "BAAI/bge-reranker-v2-m3",
+    "status": "downloaded_hash_verified_local_inference_verified"
+  }
+}

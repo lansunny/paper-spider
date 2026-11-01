@@ -1,0 +1,1311 @@
+{
+  "version": "formula-retrieval-test50-v1",
+  "annotation_origin": "agent_original_pdf_review",
+  "human_verified": false,
+  "gold_selection_note": "Originally sampled from detected candidates; individually checked against original PDF renders. Fixed source coordinates are independent of future extraction IDs.",
+  "gold_sources": [
+    {
+      "gold_id": "g01",
+      "paper_id": "2024.eacl-demo.16",
+      "document_sha256": "e2038b8cff7574bf5302e1ceb6bfbac6d2471c352073b27f21460910936febce",
+      "pdf_page": 3,
+      "equation_number": null,
+      "bbox": [
+        306.144287109375,
+        331.5008239746094,
+        353.5768127441406,
+        354.6011047363281
+      ],
+      "title": "RAGAs: Automated Evaluation of Retrieval Augmented Generation",
+      "pdf_path": "data/pdfs/2024.eacl-demo.16.pdf",
+      "source_url": "https://aclanthology.org/2024.eacl-demo.16/",
+      "reference_answer": "Faithfulness F = |V| / |S|，V 为被上下文支持的陈述集合，S 为回答拆解出的全部陈述。"
+    },
+    {
+      "gold_id": "g02",
+      "paper_id": "2024.eacl-demo.16",
+      "document_sha256": "e2038b8cff7574bf5302e1ceb6bfbac6d2471c352073b27f21460910936febce",
+      "pdf_page": 3,
+      "equation_number": "1",
+      "bbox": [
+        364.9612121582031,
+        690.4279174804688,
+        525.1533203125,
+        725.1237182617188
+      ],
+      "title": "RAGAs: Automated Evaluation of Retrieval Augmented Generation",
+      "pdf_path": "data/pdfs/2024.eacl-demo.16.pdf",
+      "source_url": "https://aclanthology.org/2024.eacl-demo.16/",
+      "reference_answer": "Answer Relevance 是原问题 q 与由回答生成的 n 个问题 qi 的余弦相似度均值。"
+    },
+    {
+      "gold_id": "g03",
+      "paper_id": "2024.eacl-demo.16",
+      "document_sha256": "e2038b8cff7574bf5302e1ceb6bfbac6d2471c352073b27f21460910936febce",
+      "pdf_page": 4,
+      "equation_number": "2",
+      "bbox": [
+        86.33030700683594,
+        371.1724853515625,
+        289.866455078125,
+        399.1823425292969
+      ],
+      "title": "RAGAs: Automated Evaluation of Retrieval Augmented Generation",
+      "pdf_path": "data/pdfs/2024.eacl-demo.16.pdf",
+      "source_url": "https://aclanthology.org/2024.eacl-demo.16/",
+      "reference_answer": "Context Relevance CR = 相关句子数 / 检索上下文中的总句子数。"
+    },
+    {
+      "gold_id": "g04",
+      "paper_id": "2020.emnlp-main.550",
+      "document_sha256": "2abfc7991519be2b8ce30215905516fdb593218b7bf59e50ece0d8a088a7c4d5",
+      "pdf_page": 3,
+      "equation_number": "1",
+      "bbox": [
+        120.61500549316406,
+        154.03289794921875,
+        290.2679748535156,
+        169.937255859375
+      ],
+      "title": "Dense Passage Retrieval for Open-Domain Question Answering",
+      "pdf_path": "data/pdfs/2020.emnlp-main.550.pdf",
+      "source_url": "https://aclanthology.org/2020.emnlp-main.550/",
+      "reference_answer": "DPR 的问题与段落分别编码，sim(q,p) = EQ(q) 的转置乘 EP(p)，即向量点积。"
+    },
+    {
+      "gold_id": "g05",
+      "paper_id": "2020.emnlp-main.550",
+      "document_sha256": "2abfc7991519be2b8ce30215905516fdb593218b7bf59e50ece0d8a088a7c4d5",
+      "pdf_page": 3,
+      "equation_number": "2",
+      "bbox": [
+        329.48199462890625,
+        194.92172241210938,
+        525.5430297851562,
+        249.51416015625
+      ],
+      "title": "Dense Passage Retrieval for Open-Domain Question Answering",
+      "pdf_path": "data/pdfs/2020.emnlp-main.550.pdf",
+      "source_url": "https://aclanthology.org/2020.emnlp-main.550/",
+      "reference_answer": "DPR 的训练损失是正段落指数相似度占正负段落指数相似度总和的比例，再取负对数。"
+    },
+    {
+      "gold_id": "g06",
+      "paper_id": "2023.emnlp-main.495",
+      "document_sha256": "5536c9136a510c9430a02a3424963ef7e3c2338e8e421ff51c98e7db3480d34c",
+      "pdf_page": 4,
+      "equation_number": null,
+      "bbox": [
+        306.144287109375,
+        453.2823181152344,
+        515.5201416015625,
+        499.793701171875
+      ],
+      "title": "Active Retrieval Augmented Generation",
+      "pdf_path": "data/pdfs/2023.emnlp-main.495.pdf",
+      "source_url": "https://aclanthology.org/2023.emnlp-main.495/",
+      "reference_answer": "FLAREdirect 中临时句全部 token 概率达到阈值时直接接受，否则基于检索文档重新生成当前句。"
+    },
+    {
+      "gold_id": "g07",
+      "paper_id": "2023.emnlp-main.495",
+      "document_sha256": "5536c9136a510c9430a02a3424963ef7e3c2338e8e421ff51c98e7db3480d34c",
+      "pdf_page": 5,
+      "equation_number": null,
+      "bbox": [
+        306.60028076171875,
+        77.46426391601562,
+        511.55389404296875,
+        127.27777862548828
+      ],
+      "title": "Active Retrieval Augmented Generation",
+      "pdf_path": "data/pdfs/2023.emnlp-main.495.pdf",
+      "source_url": "https://aclanthology.org/2023.emnlp-main.495/",
+      "reference_answer": "高置信度时查询集合为空；否则用 mask 临时句或 qgen 临时句来构造检索查询。"
+    },
+    {
+      "gold_id": "g08",
+      "paper_id": "2021.naacl-main.466",
+      "document_sha256": "41cb8b3dd810a37625eb61abeedd49f1151131c5f1c56287167b41c8866eebb6",
+      "pdf_page": 3,
+      "equation_number": "2",
+      "bbox": [
+        321.70599365234375,
+        722.1028442382812,
+        524.4099731445312,
+        776.6951904296875
+      ],
+      "title": "RocketQA: An Optimized Training Approach to Dense Passage Retrieval for Open-Domain Question Answering",
+      "pdf_path": "data/pdfs/2021.naacl-main.466.pdf",
+      "source_url": "https://aclanthology.org/2021.naacl-main.466/",
+      "reference_answer": "RocketQA 的对比损失对正段落相似度指数做正负段落归一化，再取负对数。"
+    },
+    {
+      "gold_id": "g09",
+      "paper_id": "2021.emnlp-main.224",
+      "document_sha256": "12a28cf6d606fe9050303411ae0f167fd141174e1fc03063595f3c518e77d300",
+      "pdf_page": 3,
+      "equation_number": "2",
+      "bbox": [
+        342.8121337890625,
+        634.0653076171875,
+        524.4100341796875,
+        665.1049194335938
+      ],
+      "title": "RocketQAv2: A Joint Training Method for Dense Passage Retrieval and Passage Re-ranking",
+      "pdf_path": "data/pdfs/2021.emnlp-main.224.pdf",
+      "source_url": "https://aclanthology.org/2021.emnlp-main.224/",
+      "reference_answer": "RocketQAv2 对 dual-encoder 分数取指数，再在候选段落集合 Pq 中归一化为相关性分布。"
+    },
+    {
+      "gold_id": "g10",
+      "paper_id": "2021.emnlp-main.224",
+      "document_sha256": "12a28cf6d606fe9050303411ae0f167fd141174e1fc03063595f3c518e77d300",
+      "pdf_page": 3,
+      "equation_number": "3",
+      "bbox": [
+        343.25799560546875,
+        668.6951293945312,
+        524.4100341796875,
+        699.7349243164062
+      ],
+      "title": "RocketQAv2: A Joint Training Method for Dense Passage Retrieval and Passage Re-ranking",
+      "pdf_path": "data/pdfs/2021.emnlp-main.224.pdf",
+      "source_url": "https://aclanthology.org/2021.emnlp-main.224/",
+      "reference_answer": "RocketQAv2 对 cross-encoder 分数取指数，再在同一候选集合 Pq 中归一化。"
+    },
+    {
+      "gold_id": "g11",
+      "paper_id": "2021.emnlp-main.224",
+      "document_sha256": "12a28cf6d606fe9050303411ae0f167fd141174e1fc03063595f3c518e77d300",
+      "pdf_page": 4,
+      "equation_number": "4",
+      "bbox": [
+        84.84297180175781,
+        254.50624084472656,
+        289.1340026855469,
+        285.97894287109375
+      ],
+      "title": "RocketQAv2: A Joint Training Method for Dense Passage Retrieval and Passage Re-ranking",
+      "pdf_path": "data/pdfs/2021.emnlp-main.224.pdf",
+      "source_url": "https://aclanthology.org/2021.emnlp-main.224/",
+      "reference_answer": "RocketQAv2 的 KL 损失累加 dual-encoder 分布乘以其与 cross-encoder 分布比值的对数。"
+    },
+    {
+      "gold_id": "g12",
+      "paper_id": "2023.acl-long.125",
+      "document_sha256": "c2afc6df9dfc27707bba1c54a0c703069565c3841d54d5a7001fa073a8d938e8",
+      "pdf_page": 4,
+      "equation_number": "3",
+      "bbox": [
+        73.47466278076172,
+        487.4417419433594,
+        289.13543701171875,
+        542.2
+      ],
+      "title": "SimLM: Pre-training with Representation Bottleneck for Dense Passage Retrieval",
+      "pdf_path": "data/pdfs/2023.acl-long.125.pdf",
+      "source_url": "https://aclanthology.org/2023.acl-long.125/",
+      "reference_answer": "SimLM 的对比损失分母包含正对分数，以及问题到负例、正段落到负例两类分数的和。"
+    },
+    {
+      "gold_id": "g14",
+      "paper_id": "2021.findings-acl.191",
+      "document_sha256": "a25f94825551abb28f2160d46a7c1960e526ded7632ab743ec29edb2564ad7d1",
+      "pdf_page": 4,
+      "equation_number": "4",
+      "bbox": [
+        118.77899932861328,
+        290.1678161621094,
+        290.2680358886719,
+        303.6397705078125
+      ],
+      "title": "PAIR: Leveraging Passage-Centric Similarity Relation for Improving Dense Passage Retrieval",
+      "pdf_path": "data/pdfs/2021.findings-acl.191.pdf",
+      "source_url": "https://aclanthology.org/2021.findings-acl.191/",
+      "reference_answer": "PAIR 的 passage-centric 约束要求正段落与查询的相似度高于正段落与负段落的相似度。"
+    },
+    {
+      "gold_id": "g15",
+      "paper_id": "2023.emnlp-main.322",
+      "document_sha256": "47f985749bc248b330dd5b965a2c072413017972523f052c5702ae22f3bd75e3",
+      "pdf_page": 5,
+      "equation_number": "2",
+      "bbox": [
+        81.09807586669922,
+        89.53865051269531,
+        289.8664855957031,
+        180.0
+      ],
+      "title": "Query Rewriting in Retrieval-Augmented Large Language Models",
+      "pdf_path": "data/pdfs/2023.emnlp-main.322.pdf",
+      "source_url": "https://aclanthology.org/2023.emnlp-main.322/",
+      "reference_answer": "查询重写训练采用 PPO 的 clipped objective，取未裁剪重要性比率优势项与裁剪项的较小值。"
+    },
+    {
+      "gold_id": "g16",
+      "paper_id": "2023.emnlp-main.322",
+      "document_sha256": "47f985749bc248b330dd5b965a2c072413017972523f052c5702ae22f3bd75e3",
+      "pdf_page": 5,
+      "equation_number": "3",
+      "bbox": [
+        95.72477722167969,
+        288.8928527832031,
+        289.8664855957031,
+        340.36468505859375
+      ],
+      "title": "Query Rewriting in Retrieval-Augmented Large Language Models",
+      "pdf_path": "data/pdfs/2023.emnlp-main.322.pdf",
+      "source_url": "https://aclanthology.org/2023.emnlp-main.322/",
+      "reference_answer": "先计算奖励加下一状态价值减当前状态价值的 TD 残差，再按 lambda 的幂累加未来残差估计优势。"
+    },
+    {
+      "gold_id": "g17",
+      "paper_id": "2024.findings-emnlp.49",
+      "document_sha256": "6e1dc716dff43378444739b43bc5fac174f2fa9e4a9333c0190a79793b88dddd",
+      "pdf_page": 3,
+      "equation_number": "3",
+      "bbox": [
+        100.34400939941406,
+        461.9137268066406,
+        289.866455078125,
+        498.9616394042969
+      ],
+      "title": "RaFe: Ranking Feedback Improves Query Rewriting for RAG",
+      "pdf_path": "data/pdfs/2024.findings-emnlp.49.pdf",
+      "source_url": "https://aclanthology.org/2024.findings-emnlp.49/",
+      "reference_answer": "RaFe 的查询改写评分为重排器对改写所召回文档的评分均值，查询仍使用原问题。"
+    },
+    {
+      "gold_id": "g18",
+      "paper_id": "2023.emnlp-main.665",
+      "document_sha256": "b5cc4a2eb0f027a1911fd55798bd85e68a64791f2a9f925159457b275cb623bc",
+      "pdf_page": 4,
+      "equation_number": "1",
+      "bbox": [
+        318.2638854980469,
+        71.09182739257812,
+        525.1532592773438,
+        92.27837371826172
+      ],
+      "title": "Enhancing the Ranking Context of Dense Retrieval through Reciprocal Nearest Neighbors",
+      "pdf_path": "data/pdfs/2023.emnlp-main.665.pdf",
+      "source_url": "https://aclanthology.org/2023.emnlp-main.665/",
+      "reference_answer": "最终相似度为 lambda 乘原始相似度，加上 1-lambda 乘 Jaccard 相似度。"
+    },
+    {
+      "gold_id": "g19",
+      "paper_id": "2023.emnlp-main.665",
+      "document_sha256": "b5cc4a2eb0f027a1911fd55798bd85e68a64791f2a9f925159457b275cb623bc",
+      "pdf_page": 4,
+      "equation_number": "2",
+      "bbox": [
+        305.87127685546875,
+        448.765380859375,
+        525.1532592773438,
+        489.2111511230469
+      ],
+      "title": "Enhancing the Ranking Context of Dense Retrieval through Reciprocal Nearest Neighbors",
+      "pdf_path": "data/pdfs/2023.emnlp-main.665.pdf",
+      "source_url": "https://aclanthology.org/2023.emnlp-main.665/",
+      "reference_answer": "均匀标签平滑把正确类别概率变为 1-epsilon，其他 N-1 个类别各分配 epsilon/(N-1)。"
+    },
+    {
+      "gold_id": "g20",
+      "paper_id": "2024.emnlp-industry.103",
+      "document_sha256": "42bed71334f634f5ff7f0464866fa5dc843a331daffa8014e9b09a5582aba914",
+      "pdf_page": 3,
+      "equation_number": "2",
+      "bbox": [
+        105.22325134277344,
+        433.8366394042969,
+        289.866455078125,
+        465.78973388671875
+      ],
+      "title": "mGTE: Generalized Long-Context Text Representation and Reranking Models for Multilingual Text Retrieval",
+      "pdf_path": "data/pdfs/2024.emnlp-industry.103.pdf",
+      "source_url": "https://aclanthology.org/2024.emnlp-industry.103/",
+      "reference_answer": "mGTE 使用温度缩放的 InfoNCE：正例 exp(s/tau) 除以候选文档 exp(s/tau) 总和，再取负对数。"
+    },
+    {
+      "gold_id": "g21",
+      "paper_id": "2024.emnlp-industry.103",
+      "document_sha256": "42bed71334f634f5ff7f0464866fa5dc843a331daffa8014e9b09a5582aba914",
+      "pdf_page": 3,
+      "equation_number": "3",
+      "bbox": [
+        305.7512512207031,
+        670.3381958007812,
+        525.1542358398438,
+        714.0
+      ],
+      "title": "mGTE: Generalized Long-Context Text Representation and Reranking Models for Multilingual Text Retrieval",
+      "pdf_path": "data/pdfs/2024.emnlp-industry.103.pdf",
+      "source_url": "https://aclanthology.org/2024.emnlp-industry.103/",
+      "reference_answer": "mGTE 的 TRM 总损失包含 lambda 加权的稀疏表示损失，以及各 MRL 维度的加权损失之和。"
+    },
+    {
+      "gold_id": "g22",
+      "paper_id": "2024.acl-long.91",
+      "document_sha256": "baddd67ba8fb10b68ab1251de9961cc1e4868ead89b97bf99a5838ea80fb4c1c",
+      "pdf_page": 2,
+      "equation_number": "1",
+      "bbox": [
+        125.84528350830078,
+        635.3706665039062,
+        289.8664855957031,
+        655.9244384765625
+      ],
+      "title": "LongLLMLingua: Accelerating and Enhancing LLMs in Long Context Scenarios via Prompt Compression",
+      "pdf_path": "data/pdfs/2024.acl-long.91.pdf",
+      "source_url": "https://aclanthology.org/2024.acl-long.91/",
+      "reference_answer": "LongLLMLingua 最小化原回答与压缩提示所得回答的差异，加上 lambda 加权的压缩提示长度惩罚。"
+    },
+    {
+      "gold_id": "g23",
+      "paper_id": "2024.acl-long.91",
+      "document_sha256": "baddd67ba8fb10b68ab1251de9961cc1e4868ead89b97bf99a5838ea80fb4c1c",
+      "pdf_page": 3,
+      "equation_number": "2",
+      "bbox": [
+        332.7366027832031,
+        380.13336181640625,
+        525.1533813476562,
+        437.89654541015625
+      ],
+      "title": "LongLLMLingua: Accelerating and Enhancing LLMs in Long Context Scenarios via Prompt Compression",
+      "pdf_path": "data/pdfs/2024.acl-long.91.pdf",
+      "source_url": "https://aclanthology.org/2024.acl-long.91/",
+      "reference_answer": "文档重要性分数为在该文档条件下，问题加限制提示序列的平均负对数概率。"
+    },
+    {
+      "gold_id": "g25",
+      "paper_id": "2024.emnlp-main.45",
+      "document_sha256": "ab947ba14b5de95fe38df274e6ba6274c12aadfd77cc49507778c2dc90355042",
+      "pdf_page": 4,
+      "equation_number": "2",
+      "bbox": [
+        344.90924072265625,
+        349.1521911621094,
+        525.023193359375,
+        369.3021240234375
+      ],
+      "title": "DyVo: Dynamic Vocabularies for Learned Sparse Retrieval with Entities",
+      "pdf_path": "data/pdfs/2024.emnlp-main.45.pdf",
+      "source_url": "https://aclanthology.org/2024.emnlp-main.45/",
+      "reference_answer": "SPLADE 的词项权重对各 token 的 log(1+ReLU(词项向量与隐藏状态点积)) 取最大值。"
+    },
+    {
+      "gold_id": "g26",
+      "paper_id": "2025.emnlp-main.365",
+      "document_sha256": "00be7a5f44ed4b726668861dddca97875127abbdaed1083bf8b2a6ba1df86452",
+      "pdf_page": 3,
+      "equation_number": "3",
+      "bbox": [
+        306.1442565917969,
+        712.0,
+        525.0230102539062,
+        731.0
+      ],
+      "title": "InfoGain-RAG: Boosting Retrieval-Augmented Generation through Document Information Gain-based Reranking and Filtering",
+      "pdf_path": "data/pdfs/2025.emnlp-main.365.pdf",
+      "source_url": "https://aclanthology.org/2025.emnlp-main.365/",
+      "reference_answer": "DIG(di|x) 定义为加入文档 di 后正确回答的生成概率减去仅给问题时的生成概率。"
+    },
+    {
+      "gold_id": "g27",
+      "paper_id": "2025.acl-long.418",
+      "document_sha256": "7582f7e61eca3182bf84a5e7b88da27bb68d26e56d158c6f78caedcbfe8c9334",
+      "pdf_page": 5,
+      "equation_number": "1",
+      "bbox": [
+        122.93113708496094,
+        457.1526184082031,
+        289.7362365722656,
+        484.7255859375
+      ],
+      "title": "RAGEval: Scenario Specific RAG Evaluation Dataset Generation Framework",
+      "pdf_path": "data/pdfs/2025.acl-long.418.pdf",
+      "source_url": "https://aclanthology.org/2025.acl-long.418/",
+      "reference_answer": "RAGEval 的检索 Recall 是各 gold reference 是否被召回匹配的指示值的均值。"
+    },
+    {
+      "gold_id": "g28",
+      "paper_id": "2025.acl-long.418",
+      "document_sha256": "7582f7e61eca3182bf84a5e7b88da27bb68d26e56d158c6f78caedcbfe8c9334",
+      "pdf_page": 5,
+      "equation_number": "3",
+      "bbox": [
+        340.85601806640625,
+        521.2188110351562,
+        525.0239868164062,
+        551.582275390625
+      ],
+      "title": "RAGEval: Scenario Specific RAG Evaluation Dataset Generation Framework",
+      "pdf_path": "data/pdfs/2025.acl-long.418.pdf",
+      "source_url": "https://aclanthology.org/2025.acl-long.418/",
+      "reference_answer": "Completeness 是生成回答语义覆盖的标准答案关键点数除以全部关键点数。"
+    },
+    {
+      "gold_id": "g30",
+      "paper_id": "2025.acl-long.354",
+      "document_sha256": "eb087956dc1b6a5a3a336fb754bffa25761621279cee5d07c0fc7a225f517ebc",
+      "pdf_page": 4,
+      "equation_number": "5",
+      "bbox": [
+        315.9338073730469,
+        332.1932678222656,
+        525.1531982421875,
+        418.0
+      ],
+      "title": "Gumbel Reranking: Differentiable End-to-End Reranker Optimization",
+      "pdf_path": "data/pdfs/2025.acl-long.354.pdf",
+      "source_url": "https://aclanthology.org/2025.acl-long.354/",
+      "reference_answer": "Gumbel 噪声由 uniform 随机数经负对数再负对数得到；与缩放重排分数相加后按温度做 softmax。"
+    },
+    {
+      "gold_id": "g31",
+      "paper_id": "2025.acl-long.1559",
+      "document_sha256": "15af68f49c3ed74b6c205fbadabd837f4f2b1d7ea762daf57b835acb1258e127",
+      "pdf_page": 4,
+      "equation_number": "4",
+      "bbox": [
+        342.7561340332031,
+        628.6058349609375,
+        525.1544189453125,
+        664.817626953125
+      ],
+      "title": "HELIOS: Harmonizing Early Fusion, Late Fusion, and LLM Reasoning for Multi-Granular Table-Text Retrieval",
+      "pdf_path": "data/pdfs/2025.acl-long.1559.pdf",
+      "source_url": "https://aclanthology.org/2025.acl-long.1559/",
+      "reference_answer": "HELIOS 的 MaxSim 对每个查询 token 取其与边表示 token 的最大点积，再对查询 token 求和。"
+    },
+    {
+      "gold_id": "g32",
+      "paper_id": "2025.emnlp-main.1582",
+      "document_sha256": "8e53515b63c0d6634d5fc1e1461655aed35ff2754eec27e18876e7cb3f3b0a6b",
+      "pdf_page": 3,
+      "equation_number": "3",
+      "bbox": [
+        331.8875427246094,
+        595.0641479492188,
+        525.1533203125,
+        636.052490234375
+      ],
+      "title": "MA-DPR: Manifold-aware Distance Metrics for Dense Passage Retrieval",
+      "pdf_path": "data/pdfs/2025.emnlp-main.1582.pdf",
+      "source_url": "https://aclanthology.org/2025.emnlp-main.1582/",
+      "reference_answer": "MA-DPR 的余弦距离基线为 1 减问题和段落向量的归一化点积。"
+    },
+    {
+      "gold_id": "g33",
+      "paper_id": "2025.emnlp-main.1582",
+      "document_sha256": "8e53515b63c0d6634d5fc1e1461655aed35ff2754eec27e18876e7cb3f3b0a6b",
+      "pdf_page": 5,
+      "equation_number": "7",
+      "bbox": [
+        79.60799407958984,
+        714.5203857421875,
+        289.8664855957031,
+        755.0211181640625
+      ],
+      "title": "MA-DPR: Manifold-aware Distance Metrics for Dense Passage Retrieval",
+      "pdf_path": "data/pdfs/2025.emnlp-main.1582.pdf",
+      "source_url": "https://aclanthology.org/2025.emnlp-main.1582/",
+      "reference_answer": "流形距离为两个图顶点之间所有路径中，路径边成本总和的最小值，即最短路径成本。"
+    },
+    {
+      "gold_id": "g34",
+      "paper_id": "2023.emnlp-main.651",
+      "document_sha256": "a98c480baeb69f7702104cffbe5fe774781d3e68bf3187e3b3bb5cdd7c317c5b",
+      "pdf_page": 3,
+      "equation_number": "3",
+      "bbox": [
+        70.85655212402344,
+        518.4503173828125,
+        289.8664855957031,
+        535.0
+      ],
+      "title": "CAPSTONE: Curriculum Sampling for Dense Retrieval with Document Expansion",
+      "pdf_path": "data/pdfs/2023.emnlp-main.651.pdf",
+      "source_url": "https://aclanthology.org/2023.emnlp-main.651/",
+      "reference_answer": "CAPSTONE 的 dual-cross-encoder 以文档加扩展查询一起编码，与查询向量做点积。"
+    },
+    {
+      "gold_id": "g35",
+      "paper_id": "2021.findings-acl.191",
+      "document_sha256": "a25f94825551abb28f2160d46a7c1960e526ded7632ab743ec29edb2564ad7d1",
+      "pdf_page": 4,
+      "equation_number": "5",
+      "bbox": [
+        78.46504211425781,
+        406.3609924316406,
+        290.2678527832031,
+        445.01141357421875
+      ],
+      "title": "PAIR: Leveraging Passage-Centric Similarity Relation for Improving Dense Passage Retrieval",
+      "pdf_path": "data/pdfs/2021.findings-acl.191.pdf",
+      "source_url": "https://aclanthology.org/2021.findings-acl.191/",
+      "reference_answer": "PAIR 的 passage-centric 损失把查询作为正段落的正例，以正段落到负段落的指数相似度作分母负项。"
+    },
+    {
+      "gold_id": "g36",
+      "paper_id": "2021.findings-acl.191",
+      "document_sha256": "a25f94825551abb28f2160d46a7c1960e526ded7632ab743ec29edb2564ad7d1",
+      "pdf_page": 4,
+      "equation_number": "6",
+      "bbox": [
+        116.48402404785156,
+        614.5618896484375,
+        290.26800537109375,
+        626.6592407226562
+      ],
+      "title": "PAIR: Leveraging Passage-Centric Similarity Relation for Improving Dense Passage Retrieval",
+      "pdf_path": "data/pdfs/2021.findings-acl.191.pdf",
+      "source_url": "https://aclanthology.org/2021.findings-acl.191/",
+      "reference_answer": "PAIR 的联合损失 L = (1-alpha)*LQ + alpha*LP。"
+    },
+    {
+      "gold_id": "g37",
+      "paper_id": "2023.emnlp-main.495",
+      "document_sha256": "5536c9136a510c9430a02a3424963ef7e3c2338e8e421ff51c98e7db3480d34c",
+      "pdf_page": 6,
+      "equation_number": null,
+      "bbox": [
+        134.13369750976562,
+        200.1484832763672,
+        225.8610076904297,
+        228.77101135253906
+      ],
+      "title": "Active Retrieval Augmented Generation",
+      "pdf_path": "data/pdfs/2023.emnlp-main.495.pdf",
+      "source_url": "https://aclanthology.org/2023.emnlp-main.495/",
+      "reference_answer": "句子级迭代检索在 t>=2 时用前一轮生成 yt-1 作为 qt，并令 yt = st。"
+    },
+    {
+      "gold_id": "g38",
+      "paper_id": "2021.naacl-main.466",
+      "document_sha256": "41cb8b3dd810a37625eb61abeedd49f1151131c5f1c56287167b41c8866eebb6",
+      "pdf_page": 3,
+      "equation_number": "1",
+      "bbox": [
+        356.04901123046875,
+        472.7568359375,
+        524.4100341796875,
+        484.80120849609375
+      ],
+      "title": "RocketQA: An Optimized Training Approach to Dense Passage Retrieval for Open-Domain Question Answering",
+      "pdf_path": "data/pdfs/2021.naacl-main.466.pdf",
+      "source_url": "https://aclanthology.org/2021.naacl-main.466/",
+      "reference_answer": "RocketQA 的相似度为问题向量 Eq(q) 与段落向量 Ep(p) 的点积。"
+    }
+  ],
+  "questions": [
+    {
+      "question_id": "formula001",
+      "question": "根据 RAGAs 原论文，回答拆成陈述并检查上下文支持后，Faithfulness 的分数如何计算？请展示原始公式。",
+      "question_en": "According to RAGAs, after decomposing an answer into statements and checking context support, how is the Faithfulness score computed? Show its original formula.",
+      "category": "semantic_single",
+      "expectation": "answerable",
+      "gold_groups": [
+        [
+          "g01"
+        ]
+      ],
+      "reference_answer": "Faithfulness F = |V| / |S|，V 为被上下文支持的陈述集合，S 为回答拆解出的全部陈述。",
+      "requested_equation_number": null
+    },
+    {
+      "question_id": "formula002",
+      "question": "RAGAs 如何把由回答反推的多个问题与原问题的相似度汇总成 Answer Relevance？请展示公式。",
+      "question_en": "How does RAGAs aggregate similarities between the original question and questions generated from the answer into Answer Relevance? Show the formula.",
+      "category": "semantic_single",
+      "expectation": "answerable",
+      "gold_groups": [
+        [
+          "g02"
+        ]
+      ],
+      "reference_answer": "Answer Relevance 是原问题 q 与由回答生成的 n 个问题 qi 的余弦相似度均值。",
+      "requested_equation_number": null
+    },
+    {
+      "question_id": "formula003",
+      "question": "RAGAs 的 Context Relevance 如何用相关句子与全部上下文句子计算？请定位原论文公式。",
+      "question_en": "How does RAGAs calculate Context Relevance using relevant sentences and all context sentences? Locate the original formula.",
+      "category": "semantic_single",
+      "expectation": "answerable",
+      "gold_groups": [
+        [
+          "g03"
+        ]
+      ],
+      "reference_answer": "Context Relevance CR = 相关句子数 / 检索上下文中的总句子数。",
+      "requested_equation_number": null
+    },
+    {
+      "question_id": "formula004",
+      "question": "DPR 原论文如何通过正段落和多个负段落的相似度训练检索器？请展示负对数损失的原式。",
+      "question_en": "How does DPR train its retriever using similarities of a positive passage and multiple negative passages? Show its negative log-likelihood loss formula.",
+      "category": "semantic_single",
+      "expectation": "answerable",
+      "gold_groups": [
+        [
+          "g05"
+        ]
+      ],
+      "reference_answer": "DPR 的训练损失是正段落指数相似度占正负段落指数相似度总和的比例，再取负对数。",
+      "requested_equation_number": null
+    },
+    {
+      "question_id": "formula005",
+      "question": "FLAREdirect 如何根据临时句的 token 置信度，选择直接接受或检索后重新生成？请展示分段公式。",
+      "question_en": "How does FLAREdirect use token confidence in a temporary sentence to choose acceptance or regeneration after retrieval? Show the piecewise formula.",
+      "category": "semantic_single",
+      "expectation": "answerable",
+      "gold_groups": [
+        [
+          "g06"
+        ]
+      ],
+      "reference_answer": "FLAREdirect 中临时句全部 token 概率达到阈值时直接接受，否则基于检索文档重新生成当前句。",
+      "requested_equation_number": null
+    },
+    {
+      "question_id": "formula006",
+      "question": "RocketQA 的检索训练如何用正负段落归一化构造对比损失？请给出原始公式。",
+      "question_en": "How does RocketQA normalize positive and negative passage scores to construct the retrieval contrastive loss? Show the original formula.",
+      "category": "semantic_single",
+      "expectation": "answerable",
+      "gold_groups": [
+        [
+          "g08"
+        ]
+      ],
+      "reference_answer": "RocketQA 的对比损失对正段落相似度指数做正负段落归一化，再取负对数。",
+      "requested_equation_number": null
+    },
+    {
+      "question_id": "formula007",
+      "question": "RocketQAv2 用什么 KL 损失对齐检索器与重排器的相关性分布？请展示公式并说明方向。",
+      "question_en": "Which KL-divergence loss aligns retriever and reranker relevance distributions in RocketQAv2? Show the formula and its direction.",
+      "category": "semantic_single",
+      "expectation": "answerable",
+      "gold_groups": [
+        [
+          "g11"
+        ]
+      ],
+      "reference_answer": "RocketQAv2 的 KL 损失累加 dual-encoder 分布乘以其与 cross-encoder 分布比值的对数。",
+      "requested_equation_number": null
+    },
+    {
+      "question_id": "formula008",
+      "question": "SimLM 的检索对比损失为什么还包含正段落到负例的分数？请展示包含两类负项的公式。",
+      "question_en": "Why does SimLM retrieval contrastive loss also include positive-passage-to-negative scores? Show the loss with both kinds of negative terms.",
+      "category": "semantic_single",
+      "expectation": "answerable",
+      "gold_groups": [
+        [
+          "g12"
+        ]
+      ],
+      "reference_answer": "SimLM 的对比损失分母包含正对分数，以及问题到负例、正段落到负例两类分数的和。",
+      "requested_equation_number": null
+    },
+    {
+      "question_id": "formula009",
+      "question": "PAIR 如何以正段落为中心约束查询和负段落的相似度，并构造 passage-centric 损失？请展示两条公式。",
+      "question_en": "How does PAIR constrain query and negative-passage similarities around the positive passage and construct passage-centric loss? Show both formulas.",
+      "category": "semantic_single",
+      "expectation": "answerable",
+      "gold_groups": [
+        [
+          "g14"
+        ],
+        [
+          "g35"
+        ]
+      ],
+      "reference_answer": "PAIR 的 passage-centric 约束要求正段落与查询的相似度高于正段落与负段落的相似度。 PAIR 的 passage-centric 损失把查询作为正段落的正例，以正段落到负段落的指数相似度作分母负项。",
+      "requested_equation_number": null
+    },
+    {
+      "question_id": "formula010",
+      "question": "《Query Rewriting in Retrieval-Augmented Large Language Models》如何用 PPO 的裁剪目标训练查询重写器？请定位目标函数。",
+      "question_en": "How does Query Rewriting in Retrieval-Augmented Large Language Models train the query rewriter with the clipped PPO objective? Locate its objective formula.",
+      "category": "semantic_single",
+      "expectation": "answerable",
+      "gold_groups": [
+        [
+          "g15"
+        ]
+      ],
+      "reference_answer": "查询重写训练采用 PPO 的 clipped objective，取未裁剪重要性比率优势项与裁剪项的较小值。",
+      "requested_equation_number": null
+    },
+    {
+      "question_id": "formula011",
+      "question": "RaFe 如何利用重排器对召回文档的评分评价一条查询改写？请展示平均评分公式。",
+      "question_en": "How does RaFe evaluate a query rewrite using reranker scores of its retrieved documents? Show the average-score formula.",
+      "category": "semantic_single",
+      "expectation": "answerable",
+      "gold_groups": [
+        [
+          "g17"
+        ]
+      ],
+      "reference_answer": "RaFe 的查询改写评分为重排器对改写所召回文档的评分均值，查询仍使用原问题。",
+      "requested_equation_number": null
+    },
+    {
+      "question_id": "formula012",
+      "question": "《Enhancing the Ranking Context of Dense Retrieval through Reciprocal Nearest Neighbors》如何融合原始相似度和 Jaccard 相似度？请展示融合公式。",
+      "question_en": "How does Enhancing the Ranking Context of Dense Retrieval through Reciprocal Nearest Neighbors fuse original and Jaccard similarities? Show the fusion formula.",
+      "category": "semantic_single",
+      "expectation": "answerable",
+      "gold_groups": [
+        [
+          "g18"
+        ]
+      ],
+      "reference_answer": "最终相似度为 lambda 乘原始相似度，加上 1-lambda 乘 Jaccard 相似度。",
+      "requested_equation_number": null
+    },
+    {
+      "question_id": "formula013",
+      "question": "mGTE 如何联合优化稀疏表示与多个 Matryoshka 维度的表示？请展示 TRM 总损失。",
+      "question_en": "How does mGTE jointly optimize sparse representation and representations at multiple Matryoshka dimensions? Show the TRM total loss.",
+      "category": "semantic_single",
+      "expectation": "answerable",
+      "gold_groups": [
+        [
+          "g21"
+        ]
+      ],
+      "reference_answer": "mGTE 的 TRM 总损失包含 lambda 加权的稀疏表示损失，以及各 MRL 维度的加权损失之和。",
+      "requested_equation_number": null
+    },
+    {
+      "question_id": "formula014",
+      "question": "LongLLMLingua 如何在压缩提示长度与回答差异之间做权衡？请展示提示压缩的优化目标。",
+      "question_en": "How does LongLLMLingua trade off compressed prompt length against answer discrepancy? Show the prompt compression objective.",
+      "category": "semantic_single",
+      "expectation": "answerable",
+      "gold_groups": [
+        [
+          "g22"
+        ]
+      ],
+      "reference_answer": "LongLLMLingua 最小化原回答与压缩提示所得回答的差异，加上 lambda 加权的压缩提示长度惩罚。",
+      "requested_equation_number": null
+    },
+    {
+      "question_id": "formula015",
+      "question": "DyVo 介绍的 SPLADE 词项权重如何结合隐藏状态、ReLU、对数和最大池化？请展示公式。",
+      "question_en": "How does the SPLADE term weighting described in DyVo combine hidden states, ReLU, logarithms, and max pooling? Show the formula.",
+      "category": "semantic_single",
+      "expectation": "answerable",
+      "gold_groups": [
+        [
+          "g25"
+        ]
+      ],
+      "reference_answer": "SPLADE 的词项权重对各 token 的 log(1+ReLU(词项向量与隐藏状态点积)) 取最大值。",
+      "requested_equation_number": null
+    },
+    {
+      "question_id": "formula016",
+      "question": "InfoGain-RAG 的 Document Information Gain 如何度量加入一篇文档后的回答生成概率变化？请展示定义式。",
+      "question_en": "How does InfoGain-RAG define Document Information Gain as the change in answer-generation probability after adding a document? Show the definition.",
+      "category": "semantic_single",
+      "expectation": "answerable",
+      "gold_groups": [
+        [
+          "g26"
+        ]
+      ],
+      "reference_answer": "DIG(di|x) 定义为加入文档 di 后正确回答的生成概率减去仅给问题时的生成概率。",
+      "requested_equation_number": null
+    },
+    {
+      "question_id": "formula017",
+      "question": "RAGEval 如何根据标准答案关键点计算生成回答的 Completeness？请展示指标公式。",
+      "question_en": "How does RAGEval calculate answer Completeness using ground-truth key points? Show the metric formula.",
+      "category": "semantic_single",
+      "expectation": "answerable",
+      "gold_groups": [
+        [
+          "g28"
+        ]
+      ],
+      "reference_answer": "Completeness 是生成回答语义覆盖的标准答案关键点数除以全部关键点数。",
+      "requested_equation_number": null
+    },
+    {
+      "question_id": "formula018",
+      "question": "《Gumbel Reranking: Differentiable End-to-End Reranker Optimization》如何从均匀随机数和重排分数得到软文档选择概率？请展示 Gumbel 采样公式。",
+      "question_en": "How does Gumbel Reranking: Differentiable End-to-End Reranker Optimization obtain soft document-selection probabilities from uniform random variables and reranker scores? Show the Gumbel sampling formula.",
+      "category": "semantic_single",
+      "expectation": "answerable",
+      "gold_groups": [
+        [
+          "g30"
+        ]
+      ],
+      "reference_answer": "Gumbel 噪声由 uniform 随机数经负对数再负对数得到；与缩放重排分数相加后按温度做 softmax。",
+      "requested_equation_number": null
+    },
+    {
+      "question_id": "formula019",
+      "question": "HELIOS 如何用查询 token 和边表示 token 的点积计算 MaxSim 匹配分数？请展示原式。",
+      "question_en": "How does HELIOS calculate MaxSim matching scores from dot products of query tokens and edge-representation tokens? Show the original formula.",
+      "category": "semantic_single",
+      "expectation": "answerable",
+      "gold_groups": [
+        [
+          "g31"
+        ]
+      ],
+      "reference_answer": "HELIOS 的 MaxSim 对每个查询 token 取其与边表示 token 的最大点积，再对查询 token 求和。",
+      "requested_equation_number": null
+    },
+    {
+      "question_id": "formula020",
+      "question": "MA-DPR 如何把图上两段落之间的路径边成本定义为流形距离？请展示最短路径的公式。",
+      "question_en": "How does MA-DPR define manifold distance from path edge costs between two passages on a graph? Show the shortest-path formula.",
+      "category": "semantic_single",
+      "expectation": "answerable",
+      "gold_groups": [
+        [
+          "g33"
+        ]
+      ],
+      "reference_answer": "流形距离为两个图顶点之间所有路径中，路径边成本总和的最小值，即最短路径成本。",
+      "requested_equation_number": null
+    },
+    {
+      "question_id": "formula021",
+      "question": "有没有一种回答忠实度指标，用被上下文支持的陈述数除以回答全部陈述数？请检索并展示原公式。",
+      "question_en": "Is there an answer-faithfulness metric that divides context-supported statements by all answer statements? Retrieve and show its original formula.",
+      "category": "semantic_open",
+      "expectation": "answerable",
+      "gold_groups": [
+        [
+          "g01"
+        ]
+      ],
+      "reference_answer": "Faithfulness F = |V| / |S|，V 为被上下文支持的陈述集合，S 为回答拆解出的全部陈述。",
+      "requested_equation_number": null
+    },
+    {
+      "question_id": "formula022",
+      "question": "如何通过从回答生成若干问题，再与原问题计算平均余弦相似度来衡量回答相关性？请找到公式。",
+      "question_en": "How can answer relevance be measured by generating questions from the answer and averaging their cosine similarities with the original question? Find the formula.",
+      "category": "semantic_open",
+      "expectation": "answerable",
+      "gold_groups": [
+        [
+          "g02"
+        ]
+      ],
+      "reference_answer": "Answer Relevance 是原问题 q 与由回答生成的 n 个问题 qi 的余弦相似度均值。",
+      "requested_equation_number": null
+    },
+    {
+      "question_id": "formula023",
+      "question": "双编码器分别编码问题和段落后，哪种检索方法直接用向量点积作为相似度？请展示论文中的公式。",
+      "question_en": "Which retrieval method uses the vector dot product as similarity after separately encoding queries and passages with a dual encoder? Show the paper formula.",
+      "category": "semantic_open",
+      "expectation": "answerable",
+      "gold_groups": [
+        [
+          "g04"
+        ]
+      ],
+      "reference_answer": "DPR 的问题与段落分别编码，sim(q,p) = EQ(q) 的转置乘 EP(p)，即向量点积。",
+      "requested_equation_number": null
+    },
+    {
+      "question_id": "formula024",
+      "question": "如何将正段落相似度的指数除以正负段落指数分数的总和，再取负对数训练稠密检索？请检索公式。",
+      "question_en": "How is dense retrieval trained by dividing the exponentiated positive score by the sum of exponentiated positive and negative scores and taking the negative logarithm? Retrieve a formula.",
+      "category": "semantic_open",
+      "expectation": "answerable",
+      "gold_groups": [
+        [
+          "g05",
+          "g08"
+        ]
+      ],
+      "reference_answer": "DPR 的训练损失是正段落指数相似度占正负段落指数相似度总和的比例，再取负对数。",
+      "requested_equation_number": null
+    },
+    {
+      "question_id": "formula025",
+      "question": "主动检索生成中，何时不发起查询，何时用屏蔽临时句或问题生成来构造查询？请找到对应分段公式。",
+      "question_en": "In active retrieval generation, when is no query issued and when is a query constructed by masking the temporary sentence or question generation? Find the piecewise formula.",
+      "category": "semantic_open",
+      "expectation": "answerable",
+      "gold_groups": [
+        [
+          "g07"
+        ]
+      ],
+      "reference_answer": "高置信度时查询集合为空；否则用 mask 临时句或 qgen 临时句来构造检索查询。",
+      "requested_equation_number": null
+    },
+    {
+      "question_id": "formula026",
+      "question": "怎样将双编码器和交叉编码器的分数分别归一化成同一候选段落集合上的相关性分布？请展示两条原式。",
+      "question_en": "How can dual-encoder and cross-encoder scores be separately normalized into relevance distributions over the same candidate passage set? Show both original formulas.",
+      "category": "semantic_open",
+      "expectation": "answerable",
+      "gold_groups": [
+        [
+          "g09"
+        ],
+        [
+          "g10"
+        ]
+      ],
+      "reference_answer": "RocketQAv2 对 dual-encoder 分数取指数，再在候选段落集合 Pq 中归一化为相关性分布。 RocketQAv2 对 cross-encoder 分数取指数，再在同一候选集合 Pq 中归一化。",
+      "requested_equation_number": null
+    },
+    {
+      "question_id": "formula027",
+      "question": "在多语言文本检索中，如何用温度参数缩放相似度并形成 InfoNCE 损失？请找到文献中的公式。",
+      "question_en": "In multilingual text retrieval, how is similarity scaled by a temperature parameter to form an InfoNCE loss? Find the formula in the literature.",
+      "category": "semantic_open",
+      "expectation": "answerable",
+      "gold_groups": [
+        [
+          "g20"
+        ]
+      ],
+      "reference_answer": "mGTE 使用温度缩放的 InfoNCE：正例 exp(s/tau) 除以候选文档 exp(s/tau) 总和，再取负对数。",
+      "requested_equation_number": null
+    },
+    {
+      "question_id": "formula028",
+      "question": "如何把 one-hot 标签的少量概率质量均匀分配给其余类别？请检索标签平滑的原始向量公式。",
+      "question_en": "How is a small amount of probability mass from a one-hot label uniformly distributed among other classes? Retrieve the original label-smoothing vector formula.",
+      "category": "semantic_open",
+      "expectation": "answerable",
+      "gold_groups": [
+        [
+          "g19"
+        ]
+      ],
+      "reference_answer": "均匀标签平滑把正确类别概率变为 1-epsilon，其他 N-1 个类别各分配 epsilon/(N-1)。",
+      "requested_equation_number": null
+    },
+    {
+      "question_id": "formula029",
+      "question": "长上下文提示压缩中，怎样用一篇文档条件下问题加限制提示的平均负对数概率计算文档重要性？请找到公式。",
+      "question_en": "For long-context prompt compression, how can document importance be calculated using average negative log probability of the question plus a restriction prompt conditioned on that document? Find the formula.",
+      "category": "semantic_open",
+      "expectation": "answerable",
+      "gold_groups": [
+        [
+          "g23"
+        ]
+      ],
+      "reference_answer": "文档重要性分数为在该文档条件下，问题加限制提示序列的平均负对数概率。",
+      "requested_equation_number": null
+    },
+    {
+      "question_id": "formula030",
+      "question": "查询重写器的强化学习训练里，如何先计算 TD 残差，再按 lambda 的幂累计残差估计优势？请检索对应公式。",
+      "question_en": "In reinforcement learning for a query rewriter, how are TD residuals computed and accumulated using powers of lambda to estimate advantages? Retrieve the formula.",
+      "category": "semantic_open",
+      "expectation": "answerable",
+      "gold_groups": [
+        [
+          "g16"
+        ]
+      ],
+      "reference_answer": "先计算奖励加下一状态价值减当前状态价值的 TD 残差，再按 lambda 的幂累加未来残差估计优势。",
+      "requested_equation_number": null
+    },
+    {
+      "question_id": "formula031",
+      "question": "对比 DPR 与 RocketQA 的检索训练损失，正例相似度如何进入分子，负例如何进入分母？请分别展示原式。",
+      "question_en": "Compare DPR and RocketQA retrieval training losses: how do positive scores enter the numerator and negative scores enter the denominator? Show both original formulas.",
+      "category": "semantic_cross",
+      "expectation": "answerable",
+      "gold_groups": [
+        [
+          "g05"
+        ],
+        [
+          "g08"
+        ]
+      ],
+      "reference_answer": "DPR 的训练损失是正段落指数相似度占正负段落指数相似度总和的比例，再取负对数。 RocketQA 的对比损失对正段落相似度指数做正负段落归一化，再取负对数。",
+      "requested_equation_number": null
+    },
+    {
+      "question_id": "formula032",
+      "question": "对比 RAGAs 的 Context Relevance 和 RAGEval 的检索 Recall，它们的分子、分母分别是什么？请展示两处原公式。",
+      "question_en": "Compare RAGAs Context Relevance and RAGEval retrieval Recall. What are their numerators and denominators? Show both original formulas.",
+      "category": "semantic_cross",
+      "expectation": "answerable",
+      "gold_groups": [
+        [
+          "g03"
+        ],
+        [
+          "g27"
+        ]
+      ],
+      "reference_answer": "Context Relevance CR = 相关句子数 / 检索上下文中的总句子数。 RAGEval 的检索 Recall 是各 gold reference 是否被召回匹配的指示值的均值。",
+      "requested_equation_number": null
+    },
+    {
+      "question_id": "formula033",
+      "question": "DPR 的点积相似度和 MA-DPR 描述的余弦距离基线有什么数学区别？请展示两篇论文的公式。",
+      "question_en": "What is the mathematical difference between DPR dot-product similarity and the cosine-distance baseline described by MA-DPR? Show formulas from both papers.",
+      "category": "semantic_cross",
+      "expectation": "answerable",
+      "gold_groups": [
+        [
+          "g04"
+        ],
+        [
+          "g32"
+        ]
+      ],
+      "reference_answer": "DPR 的问题与段落分别编码，sim(q,p) = EQ(q) 的转置乘 EP(p)，即向量点积。 MA-DPR 的余弦距离基线为 1 减问题和段落向量的归一化点积。",
+      "requested_equation_number": null
+    },
+    {
+      "question_id": "formula034",
+      "question": "对比 SimLM 与 mGTE 的对比学习损失，分母中涉及哪些正负样本项？请展示两篇论文的训练公式。",
+      "question_en": "Compare the contrastive learning losses of SimLM and mGTE. Which positive and negative terms enter the denominator? Show the training formulas from both papers.",
+      "category": "semantic_cross",
+      "expectation": "answerable",
+      "gold_groups": [
+        [
+          "g12"
+        ],
+        [
+          "g20"
+        ]
+      ],
+      "reference_answer": "SimLM 的对比损失分母包含正对分数，以及问题到负例、正段落到负例两类分数的和。 mGTE 使用温度缩放的 InfoNCE：正例 exp(s/tau) 除以候选文档 exp(s/tau) 总和，再取负对数。",
+      "requested_equation_number": null
+    },
+    {
+      "question_id": "formula035",
+      "question": "FLAREdirect 的置信度分支控制生成时是否检索，而《Query Rewriting in Retrieval-Augmented Large Language Models》的 PPO 目标控制重写器训练；请分别展示对应公式。",
+      "question_en": "FLAREdirect uses a confidence branch to control retrieval during generation, while Query Rewriting in Retrieval-Augmented Large Language Models uses PPO to train its rewriter. Show the respective formulas.",
+      "category": "semantic_cross",
+      "expectation": "answerable",
+      "gold_groups": [
+        [
+          "g06"
+        ],
+        [
+          "g15"
+        ]
+      ],
+      "reference_answer": "FLAREdirect 中临时句全部 token 概率达到阈值时直接接受，否则基于检索文档重新生成当前句。 查询重写训练采用 PPO 的 clipped objective，取未裁剪重要性比率优势项与裁剪项的较小值。",
+      "requested_equation_number": null
+    },
+    {
+      "question_id": "formula036",
+      "question": "请展示 RAGAs 原论文的公式（1）。",
+      "question_en": "Show Equation (1) from the original RAGAs paper.",
+      "category": "exact_number",
+      "expectation": "answerable",
+      "gold_groups": [
+        [
+          "g02"
+        ]
+      ],
+      "reference_answer": "Answer Relevance 是原问题 q 与由回答生成的 n 个问题 qi 的余弦相似度均值。",
+      "requested_equation_number": null
+    },
+    {
+      "question_id": "formula037",
+      "question": "请展示 DPR 原论文的公式（1）。",
+      "question_en": "Show Equation (1) from the original DPR paper.",
+      "category": "exact_number",
+      "expectation": "answerable",
+      "gold_groups": [
+        [
+          "g04"
+        ]
+      ],
+      "reference_answer": "DPR 的问题与段落分别编码，sim(q,p) = EQ(q) 的转置乘 EP(p)，即向量点积。",
+      "requested_equation_number": null
+    },
+    {
+      "question_id": "formula038",
+      "question": "请展示 RocketQA 原论文的公式（2）。",
+      "question_en": "Show Equation (2) from the original RocketQA paper.",
+      "category": "exact_number",
+      "expectation": "answerable",
+      "gold_groups": [
+        [
+          "g08"
+        ]
+      ],
+      "reference_answer": "RocketQA 的对比损失对正段落相似度指数做正负段落归一化，再取负对数。",
+      "requested_equation_number": null
+    },
+    {
+      "question_id": "formula039",
+      "question": "请展示 RocketQAv2 原论文的公式（4）。",
+      "question_en": "Show Equation (4) from the original RocketQAv2 paper.",
+      "category": "exact_number",
+      "expectation": "answerable",
+      "gold_groups": [
+        [
+          "g11"
+        ]
+      ],
+      "reference_answer": "RocketQAv2 的 KL 损失累加 dual-encoder 分布乘以其与 cross-encoder 分布比值的对数。",
+      "requested_equation_number": null
+    },
+    {
+      "question_id": "formula040",
+      "question": "请展示 PAIR 原论文的公式（4）。",
+      "question_en": "Show Equation (4) from the original PAIR paper.",
+      "category": "exact_number",
+      "expectation": "answerable",
+      "gold_groups": [
+        [
+          "g14"
+        ]
+      ],
+      "reference_answer": "PAIR 的 passage-centric 约束要求正段落与查询的相似度高于正段落与负段落的相似度。",
+      "requested_equation_number": null
+    },
+    {
+      "question_id": "formula041",
+      "question": "请展示 SimLM 原论文的公式（3）。",
+      "question_en": "Show Equation (3) from the original SimLM paper.",
+      "category": "exact_number",
+      "expectation": "answerable",
+      "gold_groups": [
+        [
+          "g12"
+        ]
+      ],
+      "reference_answer": "SimLM 的对比损失分母包含正对分数，以及问题到负例、正段落到负例两类分数的和。",
+      "requested_equation_number": null
+    },
+    {
+      "question_id": "formula042",
+      "question": "请展示 CAPSTONE 原论文的公式（3）。",
+      "question_en": "Show Equation (3) from the original CAPSTONE paper.",
+      "category": "exact_number",
+      "expectation": "answerable",
+      "gold_groups": [
+        [
+          "g34"
+        ]
+      ],
+      "reference_answer": "CAPSTONE 的 dual-cross-encoder 以文档加扩展查询一起编码，与查询向量做点积。",
+      "requested_equation_number": null
+    },
+    {
+      "question_id": "formula043",
+      "question": "请展示 mGTE 原论文的公式（3）。",
+      "question_en": "Show Equation (3) from the original mGTE paper.",
+      "category": "exact_number",
+      "expectation": "answerable",
+      "gold_groups": [
+        [
+          "g21"
+        ]
+      ],
+      "reference_answer": "mGTE 的 TRM 总损失包含 lambda 加权的稀疏表示损失，以及各 MRL 维度的加权损失之和。",
+      "requested_equation_number": null
+    },
+    {
+      "question_id": "formula044",
+      "question": "RocketQA 中 sim(q, p) = Eq(q) · Ep(p) 这个式子位于哪里？请展示原图。",
+      "question_en": "Where is sim(q, p) = Eq(q) · Ep(p) in RocketQA? Show the original image.",
+      "category": "literal_symbol",
+      "expectation": "answerable",
+      "gold_groups": [
+        [
+          "g38"
+        ]
+      ],
+      "reference_answer": "RocketQA 的相似度为问题向量 Eq(q) 与段落向量 Ep(p) 的点积。",
+      "requested_equation_number": null
+    },
+    {
+      "question_id": "formula045",
+      "question": "PAIR 中 L = (1 − α) * LQ + α * LP 这条联合损失在哪里？请展示公式原图。",
+      "question_en": "Where is the combined loss L = (1 − α) * LQ + α * LP in PAIR? Show its original formula image.",
+      "category": "literal_symbol",
+      "expectation": "answerable",
+      "gold_groups": [
+        [
+          "g36"
+        ]
+      ],
+      "reference_answer": "PAIR 的联合损失 L = (1-alpha)*LQ + alpha*LP。",
+      "requested_equation_number": null
+    },
+    {
+      "question_id": "formula046",
+      "question": "FLARE 描述的句子级迭代检索里，qt = yt−1 这条查询更新公式在哪里？请展示原图。",
+      "question_en": "Where is the query update qt = yt−1 for sentence-level iterative retrieval described in FLARE? Show the original image.",
+      "category": "literal_symbol",
+      "expectation": "answerable",
+      "gold_groups": [
+        [
+          "g37"
+        ]
+      ],
+      "reference_answer": "句子级迭代检索在 t>=2 时用前一轮生成 yt-1 作为 qt，并令 yt = st。",
+      "requested_equation_number": null
+    },
+    {
+      "question_id": "formula047",
+      "question": "RAGAs 的 Python 示例中，result = evaluate(...) 是函数调用代码，请检查是否会错误展示成数学公式。",
+      "question_en": "In the RAGAs Python example, result = evaluate(...) is a function call. Check whether it is incorrectly shown as a mathematical formula.",
+      "category": "control",
+      "expectation": "no_formula",
+      "gold_groups": [],
+      "reference_answer": "Python 函数调用属于代码，不应作为数学公式返回。本控制题检查附带公式的误报，不评估生成回答。",
+      "requested_equation_number": null
+    },
+    {
+      "question_id": "formula048",
+      "question": "DPR 论文表格中的 G.+BM25(1) 是训练方案标签，请检查是否会错误展示成数学公式。",
+      "question_en": "G.+BM25(1) in a DPR table is a training scheme label. Check whether it is incorrectly shown as a mathematical formula.",
+      "category": "control",
+      "expectation": "no_formula",
+      "gold_groups": [],
+      "reference_answer": "该表格标签不是独立数学公式，不应作为公式返回。本控制题允许检验出不相关公式联接。",
+      "requested_equation_number": null
+    },
+    {
+      "question_id": "formula049",
+      "question": "请展示 RAGAs 原论文的公式（9999）。",
+      "question_en": "Show Equation (9999) from the original RAGAs paper.",
+      "category": "control",
+      "expectation": "no_exact_number",
+      "gold_groups": [],
+      "reference_answer": "原论文不存在公式 9999，不能伪造该编号。其他关联公式若被返回会单独记录，不等同于正确拒答。",
+      "requested_equation_number": "9999"
+    },
+    {
+      "question_id": "formula050",
+      "question": "未指定任何论文，请直接展示公式（1）。",
+      "question_en": "No paper has been specified. Show Equation (1) directly.",
+      "category": "control",
+      "expectation": "no_unscoped_exact",
+      "gold_groups": [],
+      "reference_answer": "编号 1 在不同论文间不唯一，不能仅凭编号任意确定论文。此题检查是否错误启动无论文范围的编号精确查找。",
+      "requested_equation_number": null
+    }
+  ]
+}
