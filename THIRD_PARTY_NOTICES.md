@@ -1,5 +1,7 @@
 # Third-party notices
 
+PDF 精读使用本地分发的 [Mozilla PDF.js](https://github.com/mozilla/pdf.js)（pdfjs-dist 6.5.438，Apache-2.0）。库、worker、字体、CMap 与解码资源位于 `frontend/assets/pdfjs/`，许可与来源校验信息随文件保留。`frontend/pdf-text-layer.css` 提取自该版本的文本层样式。
+
 Paper spider 的运行主体位于 `rag/`、`backend/` 与 `frontend/`。依赖、模型、论文与字体分别适用其原始许可。
 
 | 组件 | 用途 | 来源与许可说明 |
@@ -10,6 +12,7 @@ Paper spider 的运行主体位于 `rag/`、`backend/` 与 `frontend/`。依赖�
 | BGE-M3 | 多语言稠密向量表示 | [模型卡](https://huggingface.co/BAAI/bge-m3)；以模型仓库许可为准 |
 | BGE-Reranker-v2-M3 | 问题与候选联合评分 | [模型卡](https://huggingface.co/BAAI/bge-reranker-v2-m3)；以模型仓库许可为准 |
 | IBM Plex Sans | 前端字体 | [IBM Plex](https://github.com/IBM/plex)；SIL Open Font License 1.1，字体许可见 [OFL.txt](frontend/assets/fonts/OFL.txt) |
+| D3 7.9.0 | 论文相似图布局、节点拖动与画布缩放 | [D3](https://github.com/d3/d3)；ISC，许可见 [LICENSE](frontend/assets/d3/LICENSE) |
 | kotaemon | 早期工程参考 | [kotaemon](https://github.com/Cinnamon/kotaemon)，参考提交 `9ad3e4e49aa35b8acddd235918a5d9753c1cfdf9`；该参考源码不随发布包分发 |
 | taste-skill / interface-design | 界面设计参考 | [taste-skill](https://github.com/Leonxlnx/taste-skill)、[interface-design](https://github.com/Dammyjay93/interface-design)；不随发布包分发其工具源码 |
 | ashi-liquid-glass | 原生 Canvas / SVG 玻璃折射、RGB 边缘色散与双侧高光 | [ashi-liquid-glass](https://github.com/the-Ashkanian/ashi-liquid-glass)；MIT，原始许可见 [LICENSE](frontend/assets/licenses/ashi-liquid-glass.LICENSE.txt) |

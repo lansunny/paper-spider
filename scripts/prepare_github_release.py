@@ -11,13 +11,17 @@ import zipfile
 ROOT = Path(__file__).resolve().parents[1]
 ROOT_FILES = ('README.md','LICENSE','NOTICE','THIRD_PARTY_NOTICES.md','.env.example',
               '.gitignore','.gitattributes','main.py','compose.yaml','framework.json',
-              'requirements.txt','requirements-base.txt')
+              'requirements.txt','requirements-base.txt','requirements-graph.txt')
 PATTERNS = ('rag/**/*.py','backend/**/*.py','frontend/**/*.html','frontend/**/*.css',
             'frontend/**/*.js','frontend/**/*.svg','frontend/**/*.ttf','frontend/**/OFL.txt','frontend/assets/licenses/*.txt',
+            'frontend/assets/pdfjs/**/*.mjs','frontend/assets/pdfjs/**/*.bcmap','frontend/assets/pdfjs/**/*.pfb',
+            'frontend/assets/pdfjs/**/*.otf','frontend/assets/pdfjs/**/*.wasm','frontend/assets/pdfjs/LICENSE',
+            'frontend/assets/pdfjs/**/LICENSE*','frontend/assets/pdfjs/version.json',
             'scripts/**/*.py','tests/**/*.py','configs/*.json','.github/workflows/*.yml',
             'docs/assets/**/*.svg','docs/assets/**/*.jpg','docs/assets/**/*.gif','docs/assets/**/*.png','docs/benchmarks/*.json',
             'data/evaluation/paper_benchmark/*.jsonl')
-DOCS = ('getting-started.md','architecture.md','evaluation.md','data.md')
+DOCS = ('getting-started.md','architecture.md','evaluation.md','data.md',
+        'community-evidence-experiment.md','community-evidence-results.md')
 DATA = ('data/paper_catalog.json','data/paper_manifest.json',
         'data/evaluation/paper_benchmark/manifest.json',
         'data/evaluation/paper_benchmark/test50_manifest.json',
@@ -42,7 +46,7 @@ def public_files(root):
             raise ValueError('Private or generated directory selected: '+rel.as_posix())
         if path.stat().st_size>MAX_FILE_BYTES:
             raise ValueError('Unexpectedly large public file: '+rel.as_posix())
-        if path.suffix.lower() not in {'.jpg','.jpeg','.png','.gif','.ttf'}:
+        if path.suffix.lower() not in {'.jpg','.jpeg','.png','.gif','.ttf','.bcmap','.pfb','.otf','.wasm'}:
             text=path.read_text(encoding='utf-8')
             if TOKEN.search(text):
                 raise ValueError('Credential-like content found; export stopped: '+rel.as_posix())

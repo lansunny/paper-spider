@@ -13,3 +13,4 @@ portalocker==3.2.0
 sentence-transformers==3.0.1
 transformers==4.57.6
 sentencepiece==0.2.1
+-r requirements-graph.txt

@@ -1,13 +1,13 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1440" height="580" viewBox="0 0 1440 580" role="img" aria-labelledby="title desc">
-<title id="title">Paper spider — 沿着证据，读懂论文。</title><desc id="desc">Scientific paper retrieval, cross-paper evidence, and original formula images. A blue spider on a silver workspace.</desc>
+<title id="title">Paper Spider — 论文蛛 · 个人科研知识库</title><desc id="desc">论文蛛 Paper Spider：个人论文知识库，支持精读、检索、论文地图与研究综述。</desc>
 <style>text{font-family:Arial,"Microsoft YaHei","PingFang SC",sans-serif;fill:#1d1d1f}.muted{fill:#545c68}.blue{fill:#1267ec}</style>
 
 <rect width="1440" height="580" rx="28" fill="#f3f5f8"/>
 <path d="M926 0h486a28 28 0 0 1 28 28v524a28 28 0 0 1-28 28H926Z" fill="#e9edf3"/>
-<text x="64" y="155" font-size="100" font-weight="700" letter-spacing="-6">Paper spider<tspan class="blue">.</tspan></text>
-<text x="70" y="227" font-size="34" font-weight="600">沿着证据，读懂论文。</text>
-<text x="70" y="274" font-size="20" class="muted">A source-first research workspace.</text>
-<text x="70" y="356" font-size="21">混合检索 · 跨论文问答 · 公式原图溯源</text>
+<text x="64" y="155" font-size="100" font-weight="700" letter-spacing="-6">Paper Spider<tspan class="blue">.</tspan></text>
+<text x="70" y="227" font-size="34" font-weight="600">论文蛛 · 个人科研知识库</text>
+<text x="70" y="274" font-size="20" class="muted">阅读、探索与研究，始终连接原文。</text>
+<text x="70" y="356" font-size="21">论文精读 · 四维地图 · 研究综述</text>
 <text x="70" y="394" font-size="18" class="muted">从一个问题，回到可以核对的原文。</text>
 <text x="70" y="508" font-size="26" font-weight="600">500<tspan font-size="17" font-weight="400" class="muted"> 篇论文</tspan></text>
 <text x="277" y="508" font-size="26" font-weight="600">31,037<tspan font-size="17" font-weight="400" class="muted"> 个文本块</tspan></text>

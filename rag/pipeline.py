@@ -90,11 +90,16 @@ class Pipeline:
         return result
 
     def ask(self, question, *, mode='hybrid', top_k=5, rerank=True, generate_answer=True, paper_ids=None,
-            lexical_query=None, auto_route=True):
+            lexical_query=None, auto_route=True, graph_retrieval=None):
         start = perf_counter()
         result = self.retrieve(question, mode, top_k, rerank, paper_ids,
-                               lexical_query=lexical_query, auto_route=auto_route)
+                               lexical_query=lexical_query, auto_route=auto_route,
+                               **({'graph_retrieval': graph_retrieval} if graph_retrieval is not None else {}))
         evidence, context_chars = select_context(result['reranked_candidates'], self.settings.context_char_budget)
+        if result.get('graph_retrieval'):
+            graph_info = result['graph_retrieval']
+            graph_info['context_graph_chunk_ids'] = [h['chunk_id'] for h in evidence if h.get('retrieval_origin') == 'graph_expansion']
+            graph_info['context_graph_paper_ids'] = sorted({h['paper_id'] for h in evidence if h.get('retrieval_origin') == 'graph_expansion'})
         result.update(evidence=evidence, answer=None, generation_status='disabled',
                       retrieval_mode=mode, rerank=rerank, context_chars=context_chars,
                       trace_id=uuid4().hex, mode='retrieval_only')
@@ -117,6 +122,8 @@ class Pipeline:
         result['stages'] = [{'name': mode.upper() + ' 检索', 'status': 'done'},
                             {'name': 'BGE 重排', 'status': 'done' if rerank else 'skipped'},
                             {'name': 'DeepSeek 生成', 'status': 'done' if result['generation_status'] == 'completed' else 'pending'}]
+        if result.get('graph_retrieval'):
+            result['stages'].insert(1, {'name': '论文关系扩展', 'status': 'done' if result['graph_retrieval']['status'] == 'expanded' else 'skipped'})
         atomic_json(self.root / 'runtime/traces' / (result['trace_id'] + '.json'),
                     {'question': question, 'settings': self.settings.model_dump(), **result})
         return result

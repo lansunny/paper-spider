@@ -78,6 +78,28 @@ python main.py
 
 网页默认使用 V2。切换到冻结基线时，在启动进程环境中设置 <code>PAPERRAG_RETRIEVAL_PROFILE=v1</code>。
 
+## 论文地图与研究综述
+
+四维图默认选取 50 篇试点论文。先完成结构索引并设置本地 `.env`，再执行：
+
+~~~bash
+python scripts/prepare_structure_index.py --build
+python scripts/build_paper_graph.py
+python scripts/build_paper_graph.py --run
+~~~
+
+不带 `--run` 只预览；实际运行会通过配置的 DeepSeek 兼容 API 抽取主题、方法、实验和结论，再用本地 BGE-M3 编码，建立四张加权近邻图并运行 Leiden。该步骤会产生 API 用量，完成步骤可复用缓存。参数见 [paper_graph.json](../configs/paper_graph.json)，图产物保存在 `runtime/paper_graph/`，不随源码分发。
+
+启动工作台后打开 `/graph` 浏览论文地图。打开 `/review`，在尚未准备社区卡片时点击准备入口；卡片制作会调用生成 API。卡片准备完成后，可以浏览群组、进入原文，或提交研究问题生成综述。界面保留任务进度和历史记录。
+
+也可在终端只检查取证，不生成回答：
+
+~~~bash
+python scripts/research_review.py "RAG 评估有哪些研究路线？" --evidence-only
+~~~
+
+卡片需预先准备好。研究综述使用现有图覆盖的论文，不代表已覆盖完整 500 篇库。普通全文检索仍使用默认 V2 索引；新图产物不会自动改变其候选策略。
+
 ## 回答模型
 
 复制 .env.example 为 .env，在本地填写密钥：

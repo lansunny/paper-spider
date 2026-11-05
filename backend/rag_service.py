@@ -17,8 +17,9 @@ def get_pipeline():
         return Pipeline(load_settings())
     if profile!='v2':
         raise ValueError('PAPERRAG_RETRIEVAL_PROFILE must be v1 or v2')
-    from rag.pipeline_v2 import PipelineV2,load_v2_settings
-    return PipelineV2(load_v2_settings())
+    from rag.pipeline_v2 import load_v2_settings
+    from rag.pipeline_graph import GraphAugmentedPipeline
+    return GraphAugmentedPipeline(load_v2_settings())
 
 
 @lru_cache(maxsize=1)
@@ -39,10 +40,17 @@ def status():
             'reranker_ready': (pipeline.root / pipeline.settings.reranker_path / 'paperrag-model.json').exists()}
 
 
-def ask(question, paper_ids, top_k, mode='hybrid', rerank=True, generate_answer=True):
+def ask(question, paper_ids, top_k, mode='hybrid', rerank=True, generate_answer=True,
+        graph_enabled=False, graph_dimension='auto'):
     pipeline = get_pipeline()
+    graph_options = {}
+    if graph_enabled:
+        from rag.pipeline_graph import GraphAugmentedPipeline
+        if not isinstance(pipeline, GraphAugmentedPipeline):
+            raise ValueError('图辅助检索需要启用 V2 检索流程。')
+        graph_options = {'graph_retrieval': {'enabled': True, 'dimension': graph_dimension}}
     result = pipeline.ask(question, paper_ids=paper_ids, top_k=top_k,
-                          mode=mode, rerank=rerank, generate_answer=generate_answer)
+                          mode=mode, rerank=rerank, generate_answer=generate_answer, **graph_options)
     formula_start = perf_counter()
     try:
         from rag.formula_store import FormulaStore

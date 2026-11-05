@@ -1,0 +1,3 @@
+# Paper similarity graph and Leiden community dependencies.
+igraph==0.11.9
+leidenalg==0.10.2

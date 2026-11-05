@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "limit": 50,
+  "seed": 42,
+  "workers": 4,
+  "max_source_chars_per_call": 60000,
+  "max_output_tokens": 6500,
+  "neighbors": 10,
+  "thresholds": {
+    "topic": 0.55,
+    "method": 0.50,
+    "experiment": 0.50,
+    "conclusion": 0.50
+  },
+  "resolution": 1.0,
+  "threshold_status": "initial_uncalibrated",
+  "partition": "RBConfigurationVertexPartition",
+  "symmetrization": "union"
+}

@@ -1,0 +1,1048 @@
+{
+  "design_sha256": "4c9e9f1465a9b9801259be4b37c6b0a96fe06b262123997b58c0775da566d7e7",
+  "questions": 27,
+  "retrieval_papers": 500,
+  "graph_papers": 50,
+  "generation_api_calls": 0,
+  "groups": {
+    "all": {
+      "variants": {
+        "A": {
+          "questions": 27,
+          "stages": {
+            "candidate_pool": {
+              "evidence_coverage": 0.947530864197531,
+              "complete_evidence_rate": 0.8888888888888888,
+              "paper_recall": 1.0
+            },
+            "candidate40": {
+              "evidence_coverage": 0.8888888888888888,
+              "complete_evidence_rate": 0.8148148148148148,
+              "paper_recall": 0.9629629629629629
+            },
+            "top5": {
+              "evidence_coverage": 0.6358024691358024,
+              "complete_evidence_rate": 0.5925925925925926,
+              "paper_recall": 0.8888888888888888
+            },
+            "context_budget": {
+              "evidence_coverage": 0.7191358024691357,
+              "complete_evidence_rate": 0.6666666666666666,
+              "paper_recall": 0.9259259259259259
+            }
+          },
+          "median_serial_stage_ms": 1820.4099999999999,
+          "mean_rerank_pairs": 39.25925925925926,
+          "mean_physical_rerank_pairs": 39.25925925925926,
+          "mean_context_chars": 15800.481481481482,
+          "new_original_characters": 0,
+          "anchor_dependent_context_units": 0
+        },
+        "B": {
+          "questions": 27,
+          "stages": {
+            "candidate_pool": {
+              "evidence_coverage": 0.9753086419753088,
+              "complete_evidence_rate": 0.9259259259259259,
+              "paper_recall": 1.0
+            },
+            "candidate40": {
+              "evidence_coverage": 0.8833333333333334,
+              "complete_evidence_rate": 0.7407407407407407,
+              "paper_recall": 1.0
+            },
+            "top5": {
+              "evidence_coverage": 0.7129629629629629,
+              "complete_evidence_rate": 0.6666666666666666,
+              "paper_recall": 0.9259259259259259
+            },
+            "context_budget": {
+              "evidence_coverage": 0.7839506172839505,
+              "complete_evidence_rate": 0.7037037037037037,
+              "paper_recall": 0.9814814814814815
+            }
+          },
+          "median_serial_stage_ms": 1879.37,
+          "mean_rerank_pairs": 39.25925925925926,
+          "mean_physical_rerank_pairs": 19.25925925925926,
+          "mean_context_chars": 15821.962962962964,
+          "new_original_characters": 223185,
+          "anchor_dependent_context_units": 9
+        },
+        "C": {
+          "questions": 27,
+          "stages": {
+            "candidate_pool": {
+              "evidence_coverage": 0.9753086419753088,
+              "complete_evidence_rate": 0.9259259259259259,
+              "paper_recall": 1.0
+            },
+            "candidate40": {
+              "evidence_coverage": 0.8833333333333334,
+              "complete_evidence_rate": 0.7407407407407407,
+              "paper_recall": 1.0
+            },
+            "top5": {
+              "evidence_coverage": 0.7129629629629629,
+              "complete_evidence_rate": 0.6666666666666666,
+              "paper_recall": 0.9259259259259259
+            },
+            "context_budget": {
+              "evidence_coverage": 0.7716049382716049,
+              "complete_evidence_rate": 0.7037037037037037,
+              "paper_recall": 0.9814814814814815
+            }
+          },
+          "median_serial_stage_ms": 1879.37,
+          "mean_rerank_pairs": 39.25925925925926,
+          "mean_physical_rerank_pairs": 19.25925925925926,
+          "mean_context_chars": 15823.962962962964,
+          "new_original_characters": 216622,
+          "anchor_dependent_context_units": 6
+        }
+      },
+      "comparisons": {
+        "B_minus_A": {
+          "mean_delta": 0.06481481481481481,
+          "wins": 3,
+          "losses": 0,
+          "ties": 24,
+          "uncertainty": {
+            "ci95": [
+              0.008620689655172414,
+              0.13392857142857142
+            ],
+            "paper_groups": 5,
+            "reliable": false,
+            "reason": "few_paper_groups_descriptive_only",
+            "resamples": 4000,
+            "unit": "connected_gold_paper_groups"
+          }
+        },
+        "C_minus_A": {
+          "mean_delta": 0.05246913580246914,
+          "wins": 3,
+          "losses": 1,
+          "ties": 23,
+          "uncertainty": {
+            "ci95": [
+              -0.01923076923076923,
+              0.13392857142857142
+            ],
+            "paper_groups": 5,
+            "reliable": false,
+            "reason": "few_paper_groups_descriptive_only",
+            "resamples": 4000,
+            "unit": "connected_gold_paper_groups"
+          }
+        },
+        "C_minus_B": {
+          "mean_delta": -0.012345679012345678,
+          "wins": 0,
+          "losses": 1,
+          "ties": 26,
+          "uncertainty": {
+            "ci95": [
+              -0.037037037037037035,
+              0.0
+            ],
+            "paper_groups": 5,
+            "reliable": false,
+            "reason": "few_paper_groups_descriptive_only",
+            "resamples": 4000,
+            "unit": "connected_gold_paper_groups"
+          }
+        }
+      }
+    },
+    "primary_non_single": {
+      "variants": {
+        "A": {
+          "questions": 13,
+          "stages": {
+            "candidate_pool": {
+              "evidence_coverage": 0.8910256410256411,
+              "complete_evidence_rate": 0.7692307692307693,
+              "paper_recall": 1.0
+            },
+            "candidate40": {
+              "evidence_coverage": 0.8076923076923077,
+              "complete_evidence_rate": 0.6923076923076923,
+              "paper_recall": 0.9230769230769231
+            },
+            "top5": {
+              "evidence_coverage": 0.43589743589743585,
+              "complete_evidence_rate": 0.38461538461538464,
+              "paper_recall": 0.7692307692307693
+            },
+            "context_budget": {
+              "evidence_coverage": 0.532051282051282,
+              "complete_evidence_rate": 0.46153846153846156,
+              "paper_recall": 0.8461538461538461
+            }
+          },
+          "median_serial_stage_ms": 2615.8900000000003,
+          "mean_rerank_pairs": 40.0,
+          "mean_physical_rerank_pairs": 40.0,
+          "mean_context_chars": 15823.461538461539,
+          "new_original_characters": 0,
+          "anchor_dependent_context_units": 0
+        },
+        "B": {
+          "questions": 13,
+          "stages": {
+            "candidate_pool": {
+              "evidence_coverage": 0.9487179487179488,
+              "complete_evidence_rate": 0.8461538461538461,
+              "paper_recall": 1.0
+            },
+            "candidate40": {
+              "evidence_coverage": 0.7961538461538461,
+              "complete_evidence_rate": 0.5384615384615384,
+              "paper_recall": 1.0
+            },
+            "top5": {
+              "evidence_coverage": 0.5961538461538461,
+              "complete_evidence_rate": 0.5384615384615384,
+              "paper_recall": 0.8461538461538461
+            },
+            "context_budget": {
+              "evidence_coverage": 0.6666666666666666,
+              "complete_evidence_rate": 0.5384615384615384,
+              "paper_recall": 0.9615384615384616
+            }
+          },
+          "median_serial_stage_ms": 2975.9399999999996,
+          "mean_rerank_pairs": 40.0,
+          "mean_physical_rerank_pairs": 40.0,
+          "mean_context_chars": 15868.076923076924,
+          "new_original_characters": 223185,
+          "anchor_dependent_context_units": 9
+        },
+        "C": {
+          "questions": 13,
+          "stages": {
+            "candidate_pool": {
+              "evidence_coverage": 0.9487179487179488,
+              "complete_evidence_rate": 0.8461538461538461,
+              "paper_recall": 1.0
+            },
+            "candidate40": {
+              "evidence_coverage": 0.7961538461538461,
+              "complete_evidence_rate": 0.5384615384615384,
+              "paper_recall": 1.0
+            },
+            "top5": {
+              "evidence_coverage": 0.5961538461538461,
+              "complete_evidence_rate": 0.5384615384615384,
+              "paper_recall": 0.8461538461538461
+            },
+            "context_budget": {
+              "evidence_coverage": 0.641025641025641,
+              "complete_evidence_rate": 0.5384615384615384,
+              "paper_recall": 0.9615384615384616
+            }
+          },
+          "median_serial_stage_ms": 2960.63,
+          "mean_rerank_pairs": 40.0,
+          "mean_physical_rerank_pairs": 40.0,
+          "mean_context_chars": 15872.23076923077,
+          "new_original_characters": 216622,
+          "anchor_dependent_context_units": 6
+        }
+      },
+      "comparisons": {
+        "B_minus_A": {
+          "mean_delta": 0.1346153846153846,
+          "wins": 3,
+          "losses": 0,
+          "ties": 10,
+          "uncertainty": {
+            "ci95": [
+              0.027777777777777776,
+              0.20833333333333334
+            ],
+            "paper_groups": 5,
+            "reliable": false,
+            "reason": "few_paper_groups_descriptive_only",
+            "resamples": 4000,
+            "unit": "connected_gold_paper_groups"
+          }
+        },
+        "C_minus_A": {
+          "mean_delta": 0.10897435897435898,
+          "wins": 3,
+          "losses": 1,
+          "ties": 9,
+          "uncertainty": {
+            "ci95": [
+              -0.049999999999999996,
+              0.20833333333333334
+            ],
+            "paper_groups": 5,
+            "reliable": false,
+            "reason": "few_paper_groups_descriptive_only",
+            "resamples": 4000,
+            "unit": "connected_gold_paper_groups"
+          }
+        },
+        "C_minus_B": {
+          "mean_delta": -0.02564102564102564,
+          "wins": 0,
+          "losses": 1,
+          "ties": 12,
+          "uncertainty": {
+            "ci95": [
+              -0.09523809523809523,
+              0.0
+            ],
+            "paper_groups": 5,
+            "reliable": false,
+            "reason": "few_paper_groups_descriptive_only",
+            "resamples": 4000,
+            "unit": "connected_gold_paper_groups"
+          }
+        }
+      }
+    },
+    "single_paper_guard": {
+      "variants": {
+        "A": {
+          "questions": 14,
+          "stages": {
+            "candidate_pool": {
+              "evidence_coverage": 1.0,
+              "complete_evidence_rate": 1.0,
+              "paper_recall": 1.0
+            },
+            "candidate40": {
+              "evidence_coverage": 0.9642857142857143,
+              "complete_evidence_rate": 0.9285714285714286,
+              "paper_recall": 1.0
+            },
+            "top5": {
+              "evidence_coverage": 0.8214285714285714,
+              "complete_evidence_rate": 0.7857142857142857,
+              "paper_recall": 1.0
+            },
+            "context_budget": {
+              "evidence_coverage": 0.8928571428571429,
+              "complete_evidence_rate": 0.8571428571428571,
+              "paper_recall": 1.0
+            }
+          },
+          "median_serial_stage_ms": 1288.075,
+          "mean_rerank_pairs": 38.57142857142857,
+          "mean_physical_rerank_pairs": 38.57142857142857,
+          "mean_context_chars": 15779.142857142857,
+          "new_original_characters": 0,
+          "anchor_dependent_context_units": 0
+        },
+        "B": {
+          "questions": 14,
+          "stages": {
+            "candidate_pool": {
+              "evidence_coverage": 1.0,
+              "complete_evidence_rate": 1.0,
+              "paper_recall": 1.0
+            },
+            "candidate40": {
+              "evidence_coverage": 0.9642857142857143,
+              "complete_evidence_rate": 0.9285714285714286,
+              "paper_recall": 1.0
+            },
+            "top5": {
+              "evidence_coverage": 0.8214285714285714,
+              "complete_evidence_rate": 0.7857142857142857,
+              "paper_recall": 1.0
+            },
+            "context_budget": {
+              "evidence_coverage": 0.8928571428571429,
+              "complete_evidence_rate": 0.8571428571428571,
+              "paper_recall": 1.0
+            }
+          },
+          "median_serial_stage_ms": 1288.075,
+          "mean_rerank_pairs": 38.57142857142857,
+          "mean_physical_rerank_pairs": 0.0,
+          "mean_context_chars": 15779.142857142857,
+          "new_original_characters": 0,
+          "anchor_dependent_context_units": 0
+        },
+        "C": {
+          "questions": 14,
+          "stages": {
+            "candidate_pool": {
+              "evidence_coverage": 1.0,
+              "complete_evidence_rate": 1.0,
+              "paper_recall": 1.0
+            },
+            "candidate40": {
+              "evidence_coverage": 0.9642857142857143,
+              "complete_evidence_rate": 0.9285714285714286,
+              "paper_recall": 1.0
+            },
+            "top5": {
+              "evidence_coverage": 0.8214285714285714,
+              "complete_evidence_rate": 0.7857142857142857,
+              "paper_recall": 1.0
+            },
+            "context_budget": {
+              "evidence_coverage": 0.8928571428571429,
+              "complete_evidence_rate": 0.8571428571428571,
+              "paper_recall": 1.0
+            }
+          },
+          "median_serial_stage_ms": 1288.075,
+          "mean_rerank_pairs": 38.57142857142857,
+          "mean_physical_rerank_pairs": 0.0,
+          "mean_context_chars": 15779.142857142857,
+          "new_original_characters": 0,
+          "anchor_dependent_context_units": 0
+        }
+      },
+      "comparisons": {
+        "B_minus_A": {
+          "mean_delta": 0.0,
+          "wins": 0,
+          "losses": 0,
+          "ties": 14,
+          "uncertainty": {
+            "ci95": [
+              0.0,
+              0.0
+            ],
+            "paper_groups": 4,
+            "reliable": false,
+            "reason": "few_paper_groups_descriptive_only",
+            "resamples": 4000,
+            "unit": "connected_gold_paper_groups"
+          }
+        },
+        "C_minus_A": {
+          "mean_delta": 0.0,
+          "wins": 0,
+          "losses": 0,
+          "ties": 14,
+          "uncertainty": {
+            "ci95": [
+              0.0,
+              0.0
+            ],
+            "paper_groups": 4,
+            "reliable": false,
+            "reason": "few_paper_groups_descriptive_only",
+            "resamples": 4000,
+            "unit": "connected_gold_paper_groups"
+          }
+        },
+        "C_minus_B": {
+          "mean_delta": 0.0,
+          "wins": 0,
+          "losses": 0,
+          "ties": 14,
+          "uncertainty": {
+            "ci95": [
+              0.0,
+              0.0
+            ],
+            "paper_groups": 4,
+            "reliable": false,
+            "reason": "few_paper_groups_descriptive_only",
+            "resamples": 4000,
+            "unit": "connected_gold_paper_groups"
+          }
+        }
+      }
+    },
+    "dataset:dev": {
+      "variants": {
+        "A": {
+          "questions": 19,
+          "stages": {
+            "candidate_pool": {
+              "evidence_coverage": 0.9780701754385966,
+              "complete_evidence_rate": 0.8947368421052632,
+              "paper_recall": 1.0
+            },
+            "candidate40": {
+              "evidence_coverage": 0.9210526315789473,
+              "complete_evidence_rate": 0.8421052631578947,
+              "paper_recall": 1.0
+            },
+            "top5": {
+              "evidence_coverage": 0.6929824561403508,
+              "complete_evidence_rate": 0.631578947368421,
+              "paper_recall": 0.9210526315789473
+            },
+            "context_budget": {
+              "evidence_coverage": 0.7324561403508771,
+              "complete_evidence_rate": 0.6842105263157895,
+              "paper_recall": 0.9736842105263158
+            }
+          },
+          "median_serial_stage_ms": 1820.4099999999999,
+          "mean_rerank_pairs": 38.94736842105263,
+          "mean_physical_rerank_pairs": 38.94736842105263,
+          "mean_context_chars": 15794.631578947368,
+          "new_original_characters": 0,
+          "anchor_dependent_context_units": 0
+        },
+        "B": {
+          "questions": 19,
+          "stages": {
+            "candidate_pool": {
+              "evidence_coverage": 0.9912280701754387,
+              "complete_evidence_rate": 0.9473684210526315,
+              "paper_recall": 1.0
+            },
+            "candidate40": {
+              "evidence_coverage": 0.9078947368421053,
+              "complete_evidence_rate": 0.7894736842105263,
+              "paper_recall": 1.0
+            },
+            "top5": {
+              "evidence_coverage": 0.7236842105263158,
+              "complete_evidence_rate": 0.6842105263157895,
+              "paper_recall": 0.9210526315789473
+            },
+            "context_budget": {
+              "evidence_coverage": 0.7982456140350876,
+              "complete_evidence_rate": 0.7368421052631579,
+              "paper_recall": 0.9736842105263158
+            }
+          },
+          "median_serial_stage_ms": 1879.37,
+          "mean_rerank_pairs": 38.94736842105263,
+          "mean_physical_rerank_pairs": 18.94736842105263,
+          "mean_context_chars": 15824.0,
+          "new_original_characters": 142799,
+          "anchor_dependent_context_units": 8
+        },
+        "C": {
+          "questions": 19,
+          "stages": {
+            "candidate_pool": {
+              "evidence_coverage": 0.9912280701754387,
+              "complete_evidence_rate": 0.9473684210526315,
+              "paper_recall": 1.0
+            },
+            "candidate40": {
+              "evidence_coverage": 0.9078947368421053,
+              "complete_evidence_rate": 0.7894736842105263,
+              "paper_recall": 1.0
+            },
+            "top5": {
+              "evidence_coverage": 0.7236842105263158,
+              "complete_evidence_rate": 0.6842105263157895,
+              "paper_recall": 0.9210526315789473
+            },
+            "context_budget": {
+              "evidence_coverage": 0.7807017543859649,
+              "complete_evidence_rate": 0.7368421052631579,
+              "paper_recall": 0.9736842105263158
+            }
+          },
+          "median_serial_stage_ms": 1879.37,
+          "mean_rerank_pairs": 38.94736842105263,
+          "mean_physical_rerank_pairs": 18.94736842105263,
+          "mean_context_chars": 15832.263157894737,
+          "new_original_characters": 137428,
+          "anchor_dependent_context_units": 5
+        }
+      },
+      "comparisons": {
+        "B_minus_A": {
+          "mean_delta": 0.06578947368421052,
+          "wins": 2,
+          "losses": 0,
+          "ties": 17,
+          "uncertainty": {
+            "ci95": [
+              0.0,
+              0.16666666666666666
+            ],
+            "paper_groups": 3,
+            "reliable": false,
+            "reason": "few_paper_groups_descriptive_only",
+            "resamples": 4000,
+            "unit": "connected_gold_paper_groups"
+          }
+        },
+        "C_minus_A": {
+          "mean_delta": 0.048245614035087724,
+          "wins": 2,
+          "losses": 1,
+          "ties": 16,
+          "uncertainty": {
+            "ci95": [
+              -0.05555555555555555,
+              0.16666666666666666
+            ],
+            "paper_groups": 3,
+            "reliable": false,
+            "reason": "few_paper_groups_descriptive_only",
+            "resamples": 4000,
+            "unit": "connected_gold_paper_groups"
+          }
+        },
+        "C_minus_B": {
+          "mean_delta": -0.017543859649122806,
+          "wins": 0,
+          "losses": 1,
+          "ties": 18,
+          "uncertainty": {
+            "ci95": [
+              -0.05555555555555555,
+              0.0
+            ],
+            "paper_groups": 3,
+            "reliable": false,
+            "reason": "few_paper_groups_descriptive_only",
+            "resamples": 4000,
+            "unit": "connected_gold_paper_groups"
+          }
+        }
+      }
+    },
+    "dataset:test50": {
+      "variants": {
+        "A": {
+          "questions": 8,
+          "stages": {
+            "candidate_pool": {
+              "evidence_coverage": 0.875,
+              "complete_evidence_rate": 0.875,
+              "paper_recall": 1.0
+            },
+            "candidate40": {
+              "evidence_coverage": 0.8125,
+              "complete_evidence_rate": 0.75,
+              "paper_recall": 0.875
+            },
+            "top5": {
+              "evidence_coverage": 0.5,
+              "complete_evidence_rate": 0.5,
+              "paper_recall": 0.8125
+            },
+            "context_budget": {
+              "evidence_coverage": 0.6875,
+              "complete_evidence_rate": 0.625,
+              "paper_recall": 0.8125
+            }
+          },
+          "median_serial_stage_ms": 1812.925,
+          "mean_rerank_pairs": 40.0,
+          "mean_physical_rerank_pairs": 40.0,
+          "mean_context_chars": 15814.375,
+          "new_original_characters": 0,
+          "anchor_dependent_context_units": 0
+        },
+        "B": {
+          "questions": 8,
+          "stages": {
+            "candidate_pool": {
+              "evidence_coverage": 0.9375,
+              "complete_evidence_rate": 0.875,
+              "paper_recall": 1.0
+            },
+            "candidate40": {
+              "evidence_coverage": 0.825,
+              "complete_evidence_rate": 0.625,
+              "paper_recall": 1.0
+            },
+            "top5": {
+              "evidence_coverage": 0.6875,
+              "complete_evidence_rate": 0.625,
+              "paper_recall": 0.9375
+            },
+            "context_budget": {
+              "evidence_coverage": 0.75,
+              "complete_evidence_rate": 0.625,
+              "paper_recall": 1.0
+            }
+          },
+          "median_serial_stage_ms": 1921.1200000000001,
+          "mean_rerank_pairs": 40.0,
+          "mean_physical_rerank_pairs": 20.0,
+          "mean_context_chars": 15817.125,
+          "new_original_characters": 80386,
+          "anchor_dependent_context_units": 1
+        },
+        "C": {
+          "questions": 8,
+          "stages": {
+            "candidate_pool": {
+              "evidence_coverage": 0.9375,
+              "complete_evidence_rate": 0.875,
+              "paper_recall": 1.0
+            },
+            "candidate40": {
+              "evidence_coverage": 0.825,
+              "complete_evidence_rate": 0.625,
+              "paper_recall": 1.0
+            },
+            "top5": {
+              "evidence_coverage": 0.6875,
+              "complete_evidence_rate": 0.625,
+              "paper_recall": 0.9375
+            },
+            "context_budget": {
+              "evidence_coverage": 0.75,
+              "complete_evidence_rate": 0.625,
+              "paper_recall": 1.0
+            }
+          },
+          "median_serial_stage_ms": 1893.78,
+          "mean_rerank_pairs": 40.0,
+          "mean_physical_rerank_pairs": 20.0,
+          "mean_context_chars": 15804.25,
+          "new_original_characters": 79194,
+          "anchor_dependent_context_units": 1
+        }
+      },
+      "comparisons": {
+        "B_minus_A": {
+          "mean_delta": 0.0625,
+          "wins": 1,
+          "losses": 0,
+          "ties": 7,
+          "uncertainty": {
+            "ci95": null,
+            "paper_groups": 2,
+            "reliable": false,
+            "reason": "fewer_than_three_independent_paper_groups"
+          }
+        },
+        "C_minus_A": {
+          "mean_delta": 0.0625,
+          "wins": 1,
+          "losses": 0,
+          "ties": 7,
+          "uncertainty": {
+            "ci95": null,
+            "paper_groups": 2,
+            "reliable": false,
+            "reason": "fewer_than_three_independent_paper_groups"
+          }
+        },
+        "C_minus_B": {
+          "mean_delta": 0.0,
+          "wins": 0,
+          "losses": 0,
+          "ties": 8,
+          "uncertainty": {
+            "ci95": null,
+            "paper_groups": 2,
+            "reliable": false,
+            "reason": "fewer_than_three_independent_paper_groups"
+          }
+        }
+      }
+    },
+    "category:cross_paper": {
+      "variants": {
+        "A": {
+          "questions": 4,
+          "stages": {
+            "candidate_pool": {
+              "evidence_coverage": 0.8958333333333334,
+              "complete_evidence_rate": 0.5,
+              "paper_recall": 1.0
+            },
+            "candidate40": {
+              "evidence_coverage": 0.7083333333333333,
+              "complete_evidence_rate": 0.5,
+              "paper_recall": 1.0
+            },
+            "top5": {
+              "evidence_coverage": 0.0,
+              "complete_evidence_rate": 0.0,
+              "paper_recall": 0.5
+            },
+            "context_budget": {
+              "evidence_coverage": 0.0625,
+              "complete_evidence_rate": 0.0,
+              "paper_recall": 0.75
+            }
+          },
+          "median_serial_stage_ms": 2627.505,
+          "mean_rerank_pairs": 40.0,
+          "mean_physical_rerank_pairs": 40.0,
+          "mean_context_chars": 15958.25,
+          "new_original_characters": 0,
+          "anchor_dependent_context_units": 0
+        },
+        "B": {
+          "questions": 4,
+          "stages": {
+            "candidate_pool": {
+              "evidence_coverage": 0.9583333333333334,
+              "complete_evidence_rate": 0.75,
+              "paper_recall": 1.0
+            },
+            "candidate40": {
+              "evidence_coverage": 0.5458333333333333,
+              "complete_evidence_rate": 0.0,
+              "paper_recall": 1.0
+            },
+            "top5": {
+              "evidence_coverage": 0.0625,
+              "complete_evidence_rate": 0.0,
+              "paper_recall": 0.5
+            },
+            "context_budget": {
+              "evidence_coverage": 0.125,
+              "complete_evidence_rate": 0.0,
+              "paper_recall": 0.875
+            }
+          },
+          "median_serial_stage_ms": 2902.5649999999996,
+          "mean_rerank_pairs": 40.0,
+          "mean_physical_rerank_pairs": 40.0,
+          "mean_context_chars": 15939.25,
+          "new_original_characters": 7741,
+          "anchor_dependent_context_units": 1
+        },
+        "C": {
+          "questions": 4,
+          "stages": {
+            "candidate_pool": {
+              "evidence_coverage": 0.9583333333333334,
+              "complete_evidence_rate": 0.75,
+              "paper_recall": 1.0
+            },
+            "candidate40": {
+              "evidence_coverage": 0.5458333333333333,
+              "complete_evidence_rate": 0.0,
+              "paper_recall": 1.0
+            },
+            "top5": {
+              "evidence_coverage": 0.0625,
+              "complete_evidence_rate": 0.0,
+              "paper_recall": 0.5
+            },
+            "context_budget": {
+              "evidence_coverage": 0.125,
+              "complete_evidence_rate": 0.0,
+              "paper_recall": 0.875
+            }
+          },
+          "median_serial_stage_ms": 2869.615,
+          "mean_rerank_pairs": 40.0,
+          "mean_physical_rerank_pairs": 40.0,
+          "mean_context_chars": 15939.25,
+          "new_original_characters": 7741,
+          "anchor_dependent_context_units": 1
+        }
+      },
+      "comparisons": {
+        "B_minus_A": {
+          "mean_delta": 0.0625,
+          "wins": 1,
+          "losses": 0,
+          "ties": 3,
+          "uncertainty": {
+            "ci95": [
+              0.0,
+              0.1875
+            ],
+            "paper_groups": 4,
+            "reliable": false,
+            "reason": "few_paper_groups_descriptive_only",
+            "resamples": 4000,
+            "unit": "connected_gold_paper_groups"
+          }
+        },
+        "C_minus_A": {
+          "mean_delta": 0.0625,
+          "wins": 1,
+          "losses": 0,
+          "ties": 3,
+          "uncertainty": {
+            "ci95": [
+              0.0,
+              0.1875
+            ],
+            "paper_groups": 4,
+            "reliable": false,
+            "reason": "few_paper_groups_descriptive_only",
+            "resamples": 4000,
+            "unit": "connected_gold_paper_groups"
+          }
+        },
+        "C_minus_B": {
+          "mean_delta": 0.0,
+          "wins": 0,
+          "losses": 0,
+          "ties": 4,
+          "uncertainty": {
+            "ci95": [
+              0.0,
+              0.0
+            ],
+            "paper_groups": 4,
+            "reliable": false,
+            "reason": "few_paper_groups_descriptive_only",
+            "resamples": 4000,
+            "unit": "connected_gold_paper_groups"
+          }
+        }
+      }
+    },
+    "category:single_paper": {
+      "variants": {
+        "A": {
+          "questions": 23,
+          "stages": {
+            "candidate_pool": {
+              "evidence_coverage": 0.9565217391304348,
+              "complete_evidence_rate": 0.9565217391304348,
+              "paper_recall": 1.0
+            },
+            "candidate40": {
+              "evidence_coverage": 0.9202898550724636,
+              "complete_evidence_rate": 0.8695652173913043,
+              "paper_recall": 0.9565217391304348
+            },
+            "top5": {
+              "evidence_coverage": 0.7463768115942028,
+              "complete_evidence_rate": 0.6956521739130435,
+              "paper_recall": 0.9565217391304348
+            },
+            "context_budget": {
+              "evidence_coverage": 0.8333333333333333,
+              "complete_evidence_rate": 0.782608695652174,
+              "paper_recall": 0.9565217391304348
+            }
+          },
+          "median_serial_stage_ms": 1495.52,
+          "mean_rerank_pairs": 39.130434782608695,
+          "mean_physical_rerank_pairs": 39.130434782608695,
+          "mean_context_chars": 15773.04347826087,
+          "new_original_characters": 0,
+          "anchor_dependent_context_units": 0
+        },
+        "B": {
+          "questions": 23,
+          "stages": {
+            "candidate_pool": {
+              "evidence_coverage": 0.9782608695652174,
+              "complete_evidence_rate": 0.9565217391304348,
+              "paper_recall": 1.0
+            },
+            "candidate40": {
+              "evidence_coverage": 0.9420289855072462,
+              "complete_evidence_rate": 0.8695652173913043,
+              "paper_recall": 1.0
+            },
+            "top5": {
+              "evidence_coverage": 0.8260869565217391,
+              "complete_evidence_rate": 0.782608695652174,
+              "paper_recall": 1.0
+            },
+            "context_budget": {
+              "evidence_coverage": 0.898550724637681,
+              "complete_evidence_rate": 0.8260869565217391,
+              "paper_recall": 1.0
+            }
+          },
+          "median_serial_stage_ms": 1495.52,
+          "mean_rerank_pairs": 39.130434782608695,
+          "mean_physical_rerank_pairs": 15.652173913043478,
+          "mean_context_chars": 15801.565217391304,
+          "new_original_characters": 215444,
+          "anchor_dependent_context_units": 8
+        },
+        "C": {
+          "questions": 23,
+          "stages": {
+            "candidate_pool": {
+              "evidence_coverage": 0.9782608695652174,
+              "complete_evidence_rate": 0.9565217391304348,
+              "paper_recall": 1.0
+            },
+            "candidate40": {
+              "evidence_coverage": 0.9420289855072462,
+              "complete_evidence_rate": 0.8695652173913043,
+              "paper_recall": 1.0
+            },
+            "top5": {
+              "evidence_coverage": 0.8260869565217391,
+              "complete_evidence_rate": 0.782608695652174,
+              "paper_recall": 1.0
+            },
+            "context_budget": {
+              "evidence_coverage": 0.8840579710144927,
+              "complete_evidence_rate": 0.8260869565217391,
+              "paper_recall": 1.0
+            }
+          },
+          "median_serial_stage_ms": 1495.52,
+          "mean_rerank_pairs": 39.130434782608695,
+          "mean_physical_rerank_pairs": 15.652173913043478,
+          "mean_context_chars": 15803.91304347826,
+          "new_original_characters": 208881,
+          "anchor_dependent_context_units": 5
+        }
+      },
+      "comparisons": {
+        "B_minus_A": {
+          "mean_delta": 0.06521739130434782,
+          "wins": 2,
+          "losses": 0,
+          "ties": 21,
+          "uncertainty": {
+            "ci95": [
+              0.0,
+              0.15217391304347827
+            ],
+            "paper_groups": 5,
+            "reliable": false,
+            "reason": "few_paper_groups_descriptive_only",
+            "resamples": 4000,
+            "unit": "connected_gold_paper_groups"
+          }
+        },
+        "C_minus_A": {
+          "mean_delta": 0.050724637681159424,
+          "wins": 2,
+          "losses": 1,
+          "ties": 20,
+          "uncertainty": {
+            "ci95": [
+              -0.02564102564102564,
+              0.15
+            ],
+            "paper_groups": 5,
+            "reliable": false,
+            "reason": "few_paper_groups_descriptive_only",
+            "resamples": 4000,
+            "unit": "connected_gold_paper_groups"
+          }
+        },
+        "C_minus_B": {
+          "mean_delta": -0.014492753623188404,
+          "wins": 0,
+          "losses": 1,
+          "ties": 22,
+          "uncertainty": {
+            "ci95": [
+              -0.043478260869565216,
+              0.0
+            ],
+            "paper_groups": 5,
+            "reliable": false,
+            "reason": "few_paper_groups_descriptive_only",
+            "resamples": 4000,
+            "unit": "connected_gold_paper_groups"
+          }
+        }
+      }
+    }
+  },
+  "run_id": "community-evidence-20261104T152344Z-a812f937",
+  "result_type": "diagnostic_retrieval_evidence_coverage_not_qa_accuracy",
+  "context_char_budget": 16000,
+  "rerank_candidates": 40
+}

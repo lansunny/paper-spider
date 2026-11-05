@@ -55,5 +55,7 @@ htmlcov/
 !/docs/architecture.md
 !/docs/evaluation.md
 !/docs/data.md
+!/docs/community-evidence-experiment.md
+!/docs/community-evidence-results.md
 !/docs/assets/
 !/docs/benchmarks/

@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#f0f1f4"><title>论文地图 · 论文蛛 · Paper Spider</title>
+  <meta name="description" content="从主题、方法、实验与结论四种视角，探索论文之间的联系，回到原文查看依据。">
+  <link rel="icon" href="/static/assets/favicon.svg" type="image/svg+xml">
+  <link rel="preload" href="/static/assets/fonts/ibm-plex-sans-variable.ttf" as="font" type="font/ttf" crossorigin>
+  <link rel="stylesheet" href="/static/graph.css">
+  <script src="/static/community-visuals.js" defer></script>
+<script src="/static/workspace-shell.js" defer></script>
+<script src="/static/assets/d3/d3.min.js" defer></script><script src="/static/graph.js" defer></script>
+<link rel="stylesheet" href="/static/workspace-shell.css">
+<link rel="stylesheet" href="/static/community-visuals.css">
+</head>
+<body>
+  <a class="skip-link" href="#map-title">跳到论文地图</a>
+  <header data-app-header="graph">
+<button id="copy-map-link" class="quiet-button" type="button"><svg class="icon" aria-hidden="true"><use href="/static/assets/icons.svg#copy"/></svg><span>复制当前视图</span></button>
+</header>
+  <div class="map-workspace">
+    <details id="map-sidebar" class="map-sidebar" open>
+      <summary>论文与群组 <span id="mobile-paper-count">—</span><svg class="icon" aria-hidden="true"><use href="/static/assets/icons.svg#chevron"/></svg></summary>
+      <div class="sidebar-inner">
+        <div class="sidebar-heading"><span>我的论文网络</span><span id="pilot-count">正在读取</span></div>
+        <label class="map-search"><svg class="icon" aria-hidden="true"><use href="/static/assets/icons.svg#search"/></svg><span class="sr-only">搜索地图中的论文</span><input id="map-search" type="search" placeholder="搜索论文" autocomplete="off"><kbd>/</kbd></label>
+        <div class="sidebar-tabs" role="tablist" aria-label="浏览方式"><button id="browse-papers" role="tab" aria-selected="true" aria-controls="paper-list" type="button">论文 <span id="paper-count">—</span></button><button id="browse-groups" role="tab" aria-selected="false" aria-controls="group-list" tabindex="-1" type="button">群组 <span id="group-count">—</span></button></div>
+        <div id="paper-list" class="map-paper-list" role="tabpanel" aria-labelledby="browse-papers"><p class="muted">正在读取论文…</p></div>
+        <div id="group-list" class="map-group-list" role="tabpanel" aria-labelledby="browse-groups" hidden></div>
+        <div class="sidebar-bottom"><button id="clear-group" class="text-button" type="button" hidden>返回群组 <span aria-hidden="true">↗</span></button><span id="sidebar-scope">全部论文</span></div>
+      </div>
+    </details>
+    <main class="map-sheet">
+      <div class="map-topline"><div><h1 id="map-title" tabindex="-1">论文地图</h1></div><span id="map-summary" class="map-summary" aria-live="polite">正在连接论文图</span></div>
+      <div class="map-toolbar">
+        <div id="dimension-tabs" class="dimension-tabs" role="tablist" aria-label="论文关系视角"><button id="dimension-topic" type="button" role="tab" aria-selected="true" aria-controls="map-view" data-dimension="topic">主题</button><button id="dimension-method" type="button" role="tab" aria-selected="false" aria-controls="map-view" data-dimension="method" tabindex="-1">方法</button><button id="dimension-experiment" type="button" role="tab" aria-selected="false" aria-controls="map-view" data-dimension="experiment" tabindex="-1">实验</button><button id="dimension-conclusion" type="button" role="tab" aria-selected="false" aria-controls="map-view" data-dimension="conclusion" tabindex="-1">结论</button></div>
+        <div class="map-layer-control" aria-label="地图层级"><button id="show-groups" type="button" aria-pressed="true">群组</button><button id="show-papers" type="button" aria-pressed="false">论文</button></div>
+        <label class="edge-filter">连线相似度 <input id="edge-threshold" type="range" min="0" max="1" step="0.01" value="0" disabled><output id="edge-threshold-value" for="edge-threshold">—</output></label>
+      </div>
+      <div class="map-body">
+        <section id="map-view" class="map-view" role="tabpanel" aria-labelledby="dimension-topic" aria-label="论文相似关系地图">
+          <div id="map-canvas" class="map-canvas"><svg id="network" role="group" aria-label="论文关系图，可拖动节点、缩放和移动画布"></svg></div>
+          <div id="map-state" class="map-state" role="status"><svg class="icon" aria-hidden="true"><use href="/static/assets/icons.svg#network"/></svg><p id="map-state-copy">正在铺开论文地图…</p><button id="retry-map" class="secondary-button" type="button" hidden>重新读取</button></div>
+          <div id="map-tooltip" class="map-tooltip" role="tooltip" hidden></div>
+          <div class="map-controls" aria-label="地图控制"><button id="zoom-in" class="icon-button" type="button" aria-label="放大地图" title="放大"><svg class="icon" aria-hidden="true"><use href="/static/assets/icons.svg#plus"/></svg></button><button id="zoom-out" class="icon-button" type="button" aria-label="缩小地图" title="缩小"><svg class="icon" aria-hidden="true"><use href="/static/assets/icons.svg#minus"/></svg></button><span class="control-rule"></span><button id="fit-map" class="icon-button" type="button" aria-label="适应当前地图" title="适应地图"><svg class="icon" aria-hidden="true"><use href="/static/assets/icons.svg#expand"/></svg></button><button id="clear-focus" class="icon-button" type="button" aria-label="取消选中，浏览全图" title="浏览全图"><svg class="icon" aria-hidden="true"><use href="/static/assets/icons.svg#network"/></svg></button></div>
+          <div class="map-footnote"><span id="visible-count">—</span></div>
+          <button id="mobile-selection" class="mobile-selection" type="button" hidden></button>
+        </section>
+        <aside id="map-inspector" class="map-inspector" aria-label="选中论文与关系详情" tabindex="-1"><div id="inspector-content"><p class="muted">选择一篇论文，查看它的联系。</p></div></aside>
+      </div>
+      <footer class="map-footer"><span><span class="legend-node"></span><span id="map-legend-kind">群组</span><span class="legend-edge"></span>语义相似</span><button id="reset-map" class="text-button" type="button">重置视图</button></footer>
+    </main>
+  </div>
+  <div id="map-toast" class="map-toast" role="status" hidden></div>
+</body>
+</html>

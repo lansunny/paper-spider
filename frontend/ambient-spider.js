@@ -11,7 +11,7 @@
   const library = document.getElementById('library-panel');
   const list = document.getElementById('papers');
   const composer = document.querySelector('.composer-stage');
-  const header = document.querySelector('.app-header');
+  const header = document.querySelector('.ps-header');
   let frame = 0, scheduled = 0, started = 0, lastPaint = 0, idleStarted = performance.now();
   let working = false, running = false, geometry = null, refreshed = 0;
   let bitmapW = 0, bitmapH = 0, bitmapRatio = 0;
@@ -53,7 +53,7 @@
     if (visible) {
       const clip = {left: listBox.left, right: listBox.right,
         top: Math.max(listBox.top, libraryBox.top, 12), bottom: Math.min(listBox.bottom, libraryBox.bottom, innerHeight - 12)};
-      const compact = innerWidth < 768;
+      const compact = innerWidth <= 800;
       const rail = clamp(clip.right + 3, 44, innerWidth - (compact?48:52));
       const anchor = {x: rail + 2, y: clamp(clip.top - 8, 8, innerHeight - 65)};
       const idle = {x: rail + 2, y: anchor.y + 34};
@@ -68,14 +68,19 @@
         scrollTop:list.scrollTop,clip,
         track:{top:clip.top+54,bottom:Math.max(clip.top+90,clip.bottom-54),right:rail-4,radius:13}};
     }
-    const brand = document.querySelector('.brand').getBoundingClientRect();
+    const brand = document.querySelector('.ps-navigation').getBoundingClientRect();
     const tools = document.querySelector('.header-tools').getBoundingClientRect();
     const head = header.getBoundingClientRect();
     const questionBox = composer.getBoundingClientRect();
-    const enoughGap = tools.left - brand.right > 36;
-    const anchor = enoughGap ? {x: (brand.right + tools.left) / 2, y: head.top + 6}
+    const mobileModes = innerWidth <= 800 && head.height > 96;
+    const enoughGap = tools.left - brand.right > 90 && !mobileModes;
+    const anchor = mobileModes ? {x: innerWidth - 42, y: head.bottom + 5}
+      : enoughGap ? {x: (brand.right + tools.left) / 2, y: head.top + 6}
       : {x: clamp(questionBox.right + 3, 28, innerWidth - 28), y: clamp(questionBox.top - 6, 10, innerHeight - 60)};
-    const idle = {x: anchor.x, y: enoughGap ? head.bottom - 19 : anchor.y + 32};
+    const readingHeading = document.querySelector('.study-home-heading')?.getBoundingClientRect();
+    const idle = {x: anchor.x, y: mobileModes
+      ? document.body.dataset.workMode === 'study' ? (readingHeading?.top || head.bottom) + 25 : Math.max(head.bottom + 45, questionBox.top - 37)
+      : enoughGap ? head.bottom - 19 : anchor.y + 32};
     const rail = clamp(questionBox.right + 4, 44, innerWidth - 44);
     const query = document.getElementById('question').value;
     const words = query.match(/[A-Za-z][A-Za-z0-9-]{2,}|[\u4e00-\u9fff]{2,6}/g) || [];
@@ -256,7 +261,7 @@
   }
   function sync() {
     cancelAnimationFrame(scheduled);scheduled=0;
-    const next = !loading.hidden;
+    const next = !loading.hidden && document.body.dataset.workMode !== 'study';
     if (next && !working) {started=performance.now();beginScan();}
     if (!next && working) {idleStarted=performance.now();restoreScan();}
     working=next;geometry=measure();refreshed=performance.now();
@@ -271,6 +276,7 @@
     if (!scheduled) scheduled=requestAnimationFrame(sync);
   }
   new MutationObserver(queue).observe(loading,{attributes:true,attributeFilter:['hidden']});
+  new MutationObserver(queue).observe(document.body,{attributes:true,attributeFilter:['data-work-mode']});
   new MutationObserver(queue).observe(document.documentElement,{attributes:true,attributeFilter:['data-motion']});
   new MutationObserver(queue).observe(list,{childList:true,subtree:true});
   const resize = new ResizeObserver(queue);resize.observe(library);resize.observe(composer);resize.observe(header);

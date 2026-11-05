@@ -2,9 +2,17 @@
 'use strict';
 const $ = id => document.getElementById(id);
 const icons = '/static/assets/icons.svg#';
+const workspaceSnapshot = readWorkspaceSnapshot();
+const graphLaunchParams = new URLSearchParams(location.search);
+const graphDimensionNames = {auto:'自动判断',topic:'主题',method:'方法',experiment:'实验',conclusion:'结论'};
+const graphLaunch = Object.hasOwn(graphDimensionNames,graphLaunchParams.get('graph'))&&graphLaunchParams.get('question')
+  ? {dimension:graphLaunchParams.get('graph'),question:graphLaunchParams.get('question').slice(0,2000)} : null;
+if(graphLaunch){workspaceSnapshot.question=graphLaunch.question;workspaceSnapshot.selected=[];workspaceSnapshot.result=null;}
 const state = {
-  papers: [], selected: new Set(), health: null, result: null, view: 'research',
-  sidebarLimit: 24, catalogLimit: 40, busy: false, activeCitation: null,
+  papers: [], selected: new Set(workspaceSnapshot.selected), health: null, result: null, view: 'library',
+  recent: [], recentLoaded: false, catalogRendered: false, workspaceRestored: false, viewInitialized: false,
+  viewScroll: workspaceSnapshot.scroll,
+  sidebarLimit: 24, catalogLimit: 16, busy: false, activeCitation: null,
   reader: {kind: 'pdf', paper: null, page: 1, total: 1, formula: null, source: null, ready: false},
 };
 const formatCount = value => Number(value || 0).toLocaleString('zh-CN');
@@ -22,7 +30,9 @@ let preferences = readStorage('paperrag.retrieval-preferences', {});
 if (!preferences || typeof preferences !== 'object') preferences = {};
 preferences = {mode: ['hybrid', 'dense', 'bm25'].includes(preferences.mode) ? preferences.mode : 'hybrid',
   topK: [3, 5, 10].includes(preferences.topK) ? preferences.topK : 5,
-  rerank: preferences.rerank !== false, generate: preferences.generate !== false};
+  rerank: preferences.rerank !== false, generate: preferences.generate !== false,
+  graphEnabled:graphLaunch?true:preferences.graphEnabled===true,
+  graphDimension:graphLaunch?.dimension||(Object.hasOwn(graphDimensionNames,preferences.graphDimension)?preferences.graphDimension:'auto')};
 
 function node(tag, text, className) {
   const el = document.createElement(tag);
@@ -43,6 +53,67 @@ function button(text, className, action) {
 }
 function readStorage(key, fallback) { try { return JSON.parse(localStorage.getItem(key)) ?? fallback; } catch { return fallback; } }
 function writeStorage(key, value) { try { localStorage.setItem(key, JSON.stringify(value)); } catch { /* Private windows can deny storage. */ } }
+function readWorkspaceSnapshot() {
+  try {
+    const value=JSON.parse(sessionStorage.getItem('paper-spider.workspace.search')||'null');
+    if(!value||typeof value!=='object')throw Error('No saved workspace');
+    return {question:typeof value.question==='string'?value.question.slice(0,2000):'',
+      selected:Array.isArray(value.selected)?value.selected.filter(x=>typeof x==='string').slice(0,100):[],
+      result:value.result||null,scroll:{research:Number(value.scroll?.research)||0,library:Number(value.scroll?.library)||0}};
+  } catch { return {question:'',selected:[],result:null,scroll:{research:0,library:0}}; }
+}
+function modeFromLocation() {
+  const explicit=new URLSearchParams(location.search).get('mode');
+  if(['study','search'].includes(explicit))return explicit;
+  return readStorage('paper-spider.workspace.mode','study')==='search'?'search':'study';
+}
+function saveWorkspaceSnapshot(captureScroll=true) {
+  if(!state.viewInitialized)return;
+  if(captureScroll)state.viewScroll[state.view]=readerMedia.matches?window.scrollY:$('main-content').scrollTop;
+  try{sessionStorage.setItem('paper-spider.workspace.search',JSON.stringify({question:$('question').value,
+    selected:[...state.selected],scroll:state.viewScroll,result:state.workspaceRestored?state.result:(state.result||workspaceSnapshot.result)}));}catch{}
+}
+function restoreWorkspaceResult() {
+  if(state.workspaceRestored||!state.papers.length)return;
+  state.workspaceRestored=true;const result=workspaceSnapshot.result;if(!result)return;
+  const valid=Array.isArray(result.evidence)&&result.evidence.length<=100&&result.evidence.every(h=>
+    h&&typeof h.paper_id==='string'&&typeof h.text==='string'&&typeof h.title==='string'&&state.papers.some(p=>p.paper_id===h.paper_id))
+    &&(!result.answer||typeof result.answer==='string')&&(!result.formulas||Array.isArray(result.formulas));
+  if(!valid||(state.health?.snapshot_id&&result.snapshot_id&&state.health.snapshot_id!==result.snapshot_id))return;
+  try{renderResult(result);}catch{state.result=null;$('result').hidden=true;$('starter').hidden=false;}
+}
+function openStudy(paper,page=null) {
+  if(!paper)return;saveWorkspaceSnapshot();
+  const url='/study?paper='+encodeURIComponent(paper.paper_id)+(page?'&page='+page:'');
+  if(state.busy){window.open(url,'_blank','noopener');toast('精读在新标签页打开，当前检索会继续进行。');}
+  else location.assign(url);
+}
+function readingSummary(paper) {
+  const parts=['PDF '+paper.page+' / '+paper.pages+' 页'];
+  if(paper.annotation_count)parts.push(paper.annotation_count+' 条标注');
+  if(paper.notes_characters)parts.push(formatCount(paper.notes_characters)+' 字笔记');
+  if(paper.reading_status==='finished')parts.push('已读完');return parts.join(' · ');
+}
+function renderReadingSidebar() {
+  const list=$('papers');list.replaceChildren();$('load-more-papers').hidden=true;
+  for(const recent of state.recent){
+    const paper=paperById(recent.paper_id)||recent,row=node('article',null,'paper-row');row.dataset.paperId=recent.paper_id;
+    row.append(button(recent.title,'recent-paper-title',()=>openStudy(paper)),node('p',readingSummary(recent),'recent-paper-summary'));list.append(row);
+  }
+  if(!state.recent.length){const empty=node('div',null,'sidebar-reading-empty');empty.append(icon('book'),node('p',state.recentLoaded?'暂无阅读记录':'正在读取阅读记录…'));list.append(empty);}
+}
+function renderContinueReading() {
+  const target=$('continue-reading');target.replaceChildren();target.hidden=!state.recent.length;if(!state.recent.length)return;
+  const recent=state.recent[0],paper=paperById(recent.paper_id)||recent;
+  const cover=button(null,'continue-cover',()=>openStudy(paper));cover.setAttribute('aria-label','继续精读 '+recent.title);
+  const image=node('img');image.alt='';image.decoding='async';image.src=paperPdf(paper).replace(/\/pdf$/,'/pages/1');
+  image.addEventListener('error',()=>cover.replaceChildren(icon('file')),{once:true});cover.append(image);
+  const copy=node('div',null,'continue-copy');copy.append(node('span','继续上次精读','continue-label'),node('h2',recent.title,'continue-title'),node('p',readingSummary(recent),'continue-meta'));
+  const resume=button('继续精读','primary-button',()=>openStudy(paper));resume.append(icon('arrow'));target.append(cover,copy,resume);
+}
+async function refreshRecentReadings() {
+  try{const result=await api('/api/study/papers/recent');state.recent=Array.isArray(result.papers)?result.papers:[];state.recentLoaded=true;renderContinueReading();if(state.view==='library')renderReadingSidebar();renderCatalog();}catch{}
+}
 function showError(message) { $('error').textContent = message; $('error').hidden = !message; }
 function toast(message) { clearTimeout(toastTimer); $('toast').textContent = message; $('toast').hidden = false; toastTimer = setTimeout(() => { $('toast').hidden = true; }, 2600); }
 async function copyText(text, success = '已复制') {
@@ -71,7 +142,7 @@ function filteredPapers(term) {
 }
 function selectionChanged(id, checked) {
   checked ? state.selected.add(id) : state.selected.delete(id);
-  renderSidebar(); renderCatalog(); updateScope();
+  renderSidebar(); updateScope(); saveWorkspaceSnapshot();
 }
 function updateScope() {
   const n = state.selected.size;
@@ -80,6 +151,7 @@ function updateScope() {
   $('question-scope').textContent = n ? '在选定的 ' + n + ' 篇论文中检索' : '在全部已索引论文中检索';
 }
 function renderSidebar() {
+  if (state.view === 'library') { renderReadingSidebar(); return; }
   const focusedId = document.activeElement?.dataset?.paperSelect;
   const list = $('papers'); list.replaceChildren();
   const filtered = filteredPapers($('filter').value);
@@ -98,36 +170,40 @@ function renderSidebar() {
     label.append(input, title);
     const meta = node('div', null, 'paper-row-meta');
     meta.append(node('span', (paper.year || '上传文献') + ' · ' + (paper.indexed ? '已入库' : '待入库')),
-      button('阅读', '', () => { closeLibrary(); openPaper(paper); }));
+      button('精读', '', () => openStudy(paper)));
     row.append(label, meta); list.append(row);
   }
   if (!filtered.length) list.append(node('p', state.papers.length ? '未找到匹配的论文。试试其他标题或年份。' : '论文库暂时为空，可先导入 PDF。', 'list-state muted'));
   $('load-more-papers').hidden = filtered.length <= state.sidebarLimit;
   $('load-more-papers').textContent = '显示更多 · ' + Math.min(state.sidebarLimit, filtered.length) + ' / ' + formatCount(filtered.length);
-  $('nav-paper-count').textContent = formatCount(state.papers.length);
+
   if (focusedId) Array.from(list.querySelectorAll('input')).find(x => x.dataset.paperSelect === focusedId)?.focus({preventScroll: true});
   updateScope();
 }
 function renderCatalog() {
   let papers = filteredPapers($('library-search').value);
-  if ($('library-sort').value === 'year') papers.sort((a, b) => Number(b.year || 0) - Number(a.year || 0) || a.title.localeCompare(b.title));
-  if ($('library-sort').value === 'title') papers.sort((a, b) => a.title.localeCompare(b.title));
-  $('library-summary').textContent = formatCount(papers.length) + ' 篇文献 · ' + formatCount(papers.filter(p => p.indexed).length) + ' 篇可检索';
-  const list = $('catalog-list'); list.replaceChildren();
-  for (const paper of papers.slice(0, state.catalogLimit)) {
-    const row = node('article', null, 'catalog-row');
-    const identity = node('div');
-    identity.append(button(paper.title, 'catalog-title', () => openPaper(paper)), node('p', paper.paper_id, 'catalog-id'));
-    const meta = node('div', paper.year || '—', 'catalog-meta'); meta.append(node('small', paper.indexed ? '已入库' : '待入库'));
-    const choose = node('input', null, 'catalog-select'); choose.type = 'checkbox'; choose.checked = state.selected.has(paper.paper_id);
-    choose.disabled = !paper.indexed; choose.setAttribute('aria-label', '选择论文：' + paper.title);
-    choose.addEventListener('change', () => selectionChanged(paper.paper_id, choose.checked));
-    row.append(identity, meta, choose); list.append(row);
+  if ($('library-sort').value === 'year') papers.sort((a,b)=>Number(b.year||0)-Number(a.year||0)||a.title.localeCompare(b.title));
+  if ($('library-sort').value === 'title') papers.sort((a,b)=>a.title.localeCompare(b.title));
+  $('library-summary').textContent = formatCount(papers.length)+' 篇论文'+($('library-search').value.trim()?' · 搜索结果':'');
+  const list=$('catalog-list');list.replaceChildren();
+  for(const paper of papers.slice(0,state.catalogLimit)) {
+    const row=node('article',null,'catalog-row');
+    const cover=button(null,'catalog-cover',()=>openStudy(paper));cover.setAttribute('aria-label','精读 '+paper.title);
+    const image=node('img');image.loading='lazy';image.decoding='async';image.alt='';image.src=paperPdf(paper).replace(/\/pdf$/,'/pages/1');
+    image.addEventListener('error',()=>cover.replaceChildren(icon('file')),{once:true});cover.append(image);
+    const identity=node('div'),title=button(paper.title,'catalog-title',()=>openStudy(paper));title.title=paper.title;
+    identity.append(title,node('p',paper.paper_id,'catalog-id'));
+    const recent=state.recent.find(p=>p.paper_id===paper.paper_id);
+    const meta=node('div',paper.year||'上传文献','catalog-meta');meta.append(node('small',recent?'读到第 '+recent.page+' 页':'PDF 原文'));
+    const open=button(recent?'继续精读':'开始精读','catalog-read',()=>openStudy(paper));
+    row.append(cover,identity,meta,open);list.append(row);
   }
-  if (!papers.length) list.append(node('p', state.papers.length ? '没有匹配的文献。' : '还没有文献，导入一篇 PDF 开始研究。', 'empty-result'));
-  $('load-more-catalog').hidden = papers.length <= state.catalogLimit;
-  $('load-more-catalog').textContent = '加载更多 · 已显示 ' + Math.min(papers.length, state.catalogLimit) + ' / ' + formatCount(papers.length);
+  if(!papers.length)list.append(node('p',state.papers.length?'没有匹配的论文。试试其他标题、年份或论文标识。':'导入一篇 PDF，开始建立自己的论文学习库。','library-empty-state'));
+  $('load-more-catalog').hidden=papers.length<=state.catalogLimit;
+  $('load-more-catalog').textContent='加载更多 · 已显示 '+Math.min(papers.length,state.catalogLimit)+' / '+formatCount(papers.length);
+  state.catalogRendered=true;
 }
+
 function renderFeatured() {
   const candidates = [
     ['2024.eacl-demo.16', 'RAG 评估'],
@@ -156,7 +232,7 @@ function renderFeatured() {
   if (!entries.length) target.append(node('p', '导入论文后，可在这里打开原文。', 'muted'));
 }
 function renderHistory() {
-  $('recent-section').hidden = !history.length;
+  $('recent-section').hidden = state.view!=='research'||!history.length;
   const target = $('recent-questions'); target.replaceChildren();
   for (const entry of history.slice(0, 3)) {
     const b = button(null, 'recent-question', () => { closeLibrary(); fillQuestion(entry.question); });
@@ -167,18 +243,32 @@ function rememberQuestion(question) {
   history = [{question}, ...history.filter(x => x.question !== question)].slice(0, 8);
   writeStorage('paperrag.research-history', history); renderHistory();
 }
-function setView(view) {
-  state.view = view; $('research-view').hidden = view !== 'research'; $('library-view').hidden = view !== 'library';
-  for (const id of ['research', 'library']) {
-    const b = $('nav-' + id); b.classList.toggle('is-active', view === id);
-    if (view === id) b.setAttribute('aria-current', 'page'); else b.removeAttribute('aria-current');
-  }
-  $('workspace-location').textContent = view === 'research' ? '论文研究' : '全部文献';
-  $('main-content').scrollTop = 0; closeLibrary();
-  if (view === 'library') renderCatalog();
+function setView(view,{record=true,replace=false}={}) {
+  view=view==='research'?'research':'library';
+  if(state.viewInitialized&&state.view!==view)state.viewScroll[state.view]=readerMedia.matches?window.scrollY:$('main-content').scrollTop;
+  const changed=state.view!==view;state.view=view;state.viewInitialized=true;
+  const mode=view==='research'?'search':'study';document.body.dataset.workMode=mode;
+  $('research-view').hidden=view!=='research';$('library-view').hidden=view!=='library';
+  const title=$('workspace-page-title');
+  title.textContent=view==='research'?'多论文检索':'论文库';
+  document.querySelector(view==='research'?'.research-heading > div':'.study-home-heading > div').prepend(title);
+  document.querySelector('.skip-link').textContent=view==='research'?'跳到研究问题':'跳到论文精读';
+  document.querySelector('.skip-link').href=view==='research'?'#question':'#workspace-page-title';
+  window.PaperSpiderUI.setMode(mode);
+  $('sidebar-list-title').textContent=view==='research'?'检索范围':'最近阅读';
+  $('new-research').querySelector('span').textContent=view==='research'?'新检索':'导入论文';
+  $('new-research').disabled=view==='research'&&state.busy;
+  document.title='论文蛛 · '+(view==='research'?'多论文检索':'论文精读');
+  writeStorage('paper-spider.workspace.mode',mode);
+  if(record){const url=new URL(location.href);url.searchParams.set('mode',mode);if(url.href!==location.href)window.history[replace?'replaceState':'pushState']({mode},'',url);}
+  closeLibrary();if(mobileReaderDialog.open)mobileReaderDialog.close();renderSidebar();renderHistory();
+  if(view==='library'&&!state.catalogRendered)renderCatalog();
+  if(changed||!state.papers.length)requestAnimationFrame(()=>{const top=state.viewScroll[view]||0;if(readerMedia.matches)window.scrollTo({top,behavior:'auto'});else $('main-content').scrollTop=top;});
+  saveWorkspaceSnapshot(false);
 }
+
 function fillQuestion(question) {
-  setView('research'); $('question').value = question; updateQuestionLength(); $('question').focus();
+  setView('research');$('question').value=question;updateQuestionLength();saveWorkspaceSnapshot();$('question').focus();
   $('main-content').scrollTo({top: 0, behavior: 'auto'});
 }
 function updateQuestionLength() {
@@ -187,16 +277,21 @@ function updateQuestionLength() {
 function applyPreferenceControls() {
   $('retrieval-mode').value = preferences.mode; $('top-k').value = String(preferences.topK);
   $('rerank').checked = preferences.rerank;
+  $('graph-enabled').checked = preferences.graphEnabled;
+  $('graph-dimension').value = preferences.graphDimension;
+  $('graph-dimension').disabled = !preferences.graphEnabled;
   $('generate').checked = preferences.generate && !!state.health?.generation_configured;
   $('generate').disabled = !state.health?.generation_configured;
   $('generate-hint').textContent = state.health?.generation_configured ? '根据检索证据组织回答' : '回答模型未就绪，可先检索与阅读证据';
-  $('mode-label').textContent = modeNames[preferences.mode];
+  $('mode-label').textContent = modeNames[preferences.mode]+(preferences.graphEnabled?' · 图辅助':'');
   if (!state.busy) $('submit').querySelector('span').textContent = $('generate').checked ? '检索并回答' : '检索文献';
 }
 async function refresh() {
   $('refresh').disabled = true;
-  const results = await Promise.allSettled([api('/api/health'), api('/api/papers')]);
-  const [healthResult, paperResult] = results;
+  const results = await Promise.allSettled([api('/api/health'), api('/api/papers'), api('/api/study/papers/recent')]);
+  const [healthResult, paperResult, recentResult] = results;
+  state.recentLoaded=true;state.recent=recentResult.status==='fulfilled'&&Array.isArray(recentResult.value.papers)?recentResult.value.papers:[];
+  renderContinueReading();
   if (healthResult.status === 'fulfilled') {
     state.health = healthResult.value;
     $('connection').className = 'connection is-connected';
@@ -219,7 +314,7 @@ async function refresh() {
     $('papers').replaceChildren(node('p', '文献加载失败，可点击上方刷新重试。', 'muted list-state'));
     $('featured-papers').replaceChildren(node('p', '文献暂不可用。', 'muted'));
   }
-  applyPreferenceControls(); $('refresh').disabled = false;
+  restoreWorkspaceResult();applyPreferenceControls();$('refresh').disabled=false;
 }
 function evidenceId(hit, index) { return hit.citation_id || 'S' + (index + 1); }
 function uniqueSources(evidence) {
@@ -279,7 +374,7 @@ function renderAnswer(data) {
 }
 function renderEvidence(data) {
   const target = $('panel-evidence'); target.replaceChildren();
-  if (!data.evidence.length) { target.append(node('p', '没有可供展示的证据。试试更具体的问题或更宽的文献范围。', 'empty-result')); return; }
+  if (!data.evidence.length) { target.append(node('p', '未找到相关证据', 'empty-result')); return; }
   data.evidence.forEach((hit, index) => {
     const id = evidenceId(hit, index);
     const article = node('article', null, 'evidence-card'); article.dataset.citation = id;
@@ -290,6 +385,7 @@ function renderEvidence(data) {
     const score = node('span', scoreLabel + ' ' + (Number.isFinite(Number(hit.score)) ? Number(hit.score).toFixed(4) : '—'), 'evidence-score');
     score.title = '用于候选排序，不是置信概率。';
     head.append(cite, score);
+    if(hit.retrieval_origin==='graph_expansion')head.insertBefore(node('span','关联扩展','graph-evidence-label'),score);
     const title = button(hit.title, 'evidence-title', () => selectEvidence(hit, id));
     const meta = node('p', 'PDF 第 ' + hit.pdf_page + ' 页 · ' + hit.paper_id, 'evidence-meta');
     const snippet = node('p', hit.text.length > 420 ? hit.text.slice(0, 420) + '…' : hit.text, 'evidence-snippet');
@@ -298,6 +394,7 @@ function renderEvidence(data) {
       const detail = node('details'); detail.append(node('summary', '展开完整证据'), node('pre', hit.text)); article.append(detail);
     }
     const bottom = node('div', null, 'evidence-bottom');
+    if(hit.graph_paths?.length){const path=hit.graph_paths[0],a=node('a','查看关联路径 ↗','text-button');a.href='/graph?dimension='+encodeURIComponent(path.dimension)+'&paper='+encodeURIComponent(path.source)+'&compare='+encodeURIComponent(path.target);bottom.append(a);}
     bottom.append(button('在阅读台核对原文 ↗', 'text-button', () => selectEvidence(hit, id)),
       node('span', hit.formula_ids?.length ? '关联 ' + hit.formula_ids.length + ' 个公式' : '原文证据'));
     article.append(bottom); target.append(article);
@@ -306,7 +403,7 @@ function renderEvidence(data) {
 function renderFormulas(data) {
   const target = $('panel-formulas'); target.replaceChildren();
   if (!data.formulas.length) {
-    target.append(node('p', '本次没有联接到公式原图。可在问题中明确论文、公式编号或相关方法。', 'empty-result')); return;
+    target.append(node('p', '未找到相关公式', 'empty-result')); return;
   }
   target.append(node('p', '图片保留论文中的原始表达。文字代理仅辅助检索，阅读时以原图为准。', 'formula-intro'));
   for (const f of data.formulas) {
@@ -322,7 +419,7 @@ function renderFormulas(data) {
     open.append(img);
     const methods = [...new Set((f.matches || []).map(m => matchNames[m.method] || m.method))].join(' · ');
     article.append(head, open, node('p', f.title, 'formula-source-title'), node('p', methods, 'formula-match'));
-    const proxy = node('details', null, 'formula-proxy'); proxy.append(node('summary', '文字代理 · 未验证，仅辅助检索'), node('pre', f.text_proxy || '无可用文字代理'));
+    const proxy = node('details', null, 'formula-proxy'); proxy.append(node('summary', '识别文本（未校验）'), node('pre', f.text_proxy || '无可用文字代理'));
     article.append(proxy, button('核对公式来源 ↗', 'text-button', () => openFormula(f))); target.append(article);
   }
 }
@@ -330,21 +427,25 @@ function renderRunDetails(data) {
   const target = $('run-details-content'); target.replaceChildren();
   const stages = node('div', null, 'run-stage-list');
   for (const stage of data.stages || []) {
-    stages.append(node('span', stage.name + ' · ' + ({done: '完成', pending: '未执行', skipped: '已关闭'}[stage.status] || stage.status), stage.status === 'done' ? 'is-done' : ''));
+    stages.append(node('span', stage.name + ' · ' + ({done: '完成', pending: '未执行', skipped: '未执行'}[stage.status] || stage.status), stage.status === 'done' ? 'is-done' : ''));
   }
   target.append(stages);
   const dl = node('dl');
-  const timings = Object.entries(data.timings || {}).map(([k, v]) => k + ': ' + v + ' ms').join(' / ');
   const entries = [
     ['检索范围', data.route?.mode === 'single_paper' ? '自动限定单篇论文' : data.route?.mode === 'manual' ? '手动选择论文范围' : '全部已索引论文'],
     ['检索方式', modeNames[data.retrieval_mode] || '—'],
     ['正文重排', data.rerank ? '已启用' : '未启用'],
     ['实际上下文', data.evidence.length + ' 条 · ' + formatCount(data.context_chars) + ' 字符'],
-    ['论文子问题', data.query_plan?.facets?.length || 0],
-    ['记录编号', data.trace_id || '—'], ['阶段耗时', timings || '—'],
   ];
   for (const [key, value] of entries) { const row = node('div'); row.append(node('dt', key), node('dd', value)); dl.append(row); }
   target.append(dl);
+  const graph=data.graph_retrieval;
+  if(graph){
+    const explanation={single_paper_scope:'当前限定单篇论文，保持原范围',graph_not_built:'论文图尚未建立',no_compatible_seed_in_pilot_graph:'命中的论文不在当前试点图中',no_eligible_neighbors:'当前范围内没有可扩展邻居',no_new_body_candidates:'关联论文未提供新的正文候选',graph_expansion_unavailable:'图扩展暂不可用，已保留原检索结果'};
+    const summary=node('p',graph.status==='expanded'?'图辅助：沿'+(graphDimensionNames[graph.dimension]||graph.dimension)+'关系扩展 '+graph.expanded_paper_ids.length+' 篇论文；新增 '+graph.added_candidate_ids.length+' 条重排候选，最终上下文保留 '+(graph.context_graph_chunk_ids?.length||0)+' 条。':explanation[graph.reason]||'本次未扩展关联论文。','graph-run-summary');
+    target.append(summary);
+    for(const path of graph.paths||[]){const a=node('a',path.source_title+' → '+path.target_title+' · '+Number(path.weight).toFixed(3),'graph-path-link');a.href='/graph?dimension='+encodeURIComponent(path.dimension)+'&paper='+encodeURIComponent(path.source)+'&compare='+encodeURIComponent(path.target);target.append(a);}
+  }
 }
 function renderResult(data) {
   state.result = {...data, evidence: Array.isArray(data.evidence) ? data.evidence : [], formulas: Array.isArray(data.formulas) ? data.formulas : []};
@@ -402,6 +503,8 @@ function openFormula(formula) {
 }
 function updateReaderText() {
   const r = state.reader; if (!r.paper) return;
+  $('reader-study').href='/study?paper='+encodeURIComponent(r.paper.paper_id)+'&page='+r.page;
+  $('reader-study').hidden=false;
   $('reader-image-area').classList.toggle('is-formula', r.kind === 'formula');
   $('reader-kind').textContent = r.kind === 'formula' ? '原始公式 · ' + (r.formula.equation_number ? '式 (' + r.formula.equation_number + ')' : '未编号') : r.citation ? '[' + r.citation + '] 引用来源' : '原始文献';
   $('reader-title').textContent = r.paper.title;
@@ -488,8 +591,9 @@ async function submitQuestion(event) {
   const question = $('question').value.trim();
   if (!question) { showError('请输入研究问题。'); $('question').focus(); return; }
   const request = {question, paper_ids: Array.from(state.selected), top_k: Number($('top-k').value),
-    mode: $('retrieval-mode').value, rerank: $('rerank').checked, generate_answer: $('generate').checked && !$('generate').disabled};
-  showError(''); state.busy = true;
+    mode: $('retrieval-mode').value, rerank: $('rerank').checked, generate_answer: $('generate').checked && !$('generate').disabled,
+    graph_enabled:$('graph-enabled').checked,graph_dimension:$('graph-dimension').value};
+  showError(''); state.busy = true;$('mode-search-status').hidden=false;
   $('submit').disabled = true; $('new-research').disabled = true; $('question').readOnly = true;
   $('submit').querySelector('span').textContent = '检索中'; $('loading-state').hidden = false; $('starter').hidden = true;
   $('result').setAttribute('aria-busy', 'true');
@@ -498,14 +602,14 @@ async function submitQuestion(event) {
   const timer = setInterval(() => { $('loading-elapsed').textContent = '已等待 ' + Math.floor((performance.now() - began) / 1000) + ' 秒 · 首次检索可能需要加载模型'; }, 1000);
   try {
     const result = await api('/api/ask', {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(request)});
-    renderResult(result); rememberQuestion(question);
+    renderResult(result);rememberQuestion(question);saveWorkspaceSnapshot();
   } catch (error) {
     showError(error.message);
     if (!state.result) $('starter').hidden = false;
     else $('result-title').textContent = '上一轮研究结果';
   } finally {
-    clearInterval(timer); state.busy = false;
-    $('submit').disabled = false; $('new-research').disabled = false; $('question').readOnly = false;
+    clearInterval(timer);state.busy=false;$('mode-search-status').hidden=true;
+    $('submit').disabled=false;$('new-research').disabled=false; $('question').readOnly = false;
     $('submit').querySelector('span').textContent = $('generate').checked ? '检索并回答' : '检索文献'; $('loading-state').hidden = true;
     $('result').setAttribute('aria-busy', 'false');
   }
@@ -514,7 +618,7 @@ function newResearch() {
   if (state.busy) return;
   state.result = null; state.activeCitation = null; setView('research');
   $('question').value = ''; updateQuestionLength(); showError('');
-  $('result').hidden = true; $('starter').hidden = false; $('question').focus();
+  $('result').hidden=true;$('starter').hidden=false;$('question').focus();saveWorkspaceSnapshot();
 }
 async function uploadFile() {
   const file = $('upload').files[0]; if (!file) return;
@@ -549,29 +653,30 @@ async function pollIndex() {
   } catch { $('build-index').disabled = false; $('index-progress').hidden = false; $('index-progress').textContent = '暂时无法读取入库进度，请稍后重试。'; }
 }
 $('question-form').addEventListener('submit', submitQuestion);
-$('question').addEventListener('input', updateQuestionLength);
+$('question').addEventListener('input',()=>{updateQuestionLength();saveWorkspaceSnapshot();});
 $('question').addEventListener('keydown', event => {
   if (event.key === 'Enter' && !event.shiftKey && !event.isComposing) { event.preventDefault(); $('question-form').requestSubmit(); }
 });
 document.querySelectorAll('[data-query]').forEach(b => b.addEventListener('click', () => fillQuestion(b.dataset.query)));
-$('nav-research').onclick = () => setView('research');
-$('nav-library').onclick = $('browse-library').onclick = () => setView('library');
+$('browse-library').onclick = () => setView('library');
 $('filter').addEventListener('input', () => { state.sidebarLimit = 24; renderSidebar(); });
-$('library-search').addEventListener('input', () => { state.catalogLimit = 40; renderCatalog(); });
+$('library-search').addEventListener('input',()=>{state.catalogLimit=16;renderCatalog();});
 $('library-sort').addEventListener('change', renderCatalog);
 $('load-more-papers').onclick = () => { state.sidebarLimit += 24; renderSidebar(); };
 $('load-more-catalog').onclick = () => { state.catalogLimit += 40; renderCatalog(); };
-$('clear-selection').onclick = () => { state.selected.clear(); renderSidebar(); renderCatalog(); updateScope(); };
+$('clear-selection').onclick=()=>{state.selected.clear();renderSidebar();updateScope();saveWorkspaceSnapshot();};
 $('refresh').onclick = refresh;
-$('new-research').onclick = newResearch;
+$('new-research').onclick=()=>state.view==='library'?$('upload').click():newResearch();
 $('open-library').onclick = openLibrary; $('close-library').onclick = closeLibrary;
 $('open-settings').onclick = () => { applyPreferenceControls(); $('settings-dialog').showModal(); };
 $('close-settings').onclick = () => $('settings-dialog').close();
 $('settings-dialog').addEventListener('close', applyPreferenceControls);
 $('save-settings').onclick = () => {
   preferences = {mode: $('retrieval-mode').value, topK: Number($('top-k').value), rerank: $('rerank').checked,
-    generate: $('generate').disabled ? preferences.generate : $('generate').checked};
+    generate: $('generate').disabled ? preferences.generate : $('generate').checked,
+    graphEnabled:$('graph-enabled').checked,graphDimension:$('graph-dimension').value};
   writeStorage('paperrag.retrieval-preferences', preferences); applyPreferenceControls(); $('settings-dialog').close();
+  if(graphLaunch){const url=new URL(location.href);url.searchParams.delete('graph');url.searchParams.delete('question');window.history.replaceState({},'',url);}
 };
 $('copy-answer').onclick = () => { if (state.result?.answer) copyText(state.result.answer, '回答已复制，包含原文引用编号'); };
 $('copy-source').onclick = () => { if (state.reader.source?.text) copyText(state.reader.source.text, '证据原文已复制'); };
@@ -601,7 +706,7 @@ document.addEventListener('keydown', event => {
   const input = event.target instanceof HTMLElement && (event.target.matches('input,textarea,select') || event.target.isContentEditable);
   if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 'k') {
     if (document.querySelector('dialog[open]:not(.library-dialog)')) return;
-    event.preventDefault(); openLibrary(); $('filter').focus();
+    event.preventDefault();if(state.view==='library'){closeLibrary();$('library-search').focus();$('library-search').scrollIntoView({block:'center'});}else{openLibrary();$('filter').focus();}
   } else if (!input && !document.querySelector('dialog[open]') && event.key === '/') {
     event.preventDefault(); setView('research'); $('question').focus();
   } else if (!input && !document.querySelector('dialog[open]') && event.key === '?') {
@@ -616,6 +721,12 @@ for (const dialog of document.querySelectorAll('dialog')) {
   });
 }
 sidebarMedia.addEventListener('change', syncResponsiveShell); readerMedia.addEventListener('change', syncResponsiveShell);
-window.addEventListener('pagehide', () => { clearTimeout(indexTimer); if (readerBlob) URL.revokeObjectURL(readerBlob); readerController?.abort(); });
-syncResponsiveShell(); applyPreferenceControls(); renderHistory(); refresh(); pollIndex();
+window.addEventListener('pagehide',event=>{saveWorkspaceSnapshot();clearTimeout(indexTimer);if(!event.persisted){if(readerBlob)URL.revokeObjectURL(readerBlob);readerController?.abort();}});
+$('mode-study').onclick=event=>{event.preventDefault();setView('library');};$('mode-search').onclick=event=>{event.preventDefault();setView('research');};
+window.addEventListener('popstate',()=>setView(modeFromLocation()==='search'?'research':'library',{record:false}));
+window.addEventListener('pageshow',event=>{if(event.persisted){refreshRecentReadings();pollIndex();}});
+$('reader-study').addEventListener('click',event=>{if(state.busy){event.preventDefault();openStudy(state.reader.paper,state.reader.page);}});
+$('question').value=workspaceSnapshot.question;updateQuestionLength();
+$('graph-enabled').onchange=()=>$('graph-dimension').disabled=!$('graph-enabled').checked;
+syncResponsiveShell();setView(modeFromLocation()==='search'?'research':'library',{replace:true});applyPreferenceControls();renderHistory();refresh();pollIndex();
 

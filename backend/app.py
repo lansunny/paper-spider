@@ -21,14 +21,14 @@ UPLOAD_MANIFEST = UPLOADS / 'manifest.json'
 UPLOAD_LOCK = Lock()
 MAX_FILE_BYTES = 30 * 1024 * 1024
 
-app = FastAPI(title='Paper spider', version='0.1.0')
+app = FastAPI(title='论文蛛 · Paper Spider', version='0.1.0')
 
 
 def read_uploaded():
     return json.loads(UPLOAD_MANIFEST.read_text(encoding='utf-8')) if UPLOAD_MANIFEST.exists() else []
 
 
-def papers():
+def papers(index_status=True):
     originals = json.loads((ROOT / 'data/paper_manifest.json').read_text(encoding='utf-8'))
     result = []
     for paper in originals:
@@ -41,9 +41,10 @@ def papers():
         })
     with UPLOAD_LOCK:
         result.extend(read_uploaded())
-    indexed = rag_service.status()['indexed_documents']
-    for paper in result:
-        paper['indexed'] = indexed.get(paper['paper_id']) == paper['sha256']
+    if index_status:
+        indexed = rag_service.status()['indexed_documents']
+        for paper in result:
+            paper['indexed'] = indexed.get(paper['paper_id']) == paper['sha256']
     return result
 
 
@@ -78,7 +79,7 @@ def list_papers():
 
 @app.get('/api/papers/{paper_id}/pdf')
 def paper_pdf(paper_id: str):
-    paper = next((p for p in papers() if p['paper_id'] == paper_id), None)
+    paper = next((p for p in papers(False) if p['paper_id'] == paper_id), None)
     if not paper:
         raise HTTPException(404, '论文不存在。')
     path = (ROOT / paper['pdf_path']).resolve()
@@ -160,6 +161,8 @@ class AskRequest(BaseModel):
     mode: Literal['bm25', 'dense', 'hybrid'] = 'hybrid'
     rerank: bool = True
     generate_answer: bool = True
+    graph_enabled: bool = False
+    graph_dimension: Literal['auto', 'topic', 'method', 'experiment', 'conclusion'] = 'auto'
 
 
 @app.post('/api/ask')
@@ -175,7 +178,9 @@ def ask_question(request: AskRequest):
             raise HTTPException(422, '选择的论文尚未建立索引。')
     try:
         result = rag_service.ask(question, request.paper_ids, request.top_k,
-                                 request.mode, request.rerank, request.generate_answer)
+                                 request.mode, request.rerank, request.generate_answer,
+                                 **({'graph_enabled': True, 'graph_dimension': request.graph_dimension}
+                                    if request.graph_enabled else {}))
     except ValueError as error:
         raise HTTPException(422, str(error)) from error
     except RuntimeError as error:
@@ -192,6 +197,30 @@ def ask_question(request: AskRequest):
 @app.get('/')
 def home():
     return FileResponse(ROOT / 'frontend/index.html')
+
+
+@app.get('/study')
+def study():
+    return FileResponse(ROOT / 'frontend/study.html')
+
+
+@app.get('/graph')
+def graph():
+    return FileResponse(ROOT / 'frontend/graph.html')
+
+
+@app.get('/review')
+def review():
+    return FileResponse(ROOT / 'frontend/review.html')
+
+
+from backend.study import create_study_router
+from backend.paper_graph import create_paper_graph_router
+from backend.reviews import create_reviews_router
+app.include_router(create_paper_graph_router(ROOT))
+app.include_router(create_reviews_router(ROOT, rag_service.get_pipeline))
+app.include_router(create_study_router(ROOT, lambda identifier: next(
+    (paper for paper in papers(False) if paper['paper_id'] == identifier), None)))
 
 
 app.mount('/static', StaticFiles(directory=ROOT / 'frontend'), name='static')

@@ -47,7 +47,7 @@ class PipelineV2(Pipeline):
             return self._snapshot, self._lexical
 
     def retrieve(self, question, mode='hybrid', top_k=5, rerank=True, paper_ids=None, exact=False,
-                 *, lexical_query=None, auto_route=True, collect_trace=False):
+                 *, lexical_query=None, auto_route=True, collect_trace=False, candidate_transform=None):
         if mode not in {'bm25', 'dense', 'hybrid'} or not 1 <= top_k <= 100:
             raise ValueError('Invalid retrieval mode/top_k.')
         question = question.strip()
@@ -76,7 +76,7 @@ class PipelineV2(Pipeline):
         if not lexical_text:
             raise ValueError('BM25检索句不能为空。')
         queries = [(question, lexical_text, paper_ids), *[(f.question, f.question, [f.paper_id]) for f in facets]]
-        pools, per_branch, timings, query_trace = [], {}, {}, []
+        pools, per_branch, timings, query_trace, query_vectors = [], {}, {}, [], {}
         if mode in {'dense', 'hybrid'}:
             self.store.validate_collection()
         for i, ((query, lex_query, scope), quota) in enumerate(zip(queries, quotas)):
@@ -89,6 +89,7 @@ class PipelineV2(Pipeline):
             if mode in {'dense', 'hybrid'}:
                 start = perf_counter()
                 vector = self.models.query_vector(query)
+                query_vectors[query] = vector
                 timings['query_embedding_ms'] = timings.get('query_embedding_ms', 0)+(perf_counter()-start)*1000
                 start = perf_counter()
                 branches['dense'] = self.store.search(vector, manifest['snapshot_id'], quota, scope, exact)
@@ -128,6 +129,16 @@ class PipelineV2(Pipeline):
             except (ValueError,OSError,KeyError) as error:
                 rescue={'performed':False,'reason':'formula_artifact_validation_failed','error_type':type(error).__name__}
             timings['formula_candidate_selection_ms']=(perf_counter()-start)*1000
+        extension = {}
+        if candidate_transform is not None:
+            candidate_hits, extension = candidate_transform(candidate_hits, {
+                'question': question, 'lexical_query': lexical_text, 'mode': mode, 'exact': exact,
+                'manifest': manifest, 'lexical': lexical, 'route': route, 'paper_ids': paper_ids,
+                'query_vectors': query_vectors, 'facets': facets, 'rerank_total': rerank_total,
+                'protected_chunk_ids': rescue.get('source_chunk_ids', []),
+            })
+            if len(candidate_hits) > rerank_total or len({h['chunk_id'] for h in candidate_hits}) != len(candidate_hits):
+                raise ValueError('Candidate extension exceeded the fixed rerank budget or duplicated a chunk')
         rerank_calls = 0
         if rerank:
             start = perf_counter()
@@ -168,6 +179,7 @@ class PipelineV2(Pipeline):
         if collect_trace:
             result['rankings'] = {**aggregated, 'union': fused, 'rrf20_before_formula_rescue':before_formula_rescue,
                                   'rrf20': candidate_hits, 'after_top5': ranked[:top_k]}
+        result.update(extension)
         return result
 
     def attach_formulas(self, question, evidence, **kwargs):
