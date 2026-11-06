@@ -15,7 +15,7 @@ from rag.embeddings import LocalModels
 from rag.generation import generation_settings
 from rag.ingestion import current_manifest, paper_catalog, fingerprint
 from rag.storage import atomic_json
-from rag.paper_graph.build import GraphSettings, prepare, make_profile, read_profile, build_bundle
+from rag.paper_graph.build import GraphSettings, prepare, make_profile, read_profile, build_bundle, reuse_published_profiles
 from rag.paper_graph.schema import DIMENSIONS
 from rag.paper_graph.store import PaperGraphStore
 
@@ -27,6 +27,8 @@ def main():
     parser.add_argument('--config', type=Path, default=ROOT / 'configs/paper_graph.json')
     parser.add_argument('--retrieval-config', type=Path, default=ROOT / 'configs/retrieval_structure.json')
     parser.add_argument('--limit', type=int, help='Pilot size; defaults to the graph config (50)')
+    parser.add_argument('--model', help='Extraction model override; does not change the application .env')
+    parser.add_argument('--reuse-current', action='store_true', help='Keep compatible published profiles with their original model provenance')
     parser.add_argument('--run', action='store_true', help='Run real extraction/encoding; reuses completed caches')
     parser.add_argument('--stage', choices=['all', 'extract', 'graph'], default='all')
     parser.add_argument('--inspect', metavar='PAPER_ID', help='Inspect published descriptions, sources and neighbors')
@@ -52,15 +54,21 @@ def main():
     encoder_settings = load_settings(args.retrieval_config)
     generation = generation_settings().model_copy(update={'max_tokens': settings.max_output_tokens,
                                                           'timeout_seconds': 180})
+    if args.model:
+        generation = generation.model_copy(update={'model':args.model})
     snapshot = current_manifest(encoder_settings)
     if not snapshot or snapshot['profile'] != encoder_settings.index_profile():
         raise ValueError('Choose a compatible built paper index')
     papers = [p for p in paper_catalog(ROOT) if snapshot['documents'].get(p['paper_id']) == p['sha256']]
     records = prepare(ROOT, papers, settings, generation)
+    reused = []
+    if args.reuse_current:
+        records, reused = reuse_published_profiles(ROOT, records)
     if not records or len(records) < settings.limit:
         raise ValueError('Not enough matching papers for this pilot size')
     plan = {'status': 'prepared', 'papers': len(records), 'source_snapshot_id': snapshot['snapshot_id'],
-        'model': generation.model, 'prompt_version': 'paper-four-views-v1', 'settings': settings.model_dump(),
+        'model': generation.model, 'reused_published_profiles':reused,
+        'prompt_version': 'paper-four-views-v1', 'settings': settings.model_dump(),
         'documents': [{'paper_id': r['paper']['paper_id'], 'title': r['paper']['title'],
             'document_sha256': r['paper']['sha256'], 'source_blocks': len(r['sources']),
             'source_batches': len(r['batches']), 'cache_key': r['cache_key'],

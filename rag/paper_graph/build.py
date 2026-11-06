@@ -16,7 +16,7 @@ from .extraction import PROMPT_VERSION, extract_paper
 from .graph import similarity_graph
 from .schema import DIMENSIONS, LABELS, SOURCE_VERSION, StrictModel, validate_description
 from .sources import load_sources, select_pilot, source_batches
-from .store import publish, write_database
+from .store import PaperGraphStore, publish, write_database
 
 
 class GraphSettings(StrictModel):
@@ -59,6 +59,34 @@ def prepare(root, papers, settings, generation):
 
 def profile_cache(root, record):
     return root / 'runtime/paper_graph/cache/profiles' / (record['cache_key'] + '.json')
+
+
+def reuse_published_profiles(root, records):
+    """Reuse validated profiles without relabeling their original extraction model."""
+    bundle = PaperGraphStore(root).bundle()
+    if not bundle:
+        return records, []
+    directory, manifest = bundle
+    path = directory / 'profiles.jsonl'
+    if digest_file(path) != manifest['artifacts']['profiles.jsonl']:
+        raise ValueError('Published profiles checksum changed')
+    previous = {p['paper_id']: p for p in (json.loads(line) for line in path.read_text('utf-8').splitlines())}
+    result, reused = [], []
+    for record in records:
+        profile = previous.get(record['paper']['paper_id'])
+        if (profile and profile['document_sha256'] == record['paper']['sha256']
+                and profile.get('source_version') == SOURCE_VERSION
+                and profile.get('prompt_version') == PROMPT_VERSION):
+            validate_description(profile['dimensions'], {s['source_id'] for s in record['sources']})
+            if fingerprint(profile['dimensions']) != profile['profile_sha256']:
+                raise ValueError('Published profile integrity mismatch')
+            candidate = {**record, 'cache_key': profile['cache_key']}
+            if read_profile(root, candidate):
+                record = candidate
+                reused.append({'paper_id':profile['paper_id'], 'model':profile['model'],
+                               'graph_build_id':manifest['build_id']})
+        result.append(record)
+    return result, reused
 
 
 def read_profile(root, record):

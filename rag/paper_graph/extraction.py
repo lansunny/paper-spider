@@ -33,6 +33,8 @@ def repair_instruction(error, *, compact=False):
                 '每份中文描述缩短至80到120个汉字，保留已有事实，不要输出 claims 或其他字段。')
     return ('上一次格式或来源校验失败：' + str(error)[:1100]
         + '。请按本次 system 约定重新返回完整 JSON。严格使用提供的编号和字段。'
+        '每条 claim 的 source_ids 只能包含1到32个互不重复的输入编号；优先选择直接支持陈述的最少来源。'
+        '来源编号只从用户消息中的 sources 或 parts 复制，不要引用错误日志里的其他编号。'
         'claims 中每条必须有原文支持和非空 source_ids。找不到来源的字段必须省略对应 claim，'
         '不要用“未提及”“不适用”等内容填充无来源的 claim，更不能编造来源编号。'
         '某维度完全没有依据时，设 status="not_found_in_input"、description=""、claims=[]，reason 说明不足。')
@@ -67,8 +69,11 @@ def resolve_aliases(value, aliases):
     return value
 
 
-def request_json(system, payload, settings, cache_dir, validator, *, transport=None, repair=None, local_aliases=True):
+def request_json(system, payload, settings, cache_dir, validator, *, transport=None, repair=None, local_aliases=True,
+                 max_attempts=3):
     """Each successful model step has its own cache, including validation/repair usage."""
+    if not 1 <= max_attempts <= 3:
+        raise ValueError('max_attempts must be between 1 and 3')
     identity = fingerprint({'system': system, 'payload': payload, 'model': settings.model,
                             'endpoint': settings.base_url, 'max_tokens': settings.max_tokens})
     target = cache_dir / (identity + '.json')
@@ -85,7 +90,7 @@ def request_json(system, payload, settings, cache_dir, validator, *, transport=N
     if previous_failure:
         messages.append({'role': 'user', 'content': correction(previous_failure.get('error', ''))})
     with httpx.Client(timeout=settings.timeout_seconds, transport=transport, follow_redirects=False) as client:
-        for attempt in range(3):
+        for attempt in range(max_attempts):
             try:
                 response = client.post(settings.base_url.rstrip('/') + '/chat/completions',
                     headers={'Authorization': 'Bearer ' + settings.api_key.get_secret_value()},
@@ -93,11 +98,11 @@ def request_json(system, payload, settings, cache_dir, validator, *, transport=N
                           'thinking': {'type': 'disabled'}, 'max_tokens': settings.max_tokens,
                           'response_format': {'type': 'json_object'}})
             except httpx.HTTPError as error:
-                if attempt == 2:
+                if attempt == max_attempts - 1:
                     raise RuntimeError('Paper extraction network request failed') from error
                 time.sleep(attempt + 1)
                 continue
-            if response.status_code in {429, 500, 502, 503, 504} and attempt < 2:
+            if response.status_code in {429, 500, 502, 503, 504} and attempt < max_attempts - 1:
                 time.sleep(attempt + 1)
                 continue
             if response.is_error:
@@ -115,7 +120,7 @@ def request_json(system, payload, settings, cache_dir, validator, *, transport=N
                 atomic_json(target, record)
                 return validated, record
             except (ValueError, KeyError, IndexError, TypeError) as error:
-                if attempt == 2:
+                if attempt == max_attempts - 1:
                     atomic_json(cache_dir / (identity + '.failed.json'), {'attempts': attempts, 'error': str(error)[:1400],
                         'scope': payload.get('scope'), 'title': payload.get('title')})
                     raise ValueError('Paper extraction did not pass JSON/source validation') from error

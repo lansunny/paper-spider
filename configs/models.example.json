@@ -1,9 +1,9 @@
 {
   "generation": {
-    "display_name": "DeepSeek V4 Pro",
+    "display_name": "DeepSeek V4 Flash",
     "status": "adapter_ready_key_required",
     "base_url": "https://api.deepseek.com",
-    "api_model_id": "deepseek-v4-pro",
+    "api_model_id": "deepseek-flash",
     "api_key_env": "DEEPSEEK_API_KEY",
     "note": "Official API model ID verified from https://api-docs.deepseek.com/quick_start/pricing. Credentials are read from .env or environment."
   },

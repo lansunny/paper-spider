@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1280" height="698" viewBox="0 0 1280 698" role="img" aria-labelledby="title desc">
-  <title id="title">Paper spider architecture</title>
+  <title id="title">Paper Spider architecture</title>
   <desc id="desc">Offline source-aligned indexing; online hybrid retrieval and reranking; formula attachment through shared source coordinates, without a formula vector index.</desc>
   <defs>
     <marker id="arrow" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="m0 0 7 3.5L0 7" fill="none" stroke="#8c9aaf" stroke-width="1.2"/></marker>

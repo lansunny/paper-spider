@@ -21,7 +21,7 @@ UPLOAD_MANIFEST = UPLOADS / 'manifest.json'
 UPLOAD_LOCK = Lock()
 MAX_FILE_BYTES = 30 * 1024 * 1024
 
-app = FastAPI(title='论文蛛 · Paper Spider', version='0.1.0')
+app = FastAPI(title='Paper Spider', version='0.1.0')
 
 
 def read_uploaded():
@@ -217,8 +217,15 @@ def review():
 from backend.study import create_study_router
 from backend.paper_graph import create_paper_graph_router
 from backend.reviews import create_reviews_router
+from backend.related_reading import create_related_reading_router
 app.include_router(create_paper_graph_router(ROOT))
 app.include_router(create_reviews_router(ROOT, rag_service.get_pipeline))
+app.include_router(create_related_reading_router(ROOT, rag_service.get_pipeline))
+
+
+@app.get('/reading')
+def related_reading():
+    return FileResponse(ROOT / 'frontend/related-reading.html')
 app.include_router(create_study_router(ROOT, lambda identifier: next(
     (paper for paper in papers(False) if paper['paper_id'] == identifier), None)))
 

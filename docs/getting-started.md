@@ -107,7 +107,7 @@ python scripts/research_review.py "RAG 评估有哪些研究路线？" --evidenc
 ~~~dotenv
 DEEPSEEK_API_KEY=
 DEEPSEEK_BASE_URL=https://api.deepseek.com
-DEEPSEEK_MODEL_ID=deepseek-v4-pro
+DEEPSEEK_MODEL_ID=deepseek-flash
 DEEPSEEK_MAX_TOKENS=1500
 ~~~
 

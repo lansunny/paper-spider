@@ -1,4 +1,4 @@
-/* Paper spider research desk. Native controls and source-first reading, no client dependencies. */
+/* Paper Spider research desk. Native controls and source-first reading, no client dependencies. */
 'use strict';
 const $ = id => document.getElementById(id);
 const icons = '/static/assets/icons.svg#';
@@ -258,7 +258,7 @@ function setView(view,{record=true,replace=false}={}) {
   $('sidebar-list-title').textContent=view==='research'?'检索范围':'最近阅读';
   $('new-research').querySelector('span').textContent=view==='research'?'新检索':'导入论文';
   $('new-research').disabled=view==='research'&&state.busy;
-  document.title='论文蛛 · '+(view==='research'?'多论文检索':'论文精读');
+  document.title='Paper Spider · '+(view==='research'?'多论文检索':'论文精读');
   writeStorage('paper-spider.workspace.mode',mode);
   if(record){const url=new URL(location.href);url.searchParams.set('mode',mode);if(url.href!==location.href)window.history[replace?'replaceState':'pushState']({mode},'',url);}
   closeLibrary();if(mobileReaderDialog.open)mobileReaderDialog.close();renderSidebar();renderHistory();

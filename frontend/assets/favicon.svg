@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" role="img" aria-labelledby="title desc">
-<title id="title">Paper spider</title><desc id="desc">Blue spider mark.</desc>
+<title id="title">Paper Spider</title><desc id="desc">Blue spider mark.</desc>
 <style>text{font-family:Arial,"Microsoft YaHei","PingFang SC",sans-serif;fill:#1d1d1f}.muted{fill:#545c68}.blue{fill:#1267ec}</style>
 <rect width="64" height="64" rx="15" fill="#f3f5f8"/><g transform="translate(32 31) scale(.19)"><g fill="none" stroke="#1267ec" stroke-width="6" stroke-linecap="round" stroke-linejoin="round">
 <path d="M-17-16-50-52-91-78-119-130M-24-4-69-24-108-13-140-45M-25 14-73 22-113 55-151 65M-19 28-58 59-76 110-114 131"/>

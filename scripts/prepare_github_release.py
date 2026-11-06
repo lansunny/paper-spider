@@ -21,7 +21,8 @@ PATTERNS = ('rag/**/*.py','backend/**/*.py','frontend/**/*.html','frontend/**/*.
             'docs/assets/**/*.svg','docs/assets/**/*.jpg','docs/assets/**/*.gif','docs/assets/**/*.png','docs/benchmarks/*.json',
             'data/evaluation/paper_benchmark/*.jsonl')
 DOCS = ('getting-started.md','architecture.md','evaluation.md','data.md',
-        'community-evidence-experiment.md','community-evidence-results.md')
+        'community-evidence-experiment.md','community-evidence-results.md','related-reading.md',
+        'related-reading-evaluation.md')
 DATA = ('data/paper_catalog.json','data/paper_manifest.json',
         'data/evaluation/paper_benchmark/manifest.json',
         'data/evaluation/paper_benchmark/test50_manifest.json',
@@ -67,7 +68,7 @@ def prepare_release(root, target):
         raise ValueError('Output already exists; choose a new output name instead of overwriting')
     files=public_files(root)
     if not (root/'README.md').is_file() or not (root/'main.py').is_file():
-        raise ValueError('Expected a Paper spider source directory')
+        raise ValueError('Expected a Paper Spider source directory')
     target.mkdir(parents=True)
     records=[]
     for source in files:

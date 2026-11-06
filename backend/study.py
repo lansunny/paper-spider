@@ -248,7 +248,7 @@ def annotated_pdf(path, annotations):
             else:
                 mark = page.add_text_annot(rects[0].tl, a.text or '笔记')
             mark.set_colors(stroke=rgb)
-            mark.set_info(title='论文蛛 · Paper Spider', content=a.text or a.quote)
+            mark.set_info(title='Paper Spider', content=a.text or a.quote)
             mark.update(opacity=.35 if a.kind == 'highlight' else 1)
         return pdf.tobytes(garbage=3, deflate=True)
 

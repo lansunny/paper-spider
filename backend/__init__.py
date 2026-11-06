@@ -1,1 +1,1 @@
-"""HTTP services for the 论文蛛 · Paper Spider research workspace."""
+"""HTTP services for the Paper Spider research workspace."""

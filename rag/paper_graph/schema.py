@@ -49,7 +49,7 @@ class SourceAnchor(StrictModel):
 class Claim(StrictModel):
     field: str
     text: str = Field(min_length=1, max_length=600)
-    source_ids: list[str] = Field(min_length=1, max_length=8)
+    source_ids: list[str] = Field(min_length=1, max_length=32)
 
 
 class DimensionDescription(StrictModel):

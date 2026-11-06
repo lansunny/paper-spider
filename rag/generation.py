@@ -13,7 +13,7 @@ from rag.config import ROOT
 
 class GenerationSettings(BaseModel):
     base_url: str = 'https://api.deepseek.com'
-    model: str = 'deepseek-v4-pro'
+    model: str = 'deepseek-flash'
     api_key: SecretStr = SecretStr('')
     max_tokens: int = Field(default=1500, ge=64, le=16000)
     timeout_seconds: int = Field(default=90, ge=1)
@@ -30,7 +30,7 @@ def generation_settings(root=ROOT):
         return os.environ.get(name) or values.get(name) or default
 
     return GenerationSettings(base_url=value('DEEPSEEK_BASE_URL', 'https://api.deepseek.com'),
-                              model=value('DEEPSEEK_MODEL_ID', 'deepseek-v4-pro'),
+                              model=value('DEEPSEEK_MODEL_ID', 'deepseek-flash'),
                               api_key=value('DEEPSEEK_API_KEY'),
                               max_tokens=int(value('DEEPSEEK_MAX_TOKENS', '1500')))
 

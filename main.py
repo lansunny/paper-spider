@@ -1,4 +1,4 @@
-"""论文蛛 · Paper Spider：启动本地研究工作台或运行检索与索引命令。"""
+"""Paper Spider：启动本地研究工作台或运行检索与索引命令。"""
 import argparse
 import subprocess
 import sys
@@ -22,7 +22,7 @@ def main():
         parser.error('unrecognized arguments: ' + ' '.join(remaining))
     if args.task == 'web':
         import uvicorn
-        print(f'论文蛛 · Paper Spider: http://127.0.0.1:{args.port}', flush=True)
+        print(f'Paper Spider: http://127.0.0.1:{args.port}', flush=True)
         uvicorn.run('backend.app:app', host='127.0.0.1', port=args.port)
         return 0
     script = {'search': 'search_papers.py', 'baseline': 'qasper_baseline.py', 'parse': 'parse_papers.py'}[args.task]

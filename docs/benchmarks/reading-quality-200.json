@@ -1,0 +1,148 @@
+{
+  "arms": {
+    "A": {
+      "tasks": 7,
+      "useful_slots_at5": 0.6857142857142857,
+      "mean_useful_count": 3.4285714285714284,
+      "precision_returned": 0.9238095238095239,
+      "mean_returned": 3.7142857142857144,
+      "ndcg_at5_pooled": 0.8944264397163086,
+      "failures": 0
+    },
+    "B": {
+      "tasks": 7,
+      "useful_slots_at5": 0.7142857142857143,
+      "mean_useful_count": 3.5714285714285716,
+      "precision_returned": 0.8880952380952382,
+      "mean_returned": 4.0,
+      "ndcg_at5_pooled": 0.9032086022689961,
+      "failures": 0
+    },
+    "C": {
+      "tasks": 7,
+      "useful_slots_at5": 0.7428571428571429,
+      "mean_useful_count": 3.7142857142857144,
+      "precision_returned": 0.9166666666666667,
+      "mean_returned": 4.0,
+      "ndcg_at5_pooled": 0.9167105464674101,
+      "failures": 0
+    }
+  },
+  "paired": {
+    "B-A": {
+      "mean_useful_count_delta": 0.14285714285714285,
+      "wins": 2,
+      "losses": 1,
+      "ties": 4
+    },
+    "C-B": {
+      "mean_useful_count_delta": 0.14285714285714285,
+      "wins": 1,
+      "losses": 0,
+      "ties": 6
+    },
+    "C-A": {
+      "mean_useful_count_delta": 0.2857142857142857,
+      "wins": 3,
+      "losses": 1,
+      "ties": 3
+    }
+  },
+  "current_advice_audit": {
+    "items": 16,
+    "verdicts": {
+      "partial": 5,
+      "full": 11
+    },
+    "fully_supported_ratio": 0.6875
+  },
+  "controls": [
+    {
+      "task_id": "outside_library",
+      "arms": {
+        "A": {
+          "returned": 0,
+          "useful_count": 0,
+          "useful_slots_at5": 0.0,
+          "precision_returned": null,
+          "unrelated_count": 0,
+          "unknown_count": 0,
+          "ndcg_at5_pooled": null,
+          "status": "failed"
+        },
+        "B": {
+          "returned": 0,
+          "useful_count": 0,
+          "useful_slots_at5": 0.0,
+          "precision_returned": null,
+          "unrelated_count": 0,
+          "unknown_count": 0,
+          "ndcg_at5_pooled": null,
+          "status": "failed"
+        },
+        "C": {
+          "returned": 0,
+          "useful_count": 0,
+          "useful_slots_at5": 0.0,
+          "precision_returned": null,
+          "unrelated_count": 0,
+          "unknown_count": 0,
+          "ndcg_at5_pooled": null,
+          "status": "failed"
+        }
+      }
+    }
+  ],
+  "limits": [
+    "small reused diagnostic tasks, not independently human-labeled",
+    "model-judged relevance from bounded original excerpts, not exhaustive paper truth",
+    "normalized planner inputs; no graph scores/memberships shown in any arm",
+    "ranking is pre-evidence selection, not final synthesized reading order",
+    "pooled nDCG is not all-corpus recall; no statistical significance claim"
+  ],
+  "review_status": "automatic blinded review plus targeted Codex source adjudication, not independent human gold",
+  "original_raw_summary": "summary.json",
+  "manual_relevance_adjudications": 7,
+  "reading_location_review": {
+    "items": 8,
+    "direct": 4,
+    "overview_only": 4
+  },
+  "task_order": [
+    "active_trigger",
+    "dense_negatives",
+    "eval_dataset",
+    "eval_metrics",
+    "graph_organization",
+    "joint_training",
+    "multihop_control",
+    "outside_library"
+  ],
+  "model_costs": {
+    "recorded_successful_steps": 32,
+    "api_attempts_current_request": 40,
+    "usage_current_request": {
+      "prompt_tokens": 237456,
+      "completion_tokens": 18048,
+      "total_tokens": 255504
+    },
+    "includes_failed_selection_response_usage": true,
+    "usage_scope": "Successful API responses including schema-repair responses; network/server errors without usage are not token-counted",
+    "all_recorded_response_usage": {
+      "prompt_tokens": 298912,
+      "completion_tokens": 28749,
+      "total_tokens": 327661
+    }
+  },
+  "run_id": "reading-quality-20261105T072723Z-7ed0dd0b",
+  "graph_papers": 200,
+  "normal_tasks": 7,
+  "control_tasks": 1,
+  "pooled_paper_goal_judgments": 33,
+  "result_type": "diagnostic_navigation_and_current_example_source_review_not_qa_accuracy",
+  "arm_definitions": {
+    "A": "dimension vectors + goal selection",
+    "B": "graph neighbors + same selection",
+    "C": "B + community cards"
+  }
+}

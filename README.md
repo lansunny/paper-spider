@@ -1,11 +1,11 @@
 <p align="center">
   <picture>
     <source media="(max-width: 640px)" srcset="docs/assets/cover-mobile.svg">
-    <img src="docs/assets/cover.svg" alt="论文蛛 Paper Spider — 个人科研论文知识库。论文精读、跨论文检索、四维论文地图与研究综述。" width="100%">
+    <img src="docs/assets/cover.svg" alt="Paper Spider — 个人科研论文知识库。论文精读、跨论文检索、四维论文地图与研究综述。" width="100%">
   </picture>
 </p>
 
-<p align="center"><strong>论文蛛 · Paper Spider</strong></p>
+<p align="center"><strong>Paper Spider</strong></p>
 <p align="center">精读一篇论文，也看见一个研究方向。</p>
 <p align="center">
   <img src="docs/assets/badges/python.svg" alt="Python 3.12" height="25">
@@ -23,9 +23,9 @@
   <a href="docs/evaluation.md">评测说明</a>
 </p>
 
-**论文蛛是一套本地运行的个人科研论文知识库。** 从阅读、标注、提问，到跨论文比较、探索研究群组和整理综述，让学习过程始终连接到可核对的原文。
+**Paper Spider 是一套本地运行的个人科研论文知识库。** 从阅读、标注、提问，到跨论文比较、探索研究群组和整理综述，让学习过程始终连接到可核对的原文。
 
-现有语料包含 **500 篇论文、31,037 个固定窗口文本块、4,473 个公式候选**；四维论文图与研究综述已在其中 **50 篇论文**上跑通。仓库提供源码、来源清单和评测标注，PDF、模型与索引在本地恢复和构建。
+现有语料包含 **500 篇论文、31,037 个固定窗口文本块、4,473 个公式候选**；四维论文图、社区卡片与关联阅读已扩展到其中 **200 篇论文**。仓库提供源码、来源清单和评测标注，PDF、模型与索引在本地恢复和构建。
 
 ## 工作台
 
@@ -33,7 +33,7 @@
 
 | 工作空间 | 可以做什么 |
 | --- | --- |
-| **论文精读** | PDF 阅读、章节导航、全文查找、高亮、下划线、画笔、框选、批注、书签与笔记；围绕当前论文提问 |
+| **论文精读** | PDF 阅读、章节导航、全文查找、高亮、画笔、批注、书签与笔记；围绕当前论文提问或发起关联阅读 |
 | **多论文检索** | 混合检索、按论文拆解比较问题、带引用回答、原文跳转与公式原图 |
 | **论文地图** | 按主题、方法、实验、结论切换视角，从社区圆环进入论文网络，查看相似邻居与来源依据 |
 | **研究综述** | 浏览研究群组卡片，按研究路线收集原文，比较代表论文、实验依据与局限 |
@@ -42,24 +42,28 @@
 
 在原文旁记录理解，标注与笔记自动保存到本地。支持导出带标注 PDF、Markdown 阅读笔记和完整标注 JSON。
 
-![论文蛛：PDF 精读、标注工具与阅读笔记](docs/assets/screenshots/study.jpg)
+**下一篇读什么？** 关联阅读从当前论文的四维邻居出发，结合学习目标提出 2～4 个比较问题；全文检索与 claims 锚点共同取证，为推荐理由、方法差异和重点阅读位置附上原文入口。没有符合目标的候选时正常返回空推荐；生成的对照说明逐条核对引用原文，证据不足时保留为阅读线索。阅读入口附可展开的原文引句，缺少章节定位依据时显示为原文片段。见 [使用与设计](docs/related-reading.md)。
+
+![Paper Spider：社区追问与带原文依据的对照阅读建议](docs/assets/screenshots/related-reading.jpg)
+
+![Paper Spider：PDF 精读、标注工具与阅读笔记](docs/assets/screenshots/study.jpg)
 
 ### 论文地图与研究综述
 
 每篇论文提取四份带来源的描述，通过 BGE-M3 编码，分别建立加权近邻图并用 Leiden 发现社区。**连线表示某个维度的内容相似**；不推断引用、因果或方法继承关系。社区分组是探索线索，不是公认的学术分类。
 
-![论文蛛：四维论文地图与社区圆环](docs/assets/screenshots/graph.jpg)
+![Paper Spider：四维论文地图与社区圆环](docs/assets/screenshots/graph.jpg)
 
 综述从主题社区卡片进入方法路线，选取相关 claims，沿来源锚点读取原文并补充正文检索，再生成带引用的路线分析。卡片用于组织问题，最终证据来自原文；任务记录与模型步骤缓存保存在本地。
 
-![论文蛛：研究群组卡片与主题综述入口](docs/assets/screenshots/review.jpg)
+![Paper Spider：研究群组卡片与主题综述入口](docs/assets/screenshots/review.jpg)
 
 <details>
 <summary><strong>查看多论文检索与文献库</strong></summary>
 
-![论文蛛：多论文检索](docs/assets/screenshots/search.jpg)
+![Paper Spider：多论文检索](docs/assets/screenshots/search.jpg)
 
-![论文蛛：个人论文库](docs/assets/screenshots/library.jpg)
+![Paper Spider：个人论文库](docs/assets/screenshots/library.jpg)
 
 </details>
 
@@ -76,7 +80,7 @@
 
 ![公式原图与关联正文](docs/assets/screenshots/formulas.jpg)
 
-<p align="center"><img src="docs/assets/screenshots/mobile.jpg" alt="论文蛛移动端研究界面" width="360"></p>
+<p align="center"><img src="docs/assets/screenshots/mobile.jpg" alt="Paper Spider移动端研究界面" width="360"></p>
 
 </details>
 
@@ -90,7 +94,7 @@
 
 **每条证据都能回到来源。** 论文 ID、PDF 哈希、物理页码、字符范围与页面坐标共同保存来源。引用编号检查覆盖 ID 与清单一致性，事实支持仍需核对引用原文。
 
-![论文蛛：文档建库、混合检索与公式来源联接](docs/assets/architecture.svg)
+![Paper Spider：文档建库、混合检索与公式来源联接](docs/assets/architecture.svg)
 
 | 环节 | 实现 |
 | --- | --- |
@@ -204,6 +208,7 @@ python -m unittest discover -s tests -v
 | [rag/formula_store.py](rag/formula_store.py) | 完整抽取产物与来源完整性 |
 | [rag/paper_graph/](rag/paper_graph/) | 四维论文表示、图构建、社区发现与来源存储 |
 | [rag/reviews/](rag/reviews/) | 社区卡片、研究路线、原文取证与综述生成 |
+| [rag/related_reading.py](rag/related_reading.py) | 图引导追问、开放正文检索与带原文的对照阅读建议 |
 | [rag/community_retrieval.py](rag/community_retrieval.py) | 实验性 claims 锚点原文候选分支 |
 | [scripts/experiment_community_evidence.py](scripts/experiment_community_evidence.py) | 同预算 A/B/C 对照与逐题诊断 |
 | [backend/](backend/) · [frontend/](frontend/) | 本地服务、文献库、问答与阅读台 |

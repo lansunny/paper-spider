@@ -126,7 +126,7 @@ class CoreTests(unittest.TestCase):
         def handle(request):
             body = json.loads(request.content)
             self.assertEqual(str(request.url), 'https://api.deepseek.com/chat/completions')
-            self.assertEqual(body['model'], 'deepseek-v4-pro')
+            self.assertEqual(body['model'], 'deepseek-flash')
             self.assertEqual(body['thinking']['type'], 'disabled')
             self.assertIn('evidence', body['messages'][1]['content'])
             return httpx.Response(200, json={'choices': [{'finish_reason': 'stop', 'message': {

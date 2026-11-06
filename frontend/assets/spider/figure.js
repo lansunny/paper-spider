@@ -1,4 +1,4 @@
-/* Adapted from Prompt Spider UI. Copyright (c) 2026 Kirito14IT. MIT; see ../licenses/prompt-spider-ui.LICENSE.txt. Electric-blue and rose palette adapted for the silver Paper spider workspace. */
+/* Adapted from Prompt Spider UI. Copyright (c) 2026 Kirito14IT. MIT; see ../licenses/prompt-spider-ui.LICENSE.txt. Electric-blue and rose palette adapted for the silver Paper Spider workspace. */
 (() => {
 'use strict';
 const TAU = Math.PI * 2;

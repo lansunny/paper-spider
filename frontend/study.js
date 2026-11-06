@@ -355,7 +355,7 @@ async function initialize(){
   if(!paperId){showDocumentError('选择一篇论文开始精读','从文献库点击“精读”，即可使用高亮、画笔、批注与阅读笔记。');$('save-status').textContent='尚未选择论文';return;}
   try{
     const metadata=await request(base);state.metadata=metadata;state.page=Number(params.get('page'))||metadata.state.page;state.zoom=metadata.state.zoom;state.annotations=metadata.state.annotations;state.bookmarks=metadata.state.bookmarks;state.notesRevision=metadata.state.notes_revision;
-    document.title=metadata.paper.title+' · 论文蛛 Paper Spider';$('paper-title').textContent=metadata.paper.title;$('document-short-title').textContent=metadata.paper.title;$('document-short-title').title=metadata.paper.title;
+    document.title=metadata.paper.title+' · Paper Spider';$('paper-title').textContent=metadata.paper.title;$('document-short-title').textContent=metadata.paper.title;$('document-short-title').title=metadata.paper.title;
     $('paper-byline').textContent=(metadata.paper.year||'论文')+' · '+metadata.pages+' 页'+(metadata.pdf_author?'\n'+metadata.pdf_author:'');
     $('paper-notes').value=metadata.state.notes;$('notes-count').textContent=metadata.state.notes.length.toLocaleString()+' 字';$('zoom').value=state.zoom;$('reading-status').value=metadata.state.reading_status;
     $('original-pdf').href='/api/papers/'+encodeURIComponent(paperId)+'/pdf';$('page-input').max=metadata.pages;

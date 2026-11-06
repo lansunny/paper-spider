@@ -2,7 +2,7 @@
 
 PDF 精读使用本地分发的 [Mozilla PDF.js](https://github.com/mozilla/pdf.js)（pdfjs-dist 6.5.438，Apache-2.0）。库、worker、字体、CMap 与解码资源位于 `frontend/assets/pdfjs/`，许可与来源校验信息随文件保留。`frontend/pdf-text-layer.css` 提取自该版本的文本层样式。
 
-Paper spider 的运行主体位于 `rag/`、`backend/` 与 `frontend/`。依赖、模型、论文与字体分别适用其原始许可。
+Paper Spider 的运行主体位于 `rag/`、`backend/` 与 `frontend/`。依赖、模型、论文与字体分别适用其原始许可。
 
 | 组件 | 用途 | 来源与许可说明 |
 | --- | --- | --- |

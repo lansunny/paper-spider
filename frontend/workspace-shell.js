@@ -15,8 +15,8 @@
   const brand=document.createElement('div');brand.className='ps-brand-group';
   if(menu)brand.append(menu);
   const home=document.createElement('a');home.className='ps-brand';home.href='/?mode=study';
-  home.innerHTML='<img src="/static/assets/favicon.svg" width="28" height="28" alt=""><span>论文蛛<span class="ps-brand-dot">.</span></span>';
-  home.setAttribute('aria-label','论文蛛 Paper Spider 论文库');brand.append(home);
+  home.innerHTML='<img src="/static/assets/favicon.svg" width="28" height="28" alt=""><span>Paper Spider<span class="ps-brand-dot">.</span></span>';
+  home.setAttribute('aria-label','Paper Spider 论文库');brand.append(home);
   const nav=document.createElement('nav');nav.className='ps-navigation';nav.setAttribute('aria-label','工作空间');
   const entries=[['study','论文精读','/?mode=study','book'],['search','多论文检索','/?mode=search','search'],['graph','论文地图','/graph','network'],['review','研究综述','/review','notes']];
   for(const [id,label,url,symbol] of entries){

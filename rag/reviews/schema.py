@@ -29,6 +29,11 @@ class CommunityCard(StrictModel):
     routes: list[CardRoute] = Field(min_length=1, max_length=8)
 
 
+class CardScope(StrictModel):
+    title: str = Field(min_length=1, max_length=90)
+    scope: list[SupportedStatement] = Field(min_length=1, max_length=3)
+
+
 class CitedText(StrictModel):
     text: str = Field(min_length=1, max_length=900)
     citations: list[str] = Field(min_length=1, max_length=12)

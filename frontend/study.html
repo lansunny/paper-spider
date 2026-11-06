@@ -2,12 +2,14 @@
 <html lang="zh-CN">
 <head>
   <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="theme-color" content="#f0f1f4"><title>论文精读 · 论文蛛 · Paper Spider</title>
+  <meta name="theme-color" content="#f0f1f4"><title>论文精读 · Paper Spider</title>
   <link rel="icon" href="/static/assets/favicon.svg" type="image/svg+xml">
   <link rel="preload" href="/static/assets/fonts/ibm-plex-sans-variable.ttf" as="font" type="font/ttf" crossorigin>
   <link rel="stylesheet" href="/static/pdf-text-layer.css"><link rel="stylesheet" href="/static/study.css">
   <script src="/static/workspace-shell.js" defer></script>
 <script type="module" src="/static/study.js"></script>
+<script src="/static/related-reading.js" defer></script>
+<link rel="stylesheet" href="/static/related-reading.css">
 <link rel="stylesheet" href="/static/workspace-shell.css">
 </head>
 <body>
@@ -48,10 +50,11 @@
     </main>
     <aside id="study-inspector" class="study-inspector" aria-label="学习笔记与论文问答">
       <div class="inspector-title"><h2>学习笔记</h2><button class="icon-button panel-close" data-close-panel="right" type="button" aria-label="关闭学习面板"><svg class="icon"><use href="/static/assets/icons.svg#close"/></svg></button></div>
-      <div id="inspector-tabs" class="pane-tabs" role="tablist" aria-label="学习面板"><button id="tab-notes" type="button" role="tab" aria-selected="true" aria-controls="panel-notes" data-panel="notes">笔记</button><button id="tab-annotations" type="button" role="tab" aria-selected="false" aria-controls="panel-annotations" tabindex="-1" data-panel="annotations">标注 <span id="annotation-count">0</span></button><button id="tab-chat" type="button" role="tab" aria-selected="false" aria-controls="panel-chat" tabindex="-1" data-panel="chat">问论文</button></div>
+      <div id="inspector-tabs" class="pane-tabs" role="tablist" aria-label="学习面板"><button id="tab-notes" type="button" role="tab" aria-selected="true" aria-controls="panel-notes" data-panel="notes">笔记</button><button id="tab-annotations" type="button" role="tab" aria-selected="false" aria-controls="panel-annotations" tabindex="-1" data-panel="annotations">标注 <span id="annotation-count">0</span></button><button id="tab-chat" type="button" role="tab" aria-selected="false" aria-controls="panel-chat" tabindex="-1" data-panel="chat">问论文</button><button id="tab-related" type="button" role="tab" aria-selected="false" aria-controls="panel-related" tabindex="-1" data-panel="related">关联阅读</button></div>
       <section id="panel-notes" class="inspector-panel notes-panel" role="tabpanel" aria-labelledby="tab-notes"><div class="notes-topline"><label for="paper-notes">我的阅读笔记</label><span id="notes-count">0 字</span></div><textarea id="paper-notes" maxlength="100000" placeholder="记下你的理解…" aria-describedby="notes-save-status" disabled></textarea><div class="notes-bottom"><button id="insert-outline" class="text-button" type="button" disabled>插入精读提纲</button><span id="notes-save-status" role="status">自动保存至本地</span></div><div id="notes-conflict" class="notes-conflict" role="alert" hidden><p>另一窗口更新了笔记。你的草稿已保留，可先导出，再载入服务器版本。</p><button id="download-draft" type="button">导出本地草稿</button><button id="reload-notes" type="button">载入已保存版本</button></div></section>
       <section id="panel-annotations" class="inspector-panel" role="tabpanel" aria-labelledby="tab-annotations" hidden><div class="annotation-filters"><label class="sr-only" for="annotation-filter">筛选标注</label><select id="annotation-filter"><option value="all">全部标注</option><option value="page">仅当前页</option><option value="highlight">高亮</option><option value="underline">下划线</option><option value="ink">画笔</option><option value="rectangle">框选</option><option value="note">批注</option></select></div><div id="annotation-list" class="annotation-list"><p class="empty-copy">标记原文中的关键之处。高亮、画笔和批注都会保存在这里。</p></div></section>
       <section id="panel-chat" class="inspector-panel chat-panel" role="tabpanel" aria-labelledby="tab-chat" hidden><div id="study-chat-messages" class="chat-messages"><div class="chat-intro"><h3>围绕这篇论文追问</h3><button class="question-suggestion" type="button" data-ask="这篇论文的核心方法是什么？请给出论文原文依据。">核心方法是什么？ <span aria-hidden="true">↗</span></button><button class="question-suggestion" type="button" data-ask="这篇论文报告了哪些局限或适用条件？请依据原文回答。">有哪些局限和适用条件？ <span aria-hidden="true">↗</span></button></div></div><form id="study-chat-form" class="study-chat-form"><label class="sr-only" for="study-question">向当前论文提问</label><textarea id="study-question" rows="3" maxlength="2000" placeholder="有什么想进一步理解的？" required></textarea><div><span>仅在当前论文中检索</span><button id="study-ask" class="dark-button" type="submit">提问 <svg class="icon"><use href="/static/assets/icons.svg#arrow"/></svg></button></div></form></section>
+      <section id="panel-related" class="inspector-panel" role="tabpanel" aria-labelledby="tab-related" hidden><section data-related-reading data-layout="compact" aria-label="关联阅读助手"></section></section>
     </aside>
   </div>
   <div id="selection-menu" class="selection-menu" role="toolbar" aria-label="选中文字操作" hidden><button id="selection-highlight" type="button">高亮</button><button id="selection-note" type="button">批注</button><button id="selection-copy" type="button">复制</button><button id="selection-to-notes" type="button">加入笔记</button><button id="selection-explain" type="button">解释这段 <span aria-hidden="true">↗</span></button></div>
