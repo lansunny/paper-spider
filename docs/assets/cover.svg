@@ -1,43 +1,51 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="444" viewBox="0 0 1280 444" role="img" aria-labelledby="title desc">
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="308" viewBox="0 0 1280 308" role="img" aria-labelledby="title desc">
   <title id="title">Paper Spider · 科研论文工作台</title>
   <desc id="desc">多模态检索、深入研究与关联阅读</desc>
   <defs>
-    <linearGradient id="paper" x2="1" y2="1" gradientUnits="objectBoundingBox">
-      <stop stop-color="#fcfdff"/><stop offset="1" stop-color="#e8effa"/>
-    </linearGradient>
-    <linearGradient id="blue" x2="1" y2="1" gradientUnits="objectBoundingBox">
-      <stop stop-color="#397bfb"/><stop offset="1" stop-color="#154bcb"/>
+    <linearGradient id="base" x2="1" y2="1">
+      <stop stop-color="#fbfcfe"/>
+      <stop offset="1" stop-color="#ebf0f9"/>
     </linearGradient>
     <radialGradient id="light">
-      <stop stop-color="#c4d8fe" stop-opacity=".8"/><stop offset="1" stop-color="#c4d8fe" stop-opacity="0"/>
+      <stop stop-color="#c4d8fb" stop-opacity=".88"/>
+      <stop offset="1" stop-color="#c4d8fb" stop-opacity="0"/>
     </radialGradient>
-    <clipPath id="corners"><rect x="1" y="1" width="1278" height="442" rx="34"/></clipPath>
+    <linearGradient id="mark" x2="1" y2="1">
+      <stop stop-color="#508cff"/>
+      <stop offset="1" stop-color="#194ccc"/>
+    </linearGradient>
+    <clipPath id="edge"><rect x="1" y="1" width="1278" height="306" rx="30"/></clipPath>
   </defs>
-  <g clip-path="url(#corners)">
-    <rect width="1280" height="444" fill="url(#paper)"/>
-    <ellipse cx="1040" cy="206" rx="381" ry="299" fill="url(#light)"/>
-    <g fill="none" stroke="#a4bbdf" stroke-opacity=".55">
-      <circle cx="993" cy="220" r="121"/><circle cx="993" cy="220" r="167"/><circle cx="993" cy="220" r="214"/>
-      <path d="M740 220h506M993 0v444M816 43l354 354M816 397 1170 43"/>
+  <g clip-path="url(#edge)">
+    <rect width="1280" height="308" fill="url(#base)"/>
+    <ellipse cx="1005" cy="145" rx="375" ry="224" fill="url(#light)"/>
+    <g fill="none" stroke="#6683b5" stroke-opacity=".23">
+      <circle cx="999" cy="154" r="84"/>
+      <circle cx="999" cy="154" r="118"/>
+      <circle cx="999" cy="154" r="150"/>
+      <path d="M845 154h308M999 0v308M885 40l228 228M885 268l228-228"/>
     </g>
-    <g fill="#f5f9ff" stroke="#7597d4" stroke-width="1.5">
-      <circle cx="779" cy="220" r="5"/><circle cx="993" cy="53" r="4"/><circle cx="1111" cy="338" r="5"/>
-      <circle cx="1207" cy="220" r="5"/><circle cx="875" cy="338" r="4"/>
+    <g fill="#f6faff" stroke="#6e92ce" stroke-width="1.4">
+      <circle cx="849" cy="154" r="4"/>
+      <circle cx="999" cy="36" r="4"/>
+      <circle cx="1082" cy="237" r="4"/>
+      <circle cx="1149" cy="154" r="4"/>
+      <circle cx="916" cy="237" r="4"/>
     </g>
-    <g transform="translate(993 221)" fill="none" stroke="url(#blue)" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+    <g transform="translate(999 151) scale(.77)" fill="none" stroke="url(#mark)" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
       <path d="M-21-25-50-62-83-70-109-99M-26-12-66-32-101-25-128-49M-27 12-70 18-103 44-133 52M-22 25-57 56-75 96-105 109"/>
       <path d="M21-25 50-62 83-70 109-99M26-12 66-32 101-25 128-49M27 12 70 18 103 44 133 52M22 25 57 56 75 96 105 109"/>
-      <ellipse cy="-14" rx="31" ry="44" fill="url(#blue)" stroke="none"/>
-      <path d="M-13-37q13-12 26 0l-4 23H-9z" fill="#75a5ff" stroke="none"/>
+      <ellipse cy="-14" rx="31" ry="44" fill="url(#mark)" stroke="none"/>
+      <path d="M-13-37q13-12 26 0l-4 23H-9z" fill="#99bbff" stroke="none"/>
       <ellipse cy="34" rx="22" ry="24" fill="#183c93" stroke="none"/>
       <path d="M-8 53l-4 7m20-7 4 7" stroke-width="3"/>
       <g fill="#fff" stroke="none"><circle cx="-7" cy="37" r="3.6"/><circle cx="7" cy="37" r="3.6"/></g>
     </g>
   </g>
-  <rect x="1" y="1" width="1278" height="442" rx="34" fill="none" stroke="#ced9eb" stroke-width="2"/>
+  <rect x="1" y="1" width="1278" height="306" rx="30" fill="none" stroke="#cdd9eb" stroke-width="2"/>
   <g font-family="Arial, Microsoft YaHei, PingFang SC, sans-serif" fill="#121f37">
-    <text x="70" y="206" font-size="101" letter-spacing="-6" font-weight="700">Paper Spider<tspan fill="#255fe3">.</tspan></text>
-    <text x="78" y="282" font-size="37" font-weight="650" letter-spacing="1">科研论文工作台</text>
-    <text x="78" y="346" font-size="24" fill="#425470">多模态检索 · 深入研究 · 关联阅读</text>
+    <text x="66" y="138" font-size="96" letter-spacing="-5.5" font-weight="700">Paper Spider<tspan fill="#255fe3">.</tspan></text>
+    <text x="71" y="203" font-size="36" font-weight="650">科研论文工作台</text>
+    <text x="72" y="253" font-size="25" fill="#425470">多模态检索 · 深入研究 · 关联阅读</text>
   </g>
 </svg>
