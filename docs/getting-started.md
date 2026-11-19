@@ -76,7 +76,7 @@ python main.py
 
 访问 http://127.0.0.1:8765。更换端口使用 <code>python main.py --port 8770</code>。前端直接由 FastAPI 提供，无需 npm 构建；字体和图标随源码本地提供。
 
-网页默认使用 V2。切换到冻结基线时，在启动进程环境中设置 <code>PAPERRAG_RETRIEVAL_PROFILE=v1</code>。
+普通问答默认使用 V2。切换到固定窗口基线时，在启动进程环境中设置 <code>PAPERRAG_RETRIEVAL_PROFILE=v1</code>。深入研究使用独立的 [Docling 正文索引](docling-acl.md#段落原图与表格对象库)。
 
 ## 论文地图与研究综述
 

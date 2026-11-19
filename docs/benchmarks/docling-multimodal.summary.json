@@ -1,0 +1,111 @@
+{
+  "dataset": "data/evaluation/docling_test50/cases.jsonl",
+  "dataset_sha256": "cdd2c141703d4f6214037d0ce7cb79ec175502b4fdb821e763a31fad213d2d44",
+  "index_snapshot_id": "036f9147aeb324779697babd5d967ac5",
+  "object_snapshot_id": "2909f422163ca93e3b4cf076c91b79b7",
+  "clip_revision": "1a25a446712ba5ee05982a381eed697ef9b435cf",
+  "cases": 50,
+  "top_k": 5,
+  "retrieval_only": true,
+  "conditions": {
+    "text_query": "original Chinese",
+    "clip_text_query": "separate English visual description",
+    "image_query": "deterministic crops or transforms of indexed source images"
+  },
+  "groups": {
+    "body": {
+      "n": 8,
+      "median_seconds": 1.346,
+      "hit1": 0.5,
+      "hit3": 0.5,
+      "hit5": 0.5,
+      "reciprocal_rank": 0.5,
+      "quote_covered": 0.5
+    },
+    "figure_text": {
+      "n": 12,
+      "median_seconds": 2.6799999999999997,
+      "hit1": 0.75,
+      "hit3": 0.9166666666666666,
+      "hit5": 0.9166666666666666,
+      "reciprocal_rank": 0.8333333333333334,
+      "arms": {
+        "caption": {
+          "hit1": 0.6666666666666666,
+          "hit3": 0.9166666666666666,
+          "hit5": 0.9166666666666666,
+          "reciprocal_rank": 0.7881944444444444
+        },
+        "caption_explicit": {
+          "hit1": 0.6666666666666666,
+          "hit3": 0.9166666666666666,
+          "hit5": 0.9166666666666666,
+          "reciprocal_rank": 0.7881944444444444
+        },
+        "caption_context": {
+          "hit1": 0.75,
+          "hit3": 0.9166666666666666,
+          "hit5": 0.9166666666666666,
+          "reciprocal_rank": 0.84375
+        },
+        "caption_clip": {
+          "hit1": 0.5,
+          "hit3": 0.75,
+          "hit5": 0.8333333333333334,
+          "reciprocal_rank": 0.6494047619047619
+        },
+        "all": {
+          "hit1": 0.75,
+          "hit3": 0.9166666666666666,
+          "hit5": 0.9166666666666666,
+          "reciprocal_rank": 0.8388888888888889
+        }
+      }
+    },
+    "table_row": {
+      "n": 10,
+      "median_seconds": 1.6075,
+      "hit1": 0.4,
+      "hit3": 0.8,
+      "hit5": 0.8,
+      "reciprocal_rank": 0.6,
+      "row_hit": 0.7,
+      "values_hit": 0.7,
+      "values_and_headers_hit": 0.6,
+      "summary_only": {
+        "hit1": 0.4,
+        "hit3": 0.7,
+        "hit5": 0.9,
+        "reciprocal_rank": 0.6
+      }
+    },
+    "number": {
+      "n": 6,
+      "median_seconds": 0.003,
+      "hit1": 1,
+      "hit3": 1,
+      "hit5": 1,
+      "reciprocal_rank": 1.0,
+      "exact": 1
+    },
+    "image": {
+      "n": 6,
+      "median_seconds": 0.138,
+      "hit1": 1,
+      "hit3": 1,
+      "hit5": 1,
+      "reciprocal_rank": 1.0
+    },
+    "joint": {
+      "n": 4,
+      "median_seconds": 2.7279999999999998,
+      "all_evidence": 1
+    },
+    "missing_number": {
+      "n": 4,
+      "median_seconds": 0.5285,
+      "false_exact": 0,
+      "fallback_candidates": 3
+    }
+  }
+}

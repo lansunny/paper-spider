@@ -161,6 +161,7 @@ class AskRequest(BaseModel):
     mode: Literal['bm25', 'dense', 'hybrid'] = 'hybrid'
     rerank: bool = True
     generate_answer: bool = True
+    qa_mode: Literal['standard', 'deep_research'] = 'standard'
     graph_enabled: bool = False
     graph_dimension: Literal['auto', 'topic', 'method', 'experiment', 'conclusion'] = 'auto'
 
@@ -170,17 +171,25 @@ def ask_question(request: AskRequest):
     question = request.question.strip()
     if not question:
         raise HTTPException(422, '请输入问题。')
-    library = {p['paper_id']: p for p in papers()}
+    deep = request.qa_mode == 'deep_research'
+    library = {p['paper_id']: p for p in papers(index_status=not deep)}
     for identifier in request.paper_ids:
         if identifier not in library:
             raise HTTPException(404, '选择的论文不存在。')
-        if not library[identifier]['indexed']:
+        if not deep and not library[identifier]['indexed']:
             raise HTTPException(422, '选择的论文尚未建立索引。')
     try:
-        result = rag_service.ask(question, request.paper_ids, request.top_k,
-                                 request.mode, request.rerank, request.generate_answer,
-                                 **({'graph_enabled': True, 'graph_dimension': request.graph_dimension}
-                                    if request.graph_enabled else {}))
+        if deep:
+            if not request.generate_answer or request.graph_enabled:
+                raise ValueError('深入研究需要生成回答，暂不扩展关联论文。')
+            result = rag_service.deep_research(question, request.paper_ids, request.mode, request.rerank)
+        else:
+            result = rag_service.ask(question, request.paper_ids, request.top_k,
+                                     request.mode, request.rerank, request.generate_answer,
+                                     **({'graph_enabled': True, 'graph_dimension': request.graph_dimension}
+                                        if request.graph_enabled else {}))
+    except HTTPException:
+        raise
     except ValueError as error:
         raise HTTPException(422, str(error)) from error
     except RuntimeError as error:
@@ -188,7 +197,9 @@ def ask_question(request: AskRequest):
     except Exception as error:
         raise HTTPException(503, 'RAG 服务暂不可用，请检查 Qdrant 和本地模型。') from error
     for hit in result['evidence']:
-        paper = library[hit['paper_id']]
+        paper = library.get(hit['paper_id'])
+        if paper is None or (deep and paper['sha256'] != hit['document_sha256']):
+            raise HTTPException(409, '论文来源已更新，请核对索引并重新提交。')
         hit['title'] = paper['title']
         hit['pdf_url'] = public_paper(paper)['pdf_url'] + '#page=' + str(hit['pdf_page'])
     return result
@@ -218,9 +229,11 @@ from backend.study import create_study_router
 from backend.paper_graph import create_paper_graph_router
 from backend.reviews import create_reviews_router
 from backend.related_reading import create_related_reading_router
+from backend.docling_retrieval import router as docling_retrieval_router
 app.include_router(create_paper_graph_router(ROOT))
 app.include_router(create_reviews_router(ROOT, rag_service.get_pipeline))
 app.include_router(create_related_reading_router(ROOT, rag_service.get_pipeline))
+app.include_router(docling_retrieval_router)
 
 
 @app.get('/reading')

@@ -40,6 +40,14 @@ def status():
             'reranker_ready': (pipeline.root / pipeline.settings.reranker_path / 'paperrag-model.json').exists()}
 
 
+def deep_research(question, paper_ids, mode='hybrid', rerank=True):
+    from backend.docling_retrieval import get_engine
+    from rag.deep_research import research
+    from rag.docling_research import DoclingResearch
+    pipeline = DoclingResearch(get_engine(os.environ.get('PAPERRAG_DOCLING_PROFILE') or None))
+    return research(pipeline, question, paper_ids, mode=mode, rerank=rerank)
+
+
 def ask(question, paper_ids, top_k, mode='hybrid', rerank=True, generate_answer=True,
         graph_enabled=False, graph_dimension='auto'):
     pipeline = get_pipeline()

@@ -17,13 +17,15 @@ PATTERNS = ('rag/**/*.py','backend/**/*.py','frontend/**/*.html','frontend/**/*.
             'frontend/assets/pdfjs/**/*.mjs','frontend/assets/pdfjs/**/*.bcmap','frontend/assets/pdfjs/**/*.pfb',
             'frontend/assets/pdfjs/**/*.otf','frontend/assets/pdfjs/**/*.wasm','frontend/assets/pdfjs/LICENSE',
             'frontend/assets/pdfjs/**/LICENSE*','frontend/assets/pdfjs/version.json',
-            'scripts/**/*.py','tests/**/*.py','configs/*.json','.github/workflows/*.yml',
+            'scripts/**/*.py','scripts/docling*.ps1','tests/**/*.py','configs/*.json','.github/workflows/*.yml',
             'docs/assets/**/*.svg','docs/assets/**/*.jpg','docs/assets/**/*.gif','docs/assets/**/*.png','docs/benchmarks/*.json',
             'data/evaluation/paper_benchmark/*.jsonl')
 DOCS = ('getting-started.md','architecture.md','evaluation.md','data.md',
+        'deep-research.md','docling-acl.md','docling-test50.md',
         'community-evidence-experiment.md','community-evidence-results.md','related-reading.md',
         'related-reading-evaluation.md')
 DATA = ('data/paper_catalog.json','data/paper_manifest.json',
+        'data/evaluation/docling_test50/cases.jsonl',
         'data/evaluation/paper_benchmark/manifest.json',
         'data/evaluation/paper_benchmark/test50_manifest.json',
         'data/evaluation/formula_test50/curation.json',

@@ -57,7 +57,7 @@ function readWorkspaceSnapshot() {
   try {
     const value=JSON.parse(sessionStorage.getItem('paper-spider.workspace.search')||'null');
     if(!value||typeof value!=='object')throw Error('No saved workspace');
-    return {question:typeof value.question==='string'?value.question.slice(0,2000):'',
+    return {question:typeof value.question==='string'?value.question.slice(0,2000):'',qaMode:value.qaMode,
       selected:Array.isArray(value.selected)?value.selected.filter(x=>typeof x==='string').slice(0,100):[],
       result:value.result||null,scroll:{research:Number(value.scroll?.research)||0,library:Number(value.scroll?.library)||0}};
   } catch { return {question:'',selected:[],result:null,scroll:{research:0,library:0}}; }
@@ -71,7 +71,7 @@ function saveWorkspaceSnapshot(captureScroll=true) {
   if(!state.viewInitialized)return;
   if(captureScroll)state.viewScroll[state.view]=readerMedia.matches?window.scrollY:$('main-content').scrollTop;
   try{sessionStorage.setItem('paper-spider.workspace.search',JSON.stringify({question:$('question').value,
-    selected:[...state.selected],scroll:state.viewScroll,result:state.workspaceRestored?state.result:(state.result||workspaceSnapshot.result)}));}catch{}
+    selected:[...state.selected],qaMode:queryMode(),scroll:state.viewScroll,result:state.workspaceRestored?state.result:(state.result||workspaceSnapshot.result)}));}catch{}
 }
 function restoreWorkspaceResult() {
   if(state.workspaceRestored||!state.papers.length)return;
@@ -148,7 +148,8 @@ function updateScope() {
   const n = state.selected.size;
   $('scope').textContent = n ? '已选 ' + n + ' 篇 · 限定检索范围' : '全部已索引论文';
   $('clear-selection').hidden = !n;
-  $('question-scope').textContent = n ? '在选定的 ' + n + ' 篇论文中检索' : '在全部已索引论文中检索';
+  $('question-scope').textContent = n ? '在选定的 ' + n + ' 篇论文中检索' :
+    queryMode() === 'deep_research' ? '自动选择检索范围' : queryMode() === 'multimodal' ? '检索全部多模态论文' : '在全部已索引论文中检索';
 }
 function renderSidebar() {
   if (state.view === 'library') { renderReadingSidebar(); return; }
@@ -268,11 +269,13 @@ function setView(view,{record=true,replace=false}={}) {
 }
 
 function fillQuestion(question) {
+  if (queryMode() === 'multimodal' && multimodal.file) multimodal.clearImage();
   setView('research');$('question').value=question;updateQuestionLength();saveWorkspaceSnapshot();$('question').focus();
   $('main-content').scrollTo({top: 0, behavior: 'auto'});
 }
 function updateQuestionLength() {
-  const n = $('question').value.length; $('question-length').hidden = !n; $('question-length').textContent = n + ' / 2000';
+  const n = $('question').value.length; $('question-length').hidden = !n || $('question').hidden;
+  $('question-length').textContent = n + ' / ' + $('question').maxLength;
 }
 function applyPreferenceControls() {
   $('retrieval-mode').value = preferences.mode; $('top-k').value = String(preferences.topK);
@@ -284,7 +287,7 @@ function applyPreferenceControls() {
   $('generate').disabled = !state.health?.generation_configured;
   $('generate-hint').textContent = state.health?.generation_configured ? '根据检索证据组织回答' : '回答模型未就绪，可先检索与阅读证据';
   $('mode-label').textContent = modeNames[preferences.mode]+(preferences.graphEnabled?' · 图辅助':'');
-  if (!state.busy) $('submit').querySelector('span').textContent = $('generate').checked ? '检索并回答' : '检索文献';
+  if (!state.busy) updateSubmitLabel();
 }
 async function refresh() {
   $('refresh').disabled = true;
@@ -314,7 +317,7 @@ async function refresh() {
     $('papers').replaceChildren(node('p', '文献加载失败，可点击上方刷新重试。', 'muted list-state'));
     $('featured-papers').replaceChildren(node('p', '文献暂不可用。', 'muted'));
   }
-  restoreWorkspaceResult();applyPreferenceControls();$('refresh').disabled=false;
+  restoreWorkspaceResult();applyPreferenceControls();syncComposer();$('refresh').disabled=false;
 }
 function evidenceId(hit, index) { return hit.citation_id || 'S' + (index + 1); }
 function uniqueSources(evidence) {
@@ -349,6 +352,9 @@ function sourceSummary(evidence) {
   }
   section.append(head, list); return section;
 }
+function missingModuleLines(data) {
+  return (data?.missing_modules || []).map(m => [m.title, m.point].filter(Boolean).join(' · '));
+}
 function renderAnswer(data) {
   const target = $('panel-answer'); target.replaceChildren();
   if (data.answer) {
@@ -370,6 +376,14 @@ function renderAnswer(data) {
     if (data.evidence.length) notice.append(button('阅读检索证据', 'secondary-button', () => setResultTab('evidence')));
     target.append(notice);
   }
+  const missing = missingModuleLines(data);
+  if (missing.length) {
+    const section = node('section', null, 'answer-notice research-missing');
+    const list = node('ul');
+    for (const point of missing) list.append(node('li', point));
+    section.append(node('h3', '未能确认'), list);
+    target.append(section);
+  }
   if (data.evidence.length) target.append(sourceSummary(data.evidence));
 }
 function renderEvidence(data) {
@@ -385,6 +399,7 @@ function renderEvidence(data) {
     const score = node('span', scoreLabel + ' ' + (Number.isFinite(Number(hit.score)) ? Number(hit.score).toFixed(4) : '—'), 'evidence-score');
     score.title = '用于候选排序，不是置信概率。';
     head.append(cite, score);
+    if (hit.research_origin === 'followup') head.insertBefore(node('span', '补查', 'graph-evidence-label'), score);
     if(hit.retrieval_origin==='graph_expansion')head.insertBefore(node('span','关联扩展','graph-evidence-label'),score);
     const title = button(hit.title, 'evidence-title', () => selectEvidence(hit, id));
     const meta = node('p', 'PDF 第 ' + hit.pdf_page + ' 页 · ' + hit.paper_id, 'evidence-meta');
@@ -432,13 +447,27 @@ function renderRunDetails(data) {
   target.append(stages);
   const dl = node('dl');
   const entries = [
-    ['检索范围', data.route?.mode === 'single_paper' ? '自动限定单篇论文' : data.route?.mode === 'manual' ? '手动选择论文范围' : '全部已索引论文'],
+    ['检索范围', data.research ? (data.research.selected_paper_ids?.length ? '限定已选论文' : data.research.searches[0]?.scope === 'papers' ? '首轮自动限定论文' : '首轮检索全库') : data.route?.mode === 'single_paper' ? '自动限定单篇论文' : data.route?.mode === 'manual' ? '手动选择论文范围' : '全部已索引论文'],
     ['检索方式', modeNames[data.retrieval_mode] || '—'],
     ['正文重排', data.rerank ? '已启用' : '未启用'],
     ['实际上下文', data.evidence.length + ' 条 · ' + formatCount(data.context_chars) + ' 字符'],
   ];
   for (const [key, value] of entries) { const row = node('div'); row.append(node('dt', key), node('dd', value)); dl.append(row); }
   target.append(dl);
+  if (data.research) {
+    const followups = data.research.searches.filter(s => s.round === 2);
+    if (followups.length) {
+      const list = node('ul', null, 'research-searches');
+      for (const search of followups) {
+        const module = data.research.modules.find(m => m.module === search.module);
+        const ids = search.paper_ids || (search.paper_id ? [search.paper_id] : []);
+        const scope = ids.length ? ids.map(id => paperById(id)?.title || id).join('、') : '全库';
+        const item = node('li', scope + ' · ' + (module?.point || search.query));
+        item.append(node('small', search.query)); list.append(item);
+      }
+      target.append(list);
+    }
+  }
   const graph=data.graph_retrieval;
   if(graph){
     const explanation={single_paper_scope:'当前限定单篇论文，保持原范围',graph_not_built:'论文图尚未建立',no_compatible_seed_in_pilot_graph:'命中的论文不在当前试点图中',no_eligible_neighbors:'当前范围内没有可扩展邻居',no_new_body_candidates:'关联论文未提供新的正文候选',graph_expansion_unavailable:'图扩展暂不可用，已保留原检索结果'};
@@ -457,7 +486,7 @@ function renderResult(data) {
     (Number.isFinite(seconds) ? ' · ' + (seconds / 1000).toFixed(1) + ' 秒' : '');
   $('copy-answer').hidden = !result.answer;
   renderAnswer(result); renderEvidence(result); renderFormulas(result); renderRunDetails(result);
-  setResultTab(result.answer ? 'answer' : 'evidence');
+  setResultTab(result.answer || missingModuleLines(result).length ? 'answer' : 'evidence');
   if (result.evidence.length) selectEvidence(result.evidence[0], evidenceId(result.evidence[0], 0), {reveal: false});
 }
 function setResultTab(name, focus = false) {
@@ -586,39 +615,84 @@ function syncResponsiveShell() {
   else { closeLibrary(); $('sidebar-slot').append($('library-panel')); }
   if (!readerMedia.matches && mobileReaderDialog.open) mobileReaderDialog.close();
 }
+function queryMode() { return $('qa-mode').querySelector('input:checked').value; }
+function updateSubmitLabel() {
+  if (state.busy) return;
+  const mode = queryMode();
+  const canGenerate = $('generate').checked && !$('generate').disabled;
+  $('submit').querySelector('span').textContent = mode === 'multimodal' ?
+    (multimodal.file ? '搜索原图' : '开始检索') : mode === 'deep_research' ? '深入研究' : canGenerate ? '检索并回答' : '检索文献';
+}
+function syncComposer() {
+  const active = queryMode() === 'multimodal', image = active && !!multimodal.file;
+  $('multimodal-tools').hidden = !active;
+  $('multimodal-preview').hidden = !image;
+  $('multimodal-kinds').hidden = image;
+  $('open-settings').hidden = active;
+  const question = $('question');
+  question.hidden = question.disabled = image;
+  question.required = !image;
+  question.maxLength = active ? 1500 : 2000;
+  const placeholders = {all:'描述要找的段落、图片或表格…', body:'输入要查找的论文术语、研究问题或原文描述…',
+    figure:'描述要找的架构图、曲线图或示例图…', table:'输入表号、方法、数据集或指标…'};
+  question.placeholder = active ? placeholders[multimodal.kind] : '输入问题、比较方法或查找公式…';
+  $('multimodal-tools').querySelectorAll('button,input,select').forEach(control => control.disabled = state.busy);
+  $('multimodal-image-remove').disabled = state.busy;
+  $('multimodal-result').hidden = !active || !multimodal.hasResult;
+  $('multimodal-starter').hidden = !active || state.busy || multimodal.hasResult;
+  $('result').hidden = active || !state.result;
+  $('starter').hidden = active || state.busy || !!state.result;
+  updateQuestionLength();
+  updateScope();
+  updateSubmitLabel();
+}
 async function submitQuestion(event) {
   event.preventDefault(); if (state.busy) return;
   const question = $('question').value.trim();
-  if (!question) { showError('请输入研究问题。'); $('question').focus(); return; }
-  const request = {question, paper_ids: Array.from(state.selected), top_k: Number($('top-k').value),
-    mode: $('retrieval-mode').value, rerank: $('rerank').checked, generate_answer: $('generate').checked && !$('generate').disabled,
-    graph_enabled:$('graph-enabled').checked,graph_dimension:$('graph-dimension').value};
+  const mode = queryMode(), multi = mode === 'multimodal', deep = mode === 'deep_research';
+  const image = multi && !!multimodal.file;
+  if (!question && !image) { showError('请输入检索内容。'); $('question').focus(); return; }
+  if (multi && !image && question.length > 1500) { showError('多模态查询最多支持 1500 字。'); return; }
+  if (deep && $('generate').disabled) { showError('深入研究需要配置回答模型。'); return; }
+  const request = {question, qa_mode: deep ? 'deep_research' : 'standard', paper_ids: Array.from(state.selected), top_k: Number($('top-k').value),
+    mode: $('retrieval-mode').value, rerank: $('rerank').checked, generate_answer: deep || ($('generate').checked && !$('generate').disabled),
+    graph_enabled:!deep && $('graph-enabled').checked,graph_dimension:$('graph-dimension').value};
   showError(''); state.busy = true;$('mode-search-status').hidden=false;
-  $('submit').disabled = true; $('new-research').disabled = true; $('question').readOnly = true;
+  syncComposer();
+  $('qa-mode').disabled = true; $('submit').disabled = true; $('new-research').disabled = true; $('question').readOnly = true;
   $('submit').querySelector('span').textContent = '检索中'; $('loading-state').hidden = false; $('starter').hidden = true;
-  $('result').setAttribute('aria-busy', 'true');
-  if (state.result) $('result-title').textContent = '上一轮结果 · 正在更新';
+  const resultPane = $(multi ? 'multimodal-result' : 'result');
+  resultPane.setAttribute('aria-busy', 'true');
+  if (!multi && state.result) $('result-title').textContent = '上一轮结果 · 正在更新';
+  $('loading-elapsed').textContent = '正在连接检索服务…';
   const began = performance.now();
   const timer = setInterval(() => { $('loading-elapsed').textContent = '已等待 ' + Math.floor((performance.now() - began) / 1000) + ' 秒 · 首次检索可能需要加载模型'; }, 1000);
   try {
-    const result = await api('/api/ask', {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(request)});
-    renderResult(result);rememberQuestion(question);saveWorkspaceSnapshot();
+    if (multi) {
+      multimodal.render(await multimodal.search(question, request.paper_ids, request.top_k));
+      if (!image) rememberQuestion(question);
+    } else {
+      renderResult(await api('/api/ask', {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(request)}));
+      rememberQuestion(question);
+    }
+    saveWorkspaceSnapshot();
   } catch (error) {
     showError(error.message);
-    if (!state.result) $('starter').hidden = false;
-    else $('result-title').textContent = '上一轮研究结果';
+    if (!multi && state.result) $('result-title').textContent = '上一轮研究结果';
   } finally {
     clearInterval(timer);state.busy=false;$('mode-search-status').hidden=true;
-    $('submit').disabled=false;$('new-research').disabled=false; $('question').readOnly = false;
-    $('submit').querySelector('span').textContent = $('generate').checked ? '检索并回答' : '检索文献'; $('loading-state').hidden = true;
-    $('result').setAttribute('aria-busy', 'false');
+    $('qa-mode').disabled=false;$('submit').disabled=false;$('new-research').disabled=false; $('question').readOnly = false;
+    syncComposer(); $('loading-state').hidden = true;
+    resultPane.setAttribute('aria-busy', 'false');
   }
 }
 function newResearch() {
   if (state.busy) return;
-  state.result = null; state.activeCitation = null; setView('research');
+  if (queryMode() === 'multimodal') multimodal.reset();
+  else { state.result = null; state.activeCitation = null; }
+  setView('research');
   $('question').value = ''; updateQuestionLength(); showError('');
-  $('result').hidden=true;$('starter').hidden=false;$('question').focus();saveWorkspaceSnapshot();
+  syncComposer(); $('question').focus();saveWorkspaceSnapshot();
 }
 async function uploadFile() {
   const file = $('upload').files[0]; if (!file) return;
@@ -652,12 +726,25 @@ async function pollIndex() {
     lastIndexStatus = job.status;
   } catch { $('build-index').disabled = false; $('index-progress').hidden = false; $('index-progress').textContent = '暂时无法读取入库进度，请稍后重试。'; }
 }
+const multimodal = createMultimodal({$, api, node, button, localResource, paperById, openPaper, showError, updateComposer: syncComposer});
 $('question-form').addEventListener('submit', submitQuestion);
+$('qa-mode').onchange = () => {
+  showError(''); syncComposer(); saveWorkspaceSnapshot();
+  const url = new URL(location.href);
+  if (url.searchParams.has('qa')) {
+    url.searchParams.set('qa', queryMode());
+    window.history.replaceState(window.history.state, '', url);
+  }
+  if (queryMode() === 'multimodal') multimodal.activate();
+};
 $('question').addEventListener('input',()=>{updateQuestionLength();saveWorkspaceSnapshot();});
 $('question').addEventListener('keydown', event => {
   if (event.key === 'Enter' && !event.shiftKey && !event.isComposing) { event.preventDefault(); $('question-form').requestSubmit(); }
 });
-document.querySelectorAll('[data-query]').forEach(b => b.addEventListener('click', () => fillQuestion(b.dataset.query)));
+document.querySelectorAll('[data-query]').forEach(b => b.addEventListener('click', () => {
+  if (b.dataset.mmExample) multimodal.chooseKind(b.dataset.mmExample);
+  fillQuestion(b.dataset.query);
+}));
 $('browse-library').onclick = () => setView('library');
 $('filter').addEventListener('input', () => { state.sidebarLimit = 24; renderSidebar(); });
 $('library-search').addEventListener('input',()=>{state.catalogLimit=16;renderCatalog();});
@@ -678,7 +765,12 @@ $('save-settings').onclick = () => {
   writeStorage('paperrag.retrieval-preferences', preferences); applyPreferenceControls(); $('settings-dialog').close();
   if(graphLaunch){const url=new URL(location.href);url.searchParams.delete('graph');url.searchParams.delete('question');window.history.replaceState({},'',url);}
 };
-$('copy-answer').onclick = () => { if (state.result?.answer) copyText(state.result.answer, '回答已复制，包含原文引用编号'); };
+$('copy-answer').onclick = () => {
+  if (!state.result?.answer) return;
+  const missing = missingModuleLines(state.result);
+  const suffix = missing.length ? '\n\n未能确认\n' + missing.map(m => '• ' + m).join('\n') : '';
+  copyText(state.result.answer + suffix, '回答已复制，包含原文引用编号');
+};
 $('copy-source').onclick = () => { if (state.reader.source?.text) copyText(state.reader.source.text, '证据原文已复制'); };
 $('reader-prev').onclick = $('pdf-prev').onclick = () => moveReader(-1);
 $('reader-next').onclick = $('pdf-next').onclick = () => moveReader(1);
@@ -726,7 +818,11 @@ $('mode-study').onclick=event=>{event.preventDefault();setView('library');};$('m
 window.addEventListener('popstate',()=>setView(modeFromLocation()==='search'?'research':'library',{record:false}));
 window.addEventListener('pageshow',event=>{if(event.persisted){refreshRecentReadings();pollIndex();}});
 $('reader-study').addEventListener('click',event=>{if(state.busy){event.preventDefault();openStudy(state.reader.paper,state.reader.page);}});
-$('question').value=workspaceSnapshot.question;updateQuestionLength();
+$('question').value=workspaceSnapshot.question;
+const initialMode=graphLaunch ? 'standard' : graphLaunchParams.get('qa') || workspaceSnapshot.qaMode;
+const initialRadio=[...$('qa-mode').querySelectorAll('input')].find(input=>input.value===initialMode);
+if(initialRadio)initialRadio.checked=true;
+syncComposer();if(queryMode()==='multimodal')multimodal.activate();
 $('graph-enabled').onchange=()=>$('graph-dimension').disabled=!$('graph-enabled').checked;
 syncResponsiveShell();setView(modeFromLocation()==='search'?'research':'library',{replace:true});applyPreferenceControls();renderHistory();refresh();pollIndex();
 

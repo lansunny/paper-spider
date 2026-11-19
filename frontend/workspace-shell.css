@@ -75,3 +75,8 @@ body .app-shell .research-pane{padding:26px 28px 0}.library>.sidebar-top{display
 body .ps-navigation>a[aria-current],body .ps-header button,body .primary,body .primary-button,body .dark-button{box-shadow:none}body .skip-link{left:20px}.progress-panel ol{font-size:11px;color:var(--ps-muted)}.card-extra h5,.support-tag,.card-paper{color:var(--ps-muted)}
 
 @media(min-width:801px){.ps-navigation>a{font-size:13px}.recent-reviews .history-link{font-size:13px}}.question-form>label,.question-composer .composer-heading{font-size:13px}.reader-pane .reader-heading{background:transparent;box-shadow:none;border-radius:0;border-bottom:1px solid var(--ps-line);padding:0 0 13px;margin-bottom:20px}.reader-pane .reader-heading h2{font-size:16px}
+
+.composer-heading{flex-wrap:wrap}
+.composer-heading .qa-mode{margin-right:auto;padding:4px 8px;border:1px solid var(--ps-line);border-radius:6px;background:transparent;color:inherit;font:inherit}
+.research-missing h3{font-size:13px;margin:0 0 6px}.research-missing ul,.research-searches{padding-left:19px;margin:0}.research-missing li+li,.research-searches li+li{margin-top:4px}
+.research-searches small{display:block;color:var(--ink-muted);overflow-wrap:anywhere}

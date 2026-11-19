@@ -1,5 +1,6 @@
 # Install the appropriate PyTorch build before these shared dependencies.
 PyMuPDF==1.26.5
+Pillow==12.1.1
 rank-bm25==0.2.2
 fastapi==0.122.0
 uvicorn==0.54.0

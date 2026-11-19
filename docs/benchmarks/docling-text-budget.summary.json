@@ -1,0 +1,47 @@
+{
+  "dataset": "data/evaluation/paper_benchmark/test50.jsonl",
+  "dataset_sha256": "8db4adce81be445915f8701af933884fed1dee49a609f81f36fdacdcd4a281de",
+  "index_snapshot_id": "036f9147aeb324779697babd5d967ac5",
+  "cases": 50,
+  "answerable": 46,
+  "body_aligned": 40,
+  "cross_paper": 10,
+  "context_char_budget": 16000,
+  "query_language": "English, DeepSeek Flash translations held fixed",
+  "evaluation": "Top ranked chunks packed within the context budget; macro-average marked evidence-unit coverage",
+  "retrieval_only": true,
+  "conditions": {
+    "20": {
+      "median_retrieval_seconds_excluding_translation": 0.9535,
+      "context_budget_used_below_80_percent": 18,
+      "answerable": {
+        "evidence_coverage": 0.6246376811594203,
+        "complete_evidence_count": 24
+      },
+      "body_aligned": {
+        "evidence_coverage": 0.685,
+        "complete_evidence_count": 24
+      },
+      "cross_paper": {
+        "evidence_coverage": 0.17333333333333334,
+        "complete_evidence_count": 0
+      }
+    },
+    "100": {
+      "median_retrieval_seconds_excluding_translation": 2.0075,
+      "context_budget_used_below_80_percent": 0,
+      "answerable": {
+        "evidence_coverage": 0.7510869565217392,
+        "complete_evidence_count": 29
+      },
+      "body_aligned": {
+        "evidence_coverage": 0.8116666666666666,
+        "complete_evidence_count": 29
+      },
+      "cross_paper": {
+        "evidence_coverage": 0.28833333333333333,
+        "complete_evidence_count": 0
+      }
+    }
+  }
+}

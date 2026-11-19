@@ -1,27 +1,31 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="720" height="760" viewBox="0 0 720 760" role="img" aria-labelledby="title desc">
-<title id="title">Paper Spider — 论文研究工作台</title><desc id="desc">Paper Spider：精读一篇论文，也探索研究方向。</desc>
-<style>text{font-family:Arial,"Microsoft YaHei","PingFang SC",sans-serif;fill:#1d1d1f}.muted{fill:#545c68}.blue{fill:#1267ec}</style>
-
-<rect width="720" height="760" rx="24" fill="#f3f5f8"/>
-<text x="44" y="114" font-size="74" font-weight="700" letter-spacing="-4">Paper Spider<tspan class="blue">.</tspan></text>
-<text x="48" y="178" font-size="33" font-weight="600">Paper Spider · 个人科研知识库</text>
-<text x="48" y="220" font-size="21" class="muted">阅读、探索与研究，始终连接原文。</text>
-<path d="M480 263v32" stroke="#a9b9d4" stroke-width="2"/>
-<g transform="translate(480 451) scale(1.12)"><g fill="none" stroke="#1267ec" stroke-width="6" stroke-linecap="round" stroke-linejoin="round">
-<path d="M-17-16-50-52-91-78-119-130M-24-4-69-24-108-13-140-45M-25 14-73 22-113 55-151 65M-19 28-58 59-76 110-114 131"/>
-<path d="M17-16 50-52 91-78 119-130M24-4 69-24 108-13 140-45M25 14 73 22 113 55 151 65M19 28 58 59 76 110 114 131"/>
-</g><g fill="#f5f8ff" stroke="#1267ec" stroke-width="4">
-<circle cx="-50" cy="-52" r="5"/><circle cx="50" cy="-52" r="5"/>
-<circle cx="-69" cy="-24" r="5"/><circle cx="69" cy="-24" r="5"/>
-<circle cx="-73" cy="22" r="5"/><circle cx="73" cy="22" r="5"/>
-<circle cx="-58" cy="59" r="5"/><circle cx="58" cy="59" r="5"/>
-</g><ellipse cy="-17" rx="30" ry="44" fill="#1267ec"/>
-<path d="M-14-43Q0-55 14-43L11-15Q0-7-11-15Z" fill="#74a9ff"/>
-<ellipse cy="30" rx="22" ry="25" fill="#e94f83"/>
-<circle cx="-7" cy="36" r="4" fill="#fff"/><circle cx="7" cy="36" r="4" fill="#fff"/>
-<path d="M-9 54-14 64M9 54 14 64" stroke="#1d1d1f" stroke-width="4" stroke-linecap="round"/></g>
-<text x="48" y="353" font-size="37" font-weight="600">500</text><text x="48" y="386" font-size="21" class="muted">篇论文</text>
-<text x="48" y="468" font-size="37" font-weight="600">31,037</text><text x="48" y="501" font-size="21" class="muted">个文本块</text>
-<text x="48" y="583" font-size="37" font-weight="600">4,473</text><text x="48" y="616" font-size="21" class="muted">个公式候选</text>
-<text x="48" y="701" font-size="23">论文精读 · 四维地图 · 研究综述</text>
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="420" viewBox="0 0 720 420" role="img" aria-labelledby="title desc">
+  <title id="title">Paper Spider · 科研论文工作台</title>
+  <desc id="desc">多模态检索、深入研究与关联阅读</desc>
+  <defs>
+    <linearGradient id="paper" x2="1" y2="1">
+      <stop stop-color="#fcfdff"/><stop offset="1" stop-color="#e2ecfc"/>
+    </linearGradient>
+    <clipPath id="corners"><rect x="1" y="1" width="718" height="418" rx="29"/></clipPath>
+  </defs>
+  <g clip-path="url(#corners)">
+    <rect width="720" height="420" fill="url(#paper)"/>
+    <g fill="none" stroke="#9ab8e6" stroke-opacity=".48">
+      <circle cx="592" cy="101" r="65"/><circle cx="592" cy="101" r="107"/><circle cx="592" cy="101" r="153"/>
+      <path d="M440 101h280M592 0v252M480 0l213 213"/>
+    </g>
+    <g transform="translate(593 103) scale(.64)" fill="none" stroke="#255fe3" stroke-width="5" stroke-linecap="round">
+      <path d="M-21-25-50-62-83-70-109-99M-26-12-66-32-101-25-128-49M-27 12-70 18-103 44-133 52M-22 25-57 56-75 96-105 109"/>
+      <path d="M21-25 50-62 83-70 109-99M26-12 66-32 101-25 128-49M27 12 70 18 103 44 133 52M22 25 57 56 75 96 105 109"/>
+      <ellipse cy="-14" rx="31" ry="44" fill="#255fe3" stroke="none"/>
+      <path d="M-13-37q13-12 26 0l-4 23H-9z" fill="#75a5ff" stroke="none"/>
+      <ellipse cy="34" rx="22" ry="24" fill="#183c93" stroke="none"/>
+      <g fill="#fff" stroke="none"><circle cx="-7" cy="37" r="3.6"/><circle cx="7" cy="37" r="3.6"/></g>
+    </g>
+  </g>
+  <rect x="1" y="1" width="718" height="418" rx="29" fill="none" stroke="#ced9eb" stroke-width="2"/>
+  <g font-family="Arial, Microsoft YaHei, PingFang SC, sans-serif" fill="#121f37">
+    <text x="45" y="234" font-size="87" letter-spacing="-5" font-weight="700">Paper Spider<tspan fill="#255fe3">.</tspan></text>
+    <text x="50" y="302" font-size="37" font-weight="650">科研论文工作台</text>
+    <text x="50" y="355" font-size="27" fill="#425470">多模态检索 · 深入研究 · 关联阅读</text>
+  </g>
 </svg>

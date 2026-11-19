@@ -48,12 +48,17 @@ htmlcov/
 !/data/evaluation/formula_test50/
 !/data/evaluation/formula_test50/curation.json
 !/data/evaluation/formula_test50/questions.jsonl
+!/data/evaluation/docling_test50/
+!/data/evaluation/docling_test50/cases.jsonl
 
 # Public documentation is explicit; local learning notes stay local
 /docs/*
 !/docs/getting-started.md
 !/docs/architecture.md
 !/docs/evaluation.md
+!/docs/deep-research.md
+!/docs/docling-acl.md
+!/docs/docling-test50.md
 !/docs/data.md
 !/docs/community-evidence-experiment.md
 !/docs/community-evidence-results.md
